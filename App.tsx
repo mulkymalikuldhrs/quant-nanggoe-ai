@@ -75,56 +75,16 @@ interface WindowState {
 const App: React.FC = () => {
     const { screenSize, getLayout } = useAdaptiveLayout();
     
-    // --- THEME STATE (v10.0 White Sur Default) ---
-    const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-        const saved = localStorage.getItem('system-theme');
-        return (saved as 'light' | 'dark') || 'light';
-    });
+    // --- THEME STATE ---
+    const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
-    const toggleTheme = () => {
+    const toggleTheme = async () => {
         const next = theme === 'dark' ? 'light' : 'dark';
         setTheme(next);
-        localStorage.setItem('system-theme', next);
+        await storageManager.setItem('system-theme', next);
     };
 
-    // --- UI STATES ---
-    const [isOmniBarOpen, setIsOmniBarOpen] = useState(false);
-    const [isLaunchpadOpen, setIsLaunchpadOpen] = useState(false);
-    const [isControlCenterOpen, setIsControlCenterOpen] = useState(false);
-
-    // --- SYSTEM STATES ---
-    const [messages, setMessages] = useState<ChatMessage[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [swarmAgents, setSwarmAgents] = useState<SwarmAgent[]>(DEFAULT_AGENTS);
-    const [systemConfig, setSystemConfig] = useState<SystemConfiguration>(DEFAULT_CONFIG);
-    const [selectedModel, setSelectedModel] = useState<ModelOption>(AVAILABLE_MODELS[0]);
-    const [currentTime, setCurrentTime] = useState(new Date());
-    const [notifications, setNotifications] = useState<SystemNotification[]>([]);
-    const [agentState, setAgentState] = useState<AgentState>({
-      isActive: false, currentAgent: null, currentAction: '', tasks: [], logs: [], 
-      knowledgeBase: [], activeSwarm: DEFAULT_AGENTS, evolutionLevel: 11, emotion: 'focused',
-      activeBrowserUrl: 'https://duckduckgo.com'
-    });
-
-    const [windows, setWindows] = useState<Record<WindowId, WindowState>>({
-        terminal: { id: 'terminal', isOpen: true, isMinimized: false, zIndex: 10, title: 'Command Terminal', icon: <IconCode />, defaultPos: getLayout('terminal'), defaultSize: { width: getLayout('terminal').width, height: getLayout('terminal').height } },
-        browser: { id: 'browser', isOpen: false, isMinimized: false, zIndex: 5, title: 'Web Explorer', icon: <IconBrowser />, defaultPos: getLayout('browser'), defaultSize: { width: getLayout('browser').width, height: getLayout('browser').height } },
-        trading_terminal: { id: 'trading_terminal', isOpen: false, isMinimized: false, zIndex: 3, title: 'Execution Terminal', icon: <IconTerminal />, defaultPos: { x: 100, y: 100 }, defaultSize: { width: 1000, height: 700 } },
-        portfolio: { id: 'portfolio', isOpen: true, isMinimized: false, zIndex: 6, title: 'Portfolio Management', icon: <IconBook />, defaultPos: getLayout('portfolio'), defaultSize: { width: getLayout('portfolio').width, height: getLayout('portfolio').height } },
-        market: { id: 'market', isOpen: true, isMinimized: false, zIndex: 7, title: 'Market Analysis', icon: <IconChart />, defaultPos: getLayout('market'), defaultSize: { width: getLayout('market').width, height: getLayout('market').height } },
-        monitor: { id: 'monitor', isOpen: true, isMinimized: false, zIndex: 8, title: 'Agent Monitor', icon: <IconBot />, defaultPos: getLayout('monitor'), defaultSize: { width: getLayout('monitor').width, height: getLayout('monitor').height } },
-        architecture: { id: 'architecture', isOpen: false, isMinimized: false, zIndex: 9, title: 'System Architecture', icon: <IconBrain />, defaultPos: { x: 50, y: 50 }, defaultSize: { width: 900, height: 700 } },
-        artifact: { id: 'artifact', isOpen: false, isMinimized: false, zIndex: 4, title: 'Research Lab', icon: <IconMaximize />, defaultPos: { x: 150, y: 80 }, defaultSize: { width: 800, height: 600 } },
-        settings: { id: 'settings', isOpen: false, isMinimized: false, zIndex: 5, title: 'System Configuration', icon: <IconSettings />, defaultPos: { x: 300, y: 200 }, defaultSize: { width: 600, height: 500 } },
-        research: { id: 'research', isOpen: false, isMinimized: false, zIndex: 11, title: 'Intelligence Agent', icon: <IconSearch />, defaultPos: { x: 400, y: 100 }, defaultSize: { width: 600, height: 500 } },
-        knowledge_base: { id: 'knowledge_base', isOpen: false, isMinimized: false, zIndex: 12, title: 'Knowledge Base', icon: <IconDatabase />, defaultPos: { x: 200, y: 200 }, defaultSize: { width: 1000, height: 600 } },
-        nexus: { id: 'nexus', isOpen: false, isMinimized: false, zIndex: 13, title: 'Command Center', icon: <IconLayers />, defaultPos: { x: 100, y: 100 }, defaultSize: { width: 900, height: 600 } },
-        about: { id: 'about', isOpen: false, isMinimized: false, zIndex: 6, title: 'About System', icon: <IconBrain />, defaultPos: { x: 400, y: 200 }, defaultSize: { width: 400, height: 400 } },
-        docs: { id: 'docs', isOpen: false, isMinimized: false, zIndex: 7, title: 'Documentation', icon: <IconBook />, defaultPos: { x: 200, y: 150 }, defaultSize: { width: 500, height: 600 } }
-    });
-
-    const [activeWindow, setActiveWindow] = useState<WindowId>('terminal');
-    const [highestZ, setHighestZ] = useState(20);
+    // ...
 
     // Clock & Init
     useEffect(() => {
@@ -132,6 +92,9 @@ const App: React.FC = () => {
         
         // Initialize Storage Services
         const initStorage = async () => {
+            await storageManager.getItem('system-theme').then(saved => {
+                if (saved) setTheme(saved as 'light' | 'dark');
+            });
             await BrowserFS.init();
             await KnowledgeBase.initDisk();
             await MemoryManager.init();
