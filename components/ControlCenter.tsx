@@ -1,7 +1,8 @@
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { ThemeContext } from '../App';
-import { IconSun, IconMoon, IconLogo } from './Icons';
+import { IconSun, IconMoon, IconLogo, IconDatabase, IconActivity } from './Icons';
+import { BackupService } from '../services/backup_service';
 
 interface ControlCenterProps {
     isOpen: boolean;
@@ -10,8 +11,21 @@ interface ControlCenterProps {
 
 const ControlCenter: React.FC<ControlCenterProps> = ({ isOpen, onClose }) => {
     const { theme, toggleTheme } = React.useContext(ThemeContext);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     if (!isOpen) return null;
+
+    const handleBackup = async () => {
+        await BackupService.exportToFile();
+    };
+
+    const handleRestore = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const success = await BackupService.importFromFile(file);
+            if (success) onClose();
+        }
+    };
 
     return (
         <>
@@ -48,33 +62,38 @@ const ControlCenter: React.FC<ControlCenterProps> = ({ isOpen, onClose }) => {
                     </div>
                 </div>
 
-                {/* Brightness / Volume Sliders (Visual Only) */}
-                <div className="space-y-4 mb-4">
-                    <div className={`p-3 rounded-2xl ${theme === 'dark' ? 'bg-zinc-800/50' : 'bg-zinc-200/50'}`}>
-                        <div className="flex justify-between items-center mb-1">
-                            <span className="text-[10px] font-bold opacity-60">Display</span>
-                        </div>
-                        <div className={`h-6 w-full rounded-lg overflow-hidden relative ${theme === 'dark' ? 'bg-zinc-700' : 'bg-white shadow-inner'}`}>
-                            <div className="absolute inset-y-0 left-0 w-[80%] bg-blue-500"></div>
-                            <div className="absolute inset-0 flex items-center px-2">
-                                <IconSun className={`w-3 h-3 ${theme === 'dark' ? 'text-white' : 'text-blue-500'}`} />
-                            </div>
-                        </div>
+                {/* Storage Management (New in Hybrid Storage Update) */}
+                <div className={`p-4 rounded-2xl mb-4 ${theme === 'dark' ? 'bg-zinc-800/50' : 'bg-zinc-100/50'}`}>
+                    <div className="flex items-center justify-between mb-3">
+                        <span className="text-[10px] font-black uppercase tracking-widest opacity-40">Storage Management</span>
+                        <IconDatabase className="w-3 h-3 opacity-30" />
                     </div>
-
-                    <div className={`p-3 rounded-2xl ${theme === 'dark' ? 'bg-zinc-800/50' : 'bg-zinc-200/50'}`}>
-                        <div className="flex justify-between items-center mb-1">
-                            <span className="text-[10px] font-bold opacity-60">Sound</span>
-                        </div>
-                        <div className={`h-6 w-full rounded-lg overflow-hidden relative ${theme === 'dark' ? 'bg-zinc-700' : 'bg-white shadow-inner'}`}>
-                            <div className="absolute inset-y-0 left-0 w-[60%] bg-blue-500"></div>
-                            <div className="absolute inset-0 flex items-center px-2">
-                                <div className="w-3 h-3 border-2 border-white rounded-sm flex items-center justify-center">
-                                    <div className="w-1 h-1 bg-white rounded-full"></div>
-                                </div>
-                            </div>
-                        </div>
+                    <div className="grid grid-cols-2 gap-2">
+                        <button 
+                            onClick={handleBackup}
+                            className={`py-2 px-3 rounded-xl text-[10px] font-bold transition-all ${
+                                theme === 'dark' ? 'bg-zinc-700 hover:bg-zinc-600 text-white' : 'bg-white hover:bg-zinc-50 text-zinc-800 border border-black/5'
+                            }`}
+                        >
+                            Backup to File
+                        </button>
+                        <button 
+                            onClick={() => fileInputRef.current?.click()}
+                            className={`py-2 px-3 rounded-xl text-[10px] font-bold transition-all ${
+                                theme === 'dark' ? 'bg-zinc-700 hover:bg-zinc-600 text-white' : 'bg-white hover:bg-zinc-50 text-zinc-800 border border-black/5'
+                            }`}
+                        >
+                            Restore File
+                        </button>
+                        <input 
+                            type="file" 
+                            ref={fileInputRef} 
+                            onChange={handleRestore} 
+                            accept=".json" 
+                            className="hidden" 
+                        />
                     </div>
+                    <p className="text-[8px] opacity-50 mt-2 text-center italic">Hybrid-Ready Storage Engine v1.0</p>
                 </div>
 
                 {/* Quick Actions */}
@@ -88,7 +107,7 @@ const ControlCenter: React.FC<ControlCenterProps> = ({ isOpen, onClose }) => {
                     </div>
                 </div>
 
-                {/* Institutional Metrics (New in v15.1) */}
+                {/* Institutional Metrics */}
                 <div className={`mt-4 p-4 rounded-2xl ${theme === 'dark' ? 'bg-zinc-800/30' : 'bg-zinc-100/50'} border ${theme === 'dark' ? 'border-white/5' : 'border-black/5'}`}>
                     <div className="flex items-center justify-between mb-3">
                         <span className="text-[10px] font-black uppercase tracking-widest opacity-40">Security Matrix</span>
@@ -118,3 +137,4 @@ const ControlCenter: React.FC<ControlCenterProps> = ({ isOpen, onClose }) => {
 };
 
 export default ControlCenter;
+

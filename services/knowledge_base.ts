@@ -1,14 +1,18 @@
 
 import { KnowledgeItem, VirtualDiskNode } from "../types";
 import { BrowserFS } from "./file_system";
+import { storageManager } from "./storage_manager";
 
 const STORAGE_KEY_DISK_NODES = 'manus_disk_c_nodes';
+
+// Sync cache for internal use
+let cachedRoot: VirtualDiskNode | null = null;
 
 export const KnowledgeBase = {
     
     // Initialize Disk C: structure if it doesn't exist
-    initDisk: () => {
-        const raw = localStorage.getItem(STORAGE_KEY_DISK_NODES);
+    initDisk: async () => {
+        const raw = await storageManager.getItem(STORAGE_KEY_DISK_NODES);
         if (!raw) {
             const root: VirtualDiskNode = {
                 id: 'root-c',
@@ -26,18 +30,25 @@ export const KnowledgeBase = {
                 ],
                 lastModified: Date.now()
             };
-            localStorage.setItem(STORAGE_KEY_DISK_NODES, JSON.stringify(root));
+            await storageManager.setItem(STORAGE_KEY_DISK_NODES, JSON.stringify(root));
+            cachedRoot = root;
+        } else {
+            cachedRoot = JSON.parse(raw);
         }
     },
 
     getRoot: (): VirtualDiskNode => {
-        KnowledgeBase.initDisk();
-        const raw = localStorage.getItem(STORAGE_KEY_DISK_NODES);
-        return JSON.parse(raw!);
+        if (!cachedRoot) {
+            // This is a fallback for sync access if init hasn't finished, 
+            // though in v15.1.0 we should ensure init is called at boot.
+            return { id: 'root-c', name: 'C:', type: 'folder', path: 'C:', children: [], lastModified: Date.now() };
+        }
+        return cachedRoot;
     },
 
     saveNodes: (root: VirtualDiskNode) => {
-        localStorage.setItem(STORAGE_KEY_DISK_NODES, JSON.stringify(root));
+        cachedRoot = root;
+        storageManager.setItem(STORAGE_KEY_DISK_NODES, JSON.stringify(root)).catch(console.error);
     },
 
     // Add a file to Disk C:
@@ -46,11 +57,9 @@ export const KnowledgeBase = {
         const pathParts = (item.path || 'C:/Research').split('/');
         
         let current = root;
-        // Skip 'C:' part if it's there
         const folders = pathParts[0] === 'C:' ? pathParts.slice(1, -1) : pathParts.slice(0, -1);
         const fileName = pathParts[pathParts.length - 1];
 
-        // Ensure folders exist
         folders.forEach(folderName => {
             let next = current.children?.find(c => c.name === folderName && c.type === 'folder');
             if (!next) {
@@ -68,7 +77,6 @@ export const KnowledgeBase = {
             current = next;
         });
 
-        // Add or update file
         const fileNode: VirtualDiskNode = {
             id: `file-${item.id}`,
             name: fileName,
@@ -87,14 +95,11 @@ export const KnowledgeBase = {
         }
 
         KnowledgeBase.saveNodes(root);
-        
-        // Also save to Long Term Memory via BrowserFS
         BrowserFS.saveMemory(item.content, item.tags, item.sourceAgentId);
         
         return fileNode;
     },
 
-    // Retrieve file content
     readFile: (path: string): KnowledgeItem | null => {
         const root = KnowledgeBase.getRoot();
         const findNode = (node: VirtualDiskNode, targetPath: string): VirtualDiskNode | null => {
@@ -110,11 +115,11 @@ export const KnowledgeBase = {
 
         const node = findNode(root, path);
         if (node && node.type === 'file' && node.contentId) {
-            // Memory search for the specific item
-            const raw = localStorage.getItem('manus_long_term_memory');
-            const memories: KnowledgeItem[] = raw ? JSON.parse(raw) : [];
+            const rawMemory = BrowserFS._get('manus_long_term_memory');
+            const memories: KnowledgeItem[] = rawMemory ? JSON.parse(rawMemory) : [];
             return memories.find(m => m.id === node.contentId) || null;
         }
         return null;
     }
 };
+

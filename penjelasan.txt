@@ -71,6 +71,16 @@ Sistem saat ini berada pada status OPERATIONAL FULL untuk mode Riset dan
 Simulasi. Seluruh infrastruktur data, logika agent, dan penegakan risiko telah 
 online dan terintegrasi penuh sesuai Blueprint v15.1.0.
 
+--------------------------------------------------------------------------------
+6. HYBRID-READY STORAGE (Penyimpanan Masa Depan)
+--------------------------------------------------------------------------------
+Sistem menggunakan mesin penyimpanan hibrida (StorageManager) yang fleksibel:
+1. Local Storage: Penyimpanan utama di browser dengan performa instan.
+2. Local File Backup: Pengguna dapat mengekspor seluruh otak dan data sistem ke 
+   file .json lokal (Backup) dan mengimpornya kembali (Restore) melalui Control Center.
+3. Hybrid Ready: Struktur kode sudah siap untuk dihubungkan ke database Cloud 
+   seperti Supabase atau PostgreSQL di masa mendatang.
+
 ================================================================================
-© 2026 Quant Nanggroe AI | Final Documentation
+© 2026 Quant Nanggroe AI | Final Documentation v15.1.0
 ================================================================================

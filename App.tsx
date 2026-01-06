@@ -130,6 +130,15 @@ const App: React.FC = () => {
     useEffect(() => {
         const interval = setInterval(() => setCurrentTime(new Date()), 1000);
         
+        // Initialize Storage Services
+        const initStorage = async () => {
+            await BrowserFS.init();
+            await KnowledgeBase.initDisk();
+            await MemoryManager.init();
+            console.log("[System] Storage Services Initialized.");
+        };
+        initStorage();
+
         // Start Autonomous Research Agent v11.5
         ResearchAgent.startAutonomousResearch(60000); // 1 minute interval
 

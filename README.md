@@ -60,7 +60,16 @@ Keamanan sistem tidak berbasis AI, melainkan logika deterministik keras (Hard-co
 - **Frontend**: React 18 + TypeScript + Tailwind CSS (Terminal-Style UI).
 - **Intelligence**: Multi-LLM Routing (Gemini 2.0, Groq, OpenAI).
 - **Data Pipeline**: Proxy Rotator Institutional Data Service.
-- **State Management**: Context API + Persistent BrowserFS.
+- **Storage**: Hybrid-Ready Engine (LocalStorage + Local JSON File Backup/Restore).
+
+---
+
+## 💾 HYBRID-READY STORAGE ARCHITECTURE (v1.0)
+
+Sistem kini menggunakan `StorageManager` dengan pola *Adapter Pattern* untuk fleksibilitas penyimpanan data:
+1. **Local Storage (Primary)**: Menggunakan Browser LocalStorage dengan sinkronisasi asinkron.
+2. **Local File Backup**: Fitur ekspor/impor seluruh state sistem ke file `.json` lokal via *Control Center*.
+3. **Hybrid Roadmap**: Arsitektur siap untuk integrasi Cloud (Supabase/PostgreSQL) sebagai adapter tambahan.
 
 ---
 
