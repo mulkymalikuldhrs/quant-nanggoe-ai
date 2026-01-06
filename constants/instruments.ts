@@ -9,6 +9,7 @@ export const INSTRUMENTS: Instrument[] = [
   { id: 'AUDUSD', name: 'AUD/USD', category: 'major' },
   { id: 'USDCAD', name: 'USD/CAD', category: 'major' },
   { id: 'USDCHF', name: 'USD/CHF', category: 'major' },
+  { id: 'NZDUSD', name: 'NZD/USD', category: 'major' },
   
   // Forex Minors & Crosses
   { id: 'EURJPY', name: 'EUR/JPY', category: 'minor' },
@@ -17,7 +18,17 @@ export const INSTRUMENTS: Instrument[] = [
   { id: 'EURGBP', name: 'EUR/GBP', category: 'minor' },
   { id: 'EURAUD', name: 'EUR/AUD', category: 'minor' },
   { id: 'GBPAUD', name: 'GBP/AUD', category: 'minor' },
-  { id: 'NZDUSD', name: 'NZD/USD', category: 'minor' },
+  { id: 'CHFJPY', name: 'CHF/JPY', category: 'minor' },
+  { id: 'EURCAD', name: 'EUR/CAD', category: 'minor' },
+  { id: 'GBPCAD', name: 'GBP/CAD', category: 'minor' },
+  { id: 'AUDCAD', name: 'AUD/CAD', category: 'minor' },
+
+  // Forex Exotics
+  { id: 'USDZAR', name: 'USD/ZAR', category: 'minor' },
+  { id: 'USDTRY', name: 'USD/TRY', category: 'minor' },
+  { id: 'USDMXN', name: 'USD/MXN', category: 'minor' },
+  { id: 'USDSGD', name: 'USD/SGD', category: 'minor' },
+  { id: 'USDIDR', name: 'USD/IDR', category: 'minor' },
 
   // Global Indices
   { id: 'US500', name: 'S&P 500', category: 'index' },
@@ -26,6 +37,10 @@ export const INSTRUMENTS: Instrument[] = [
   { id: 'GER40', name: 'DAX 40', category: 'index' },
   { id: 'UK100', name: 'FTSE 100', category: 'index' },
   { id: 'JP225', name: 'Nikkei 225', category: 'index' },
+  { id: 'HK50', name: 'Hang Seng', category: 'index' },
+  { id: 'FR40', name: 'CAC 40', category: 'index' },
+  { id: 'AU200', name: 'ASX 200', category: 'index' },
+  { id: 'IDX30', name: 'IDX 30', category: 'index' },
 
   // Commodities
   { id: 'XAUUSD', name: 'Gold Spot', category: 'commodity' },
@@ -33,6 +48,9 @@ export const INSTRUMENTS: Instrument[] = [
   { id: 'WTI', name: 'WTI Oil', category: 'commodity' },
   { id: 'BRENT', name: 'Brent Oil', category: 'commodity' },
   { id: 'NATGAS', name: 'Natural Gas', category: 'commodity' },
+  { id: 'COPPER', name: 'Copper', category: 'commodity' },
+  { id: 'PLATINUM', name: 'Platinum', category: 'commodity' },
+  { id: 'PALLADIUM', name: 'Palladium', category: 'commodity' },
 
   // Global Equities
   { id: 'AAPL', name: 'Apple Inc.', category: 'stock' },
@@ -41,6 +59,20 @@ export const INSTRUMENTS: Instrument[] = [
   { id: 'MSFT', name: 'Microsoft', category: 'stock' },
   { id: 'GOOGL', name: 'Alphabet', category: 'stock' },
   { id: 'AMZN', name: 'Amazon', category: 'stock' },
+  { id: 'META', name: 'Meta Platforms', category: 'stock' },
+  { id: 'BRKB', name: 'Berkshire Hathaway', category: 'stock' },
+  { id: 'LLY', name: 'Eli Lilly', category: 'stock' },
+  { id: 'AVGO', name: 'Broadcom', category: 'stock' },
+
+  // Indonesia Equities
+  { id: 'BBCA', name: 'Bank Central Asia', category: 'stock' },
+  { id: 'BBRI', name: 'Bank Rakyat Indonesia', category: 'stock' },
+  { id: 'TLKM', name: 'Telkom Indonesia', category: 'stock' },
+  { id: 'BMRI', name: 'Bank Mandiri', category: 'stock' },
+  { id: 'ASII', name: 'Astra International', category: 'stock' },
+  { id: 'GOTO', name: 'GoTo Gojek Tokopedia', category: 'stock' },
+  { id: 'ADRO', name: 'Adaro Energy', category: 'stock' },
+  { id: 'UNVR', name: 'Unilever Indonesia', category: 'stock' },
 
   // Leading Crypto
   { id: 'BTCUSD', name: 'Bitcoin', category: 'crypto' },
@@ -49,4 +81,10 @@ export const INSTRUMENTS: Instrument[] = [
   { id: 'BNBUSD', name: 'BNB', category: 'crypto' },
   { id: 'XRPUSD', name: 'Ripple', category: 'crypto' },
   { id: 'LINKUSD', name: 'Chainlink', category: 'crypto' },
+  { id: 'ADAUSD', name: 'Cardano', category: 'crypto' },
+  { id: 'AVAXUSD', name: 'Avalanche', category: 'crypto' },
+  { id: 'DOTUSD', name: 'Polkadot', category: 'crypto' },
+  { id: 'MATICUSD', name: 'Polygon', category: 'crypto' },
+  { id: 'SUIUSD', name: 'Sui', category: 'crypto' },
+  { id: 'APTUSD', name: 'Aptos', category: 'crypto' },
 ];

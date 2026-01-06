@@ -100,12 +100,27 @@ const AICommandInterface: React.FC<AICommandInterfaceProps> = ({
 
     if (lowerCmd === '/help') {
         setTimeout(() => {
-            addLog('DHAHER COMMAND LANGUAGE (DCL) v1.0:', 'system');
-            addLog('• /scan [PAIR] - Execute 100-strategy convergence', 'system');
-            addLog('• /quant - Show mathematical correlation data', 'system');
-            addLog('• /news - Fetch real-time verified headlines', 'system');
-            addLog('• /status - System health check', 'system');
+            addLog('QUANT NANGGROE COMMAND LANGUAGE (DCL) v6.0:', 'system');
+            addLog('• /scan [PAIR] - Institutional 100-strategy sweep', 'system');
+            addLog('• /quant - Deep mathematical correlation & cross-asset analysis', 'system');
+            addLog('• /news - Multi-source geopolitical & macro headlines', 'system');
+            addLog('• /browser [URL] - Autonomous browser navigation & extraction', 'system');
+            addLog('• /mt5 - Direct access to MetaTrader 5 Web Terminal', 'system');
+            addLog('• /status - System health & neural node sync status', 'system');
         }, 200);
+        return;
+    }
+
+    if (lowerCmd === '/mt5') {
+        addLog('NAVIGATING TO METATRADER 5 WEB TERMINAL...', 'browser');
+        executeQuantScan('/browser https://trade.mql5.com/trade');
+        return;
+    }
+
+    if (lowerCmd.startsWith('/browser')) {
+        const url = cmd.split(' ')[1] || 'https://www.google.com';
+        addLog(`BROWSING TO ${url}...`, 'browser');
+        executeQuantScan(cmd);
         return;
     }
 
@@ -132,7 +147,7 @@ const AICommandInterface: React.FC<AICommandInterfaceProps> = ({
         <div className="p-3 bg-white/5 border-b border-white/10 flex justify-between items-center">
             <div className="flex items-center gap-3 text-[10px] text-gray-300 font-black tracking-[0.2em] uppercase">
                 <BotIcon className="w-4 h-4 text-blue-500" />
-                Dhaher Core v3.0
+                Analis Quant Nanggroe v6.0
             </div>
             <div className="flex items-center gap-4 text-[9px]">
                 <div className="flex items-center gap-2">
