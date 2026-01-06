@@ -26,6 +26,24 @@ export const RiskManagement = {
         return false; // CLEAR
     },
 
+    // --- BLUEPRINT FINAL: RISK GUARDIAN DETERMINISTIC RULES ---
+    validateTrade: (
+        dailyPnL: number, 
+        correlation: number, 
+        isMacroEventImminent: boolean
+    ): 'CLEAR' | 'BLOCKED' | 'PAUSE' => {
+        // 1. Daily Drawdown Kill-Switch
+        if (dailyPnL <= -RiskManagement.CONSTITUTION.DAILY_DRAWDOWN_KILL_SWITCH) return 'BLOCKED';
+        
+        // 2. Correlation Filter
+        if (correlation > RiskManagement.CONSTITUTION.MAX_CORRELATION) return 'BLOCKED';
+        
+        // 3. Macro Event Pause
+        if (isMacroEventImminent) return 'PAUSE';
+
+        return 'CLEAR';
+    },
+
     // --- POSITION SIZING (DETERMINISTIC) ---
     calculatePositionSize: (equity: number, riskPct: number, entry: number, stopLoss: number): { size: number, totalRisk: number } => {
         const amountToRisk = equity * riskPct;

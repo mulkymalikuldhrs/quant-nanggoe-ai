@@ -1,5 +1,5 @@
 
-import { MarketTicker, NewsItem, ChartPoint, CandleData, SystemConfiguration } from "../types";
+import { MarketTicker, NewsItem, ChartPoint, CandleData, SystemConfiguration, MarketState, MarketRegime, QuantScannerOutput, SMCOutput } from "../types";
 import { BrowserFS } from "./file_system";
 import { MathEngine } from "./math_engine";
 import { StrategyEngine } from "./strategy_engine";
@@ -372,5 +372,157 @@ export const MarketService = {
             newsCache = { data: items, timestamp: Date.now() };
             return items;
         } catch (e) { return []; }
+    },
+
+    // --- BLUEPRINT FINAL: MARKET STATE ENGINE ---
+    getMarketState: (candles: CandleData[]): MarketState => {
+        if (candles.length < 50) return { regime: 'NO_TRADE', volatility: 'NORMAL', liquidity: 'NORMAL', timestamp: Date.now() };
+        
+        const closes = candles.map(c => c.close);
+        const lastPrice = closes[closes.length - 1];
+        
+        // Technical Inputs
+        const sma50 = MathEngine.calculateSMA(closes, 50);
+        const sma200 = MathEngine.calculateSMA(closes, 200);
+        const rsi = MathEngine.calculateRSI(closes);
+        const atr = MathEngine.calculateATR(candles);
+        const avgPrice = closes.reduce((a, b) => a + b, 0) / closes.length;
+        
+        // 1. Regime Detection
+        let regime: MarketRegime = 'RANGE';
+        
+        const adx = MathEngine.calculateADX(candles);
+        const isTrending = adx > 25;
+        
+        if (isTrending) {
+            regime = 'TRENDING';
+        } else if (rsi > 75 || rsi < 25) {
+            regime = 'MEAN_REVERT';
+        }
+        
+        // Risk-Off / Panic detection (Fast drop)
+        const priceChange5 = (lastPrice - closes[closes.length - 5]) / closes[closes.length - 5];
+        if (priceChange5 < -0.05) regime = 'PANIC';
+        else if (priceChange5 < -0.02) regime = 'RISK_OFF';
+        
+        // 2. Volatility State
+        let volatility: 'LOW' | 'NORMAL' | 'HIGH' = 'NORMAL';
+        const atrPercent = (atr / lastPrice) * 100;
+        if (atrPercent > 2) volatility = 'HIGH';
+        else if (atrPercent < 0.5) volatility = 'LOW';
+        
+        // 3. Liquidity State (Simplified via volume)
+        let liquidity: 'THIN' | 'NORMAL' | 'DEEP' = 'NORMAL';
+        const avgVol = candles.reduce((a, b) => a + (b.volume || 0), 0) / candles.length;
+        const lastVol = candles[candles.length - 1].volume || 0;
+        if (lastVol < avgVol * 0.5) liquidity = 'THIN';
+        else if (lastVol > avgVol * 2) liquidity = 'DEEP';
+        
+        return {
+            regime,
+            volatility,
+            liquidity,
+            timestamp: Date.now()
+        };
+    },
+
+    // --- BLUEPRINT FINAL: QUANT-SCANNER (TECHNICAL) ---
+    getQuantScannerOutput: (candles: CandleData[]): QuantScannerOutput => {
+        const closes = candles.map(c => c.close);
+        const adx = MathEngine.calculateADX(candles);
+        const sma50 = MathEngine.calculateSMA(closes, 50);
+        const sma200 = MathEngine.calculateSMA(closes, 200);
+        
+        const trendStrength = Math.min(adx / 50, 1.0);
+        let structureState: 'BULL' | 'BEAR' | 'NEUTRAL' = 'NEUTRAL';
+        
+        if (closes[closes.length - 1] > sma50 && sma50 > sma200) structureState = 'BULL';
+        else if (closes[closes.length - 1] < sma50 && sma50 < sma200) structureState = 'BEAR';
+        
+        const bb = MathEngine.calculateBollingerBands(closes);
+        const volatilityExpansion = (bb.upper - bb.lower) > (MathEngine.calculateSMA(closes, 20) * 0.05);
+
+        return {
+            trendStrength,
+            structureState,
+            volatilityExpansion
+        };
+    },
+
+    // --- BLUEPRINT FINAL: SMC / PRICE ACTION AGENT ---
+    getSMCOutput: (candles: CandleData[]): SMCOutput => {
+        if (candles.length < 20) return { liquiditySweep: false, displacementStrength: 0, poiValidity: 0 };
+        
+        const lastCandle = candles[candles.length - 1];
+        const prevCandles = candles.slice(-20, -1);
+        
+        const highestHigh = Math.max(...prevCandles.map(c => c.high));
+        const lowestLow = Math.min(...prevCandles.map(c => c.low));
+        
+        // Liquidity Sweep: Price breaks high/low then reverses
+        const liquiditySweep = (lastCandle.high > highestHigh && lastCandle.close < highestHigh) || 
+                               (lastCandle.low < lowestLow && lastCandle.close > lowestLow);
+                               
+        // Displacement: Strong candle
+        const bodySize = Math.abs(lastCandle.close - lastCandle.open);
+        const totalSize = lastCandle.high - lastCandle.low;
+        const displacementStrength = totalSize === 0 ? 0 : bodySize / totalSize;
+        
+        // POI Validity: Simplified POI near extremes
+        const poiValidity = (lastCandle.close > highestHigh * 0.98 || lastCandle.close < lowestLow * 1.02) ? 0.8 : 0.2;
+
+        return {
+            liquiditySweep,
+            displacementStrength,
+            poiValidity
+        };
+    },
+
+    // --- BLUEPRINT FINAL: NEWS & MACRO SENTINEL ---
+    getNewsSentinelOutput: async (news: NewsItem[]): Promise<NewsSentinelOutput> => {
+        if (news.length === 0) return { eventType: 'NOISE', impactScore: 0.1, directionalUncertainty: 0.5, timeDecay: 0 };
+        
+        // Simplified sentiment analysis for impact/uncertainty
+        const headlines = news.map(n => n.headline.toLowerCase());
+        const macroKeywords = ['fed', 'cpi', 'fomc', 'gdp', 'inflation', 'rates', 'jobs', 'payrolls'];
+        const shockKeywords = ['war', 'crash', 'collapse', 'halt', 'hack', 'crisis'];
+        
+        let impactScore = 0.2;
+        let eventType: 'MACRO' | 'NOISE' | 'SHOCK' = 'NOISE';
+        
+        for (const h of headlines) {
+            if (shockKeywords.some(k => h.includes(k))) {
+                eventType = 'SHOCK';
+                impactScore = 0.9;
+                break;
+            }
+            if (macroKeywords.some(k => h.includes(k))) {
+                eventType = 'MACRO';
+                impactScore = Math.max(impactScore, 0.7);
+            }
+        }
+        
+        const directionalUncertainty = eventType === 'SHOCK' ? 0.8 : eventType === 'MACRO' ? 0.4 : 0.2;
+        const timeDecay = Math.floor((Date.now() - news[0].timestamp) / 1000);
+
+        return {
+            eventType,
+            impactScore,
+            directionalUncertainty,
+            timeDecay
+        };
+    },
+
+    // --- BLUEPRINT FINAL: FLOW / COT / WHALE AGENT ---
+    getFlowWhaleOutput: (): FlowWhaleOutput => {
+        // Mocking flow data for now as real APIs for this are paid/complex
+        // In a real scenario, this would fetch from Coinglass, WhaleAlert, etc.
+        const flows = [0.2, 0.5, 0.8, -0.3, -0.6];
+        const randomFlow = flows[Math.floor(Math.random() * flows.length)];
+        
+        return {
+            positioningBias: randomFlow > 0.5 ? 'LONG' : randomFlow < -0.5 ? 'SHORT' : 'NEUTRAL',
+            flowImbalance: Math.abs(randomFlow)
+        };
     }
 };

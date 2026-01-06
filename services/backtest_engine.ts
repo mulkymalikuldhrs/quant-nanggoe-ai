@@ -1,7 +1,8 @@
 
-import { CandleData, StrategySignal } from "../types";
-import { StrategyEngine } from "./strategy_engine";
+import { CandleData, ExecutionReality, DecisionSynthesis, MarketState, PressureState } from "../types";
 import { MathEngine } from "./math_engine";
+import { MarketService } from "./market";
+import { PressureNormalizationEngine, DecisionSynthesisEngine } from "./quantum_engine";
 
 export interface BacktestResult {
     totalTrades: number;
@@ -14,8 +15,18 @@ export interface BacktestResult {
 
 export const BacktestEngine = {
     
-    // --- SIMPLE WALK-FORWARD SIMULATOR ---
-    runSimple: (candles: CandleData[], initialCapital: number = 10000): BacktestResult => {
+    // --- BLUEPRINT FINAL: EXECUTION REALITY ENGINE ---
+    getExecutionReality: (): ExecutionReality => {
+        return {
+            spread: 0.0002, // 2 pips
+            slippage: 0.0001,
+            partialFill: Math.random() < 0.05,
+            orderReject: Math.random() < 0.01,
+            latency: 50 + Math.random() * 200 // ms
+        };
+    },
+
+    runSimple: async (candles: CandleData[], initialCapital: number = 10000): Promise<BacktestResult> => {
         let capital = initialCapital;
         let position = 0; // 0 = flat, 1 = long, -1 = short
         let entryPrice = 0;
@@ -27,28 +38,47 @@ export const BacktestEngine = {
         let maxDrawdown = 0;
         const equityCurve = [initialCapital];
 
-        // We need a lookback period (e.g., 50 candles) to start generating signals
+        const reality = BacktestEngine.getExecutionReality();
+
         for (let i = 50; i < candles.length; i++) {
             const window = candles.slice(0, i);
-            const technicals = MathEngine.analyzeSequence(window);
-            const signals = StrategyEngine.evaluate(window, technicals);
-            const consensus = StrategyEngine.generateConsensus(signals);
-            
-            const price = candles[i].close;
+            const currentCandle = candles[i];
+            const price = currentCandle.close;
 
-            // Simple Logic: Buy if Strong Buy, Sell if Strong Sell
+            // 1. Get Market State
+            const state = MarketService.getMarketState(window);
+            
+            // 2. Get Agent Outputs (Simplified for backtest speed)
+            const quant = MarketService.getQuantScannerOutput(window);
+            const smc = MarketService.getSMCOutput(window);
+            const news = await MarketService.getNewsSentinelOutput([]); // Empty news for backtest
+            const flow = MarketService.getFlowWhaleOutput();
+
+            // 3. Normalize Pressure
+            const pressures = PressureNormalizationEngine.normalize(quant, smc, news, flow, state);
+
+            // 4. Synthesize Decision
+            const synthesis = DecisionSynthesisEngine.synthesize(state, pressures, price);
+
+            if (reality.orderReject) continue;
+
+            // 5. Execution Logic
             if (position === 0) {
-                if (consensus.verdict === 'STRONG BUY') {
+                if (synthesis.action === 'BUY') {
                     position = 1;
-                    entryPrice = price;
-                } else if (consensus.verdict === 'STRONG SELL') {
+                    entryPrice = price + reality.spread + reality.slippage;
+                } else if (synthesis.action === 'SELL') {
                     position = -1;
-                    entryPrice = price;
+                    entryPrice = price - reality.spread - reality.slippage;
                 }
             } else if (position === 1) {
-                // Exit Long
-                if (consensus.verdict === 'SELL' || consensus.verdict === 'STRONG SELL' || i === candles.length - 1) {
-                    const profit = (price - entryPrice) / entryPrice * capital;
+                // Exit Long (Structural Invalidation or Opposing Pressure)
+                const isSL = synthesis.entryParameters && price <= synthesis.entryParameters.sl;
+                const isTP = synthesis.entryParameters && price >= synthesis.entryParameters.tp[0];
+                
+                if (isSL || isTP || synthesis.action === 'SELL' || i === candles.length - 1) {
+                    const exitPrice = price - reality.slippage;
+                    const profit = (exitPrice - entryPrice) / entryPrice * capital;
                     capital += profit;
                     trades++;
                     if (profit > 0) { wins++; totalProfit += profit; }
@@ -57,8 +87,12 @@ export const BacktestEngine = {
                 }
             } else if (position === -1) {
                 // Exit Short
-                if (consensus.verdict === 'BUY' || consensus.verdict === 'STRONG BUY' || i === candles.length - 1) {
-                    const profit = (entryPrice - price) / entryPrice * capital;
+                const isSL = synthesis.entryParameters && price >= synthesis.entryParameters.sl;
+                const isTP = synthesis.entryParameters && price <= synthesis.entryParameters.tp[0];
+
+                if (isSL || isTP || synthesis.action === 'BUY' || i === candles.length - 1) {
+                    const exitPrice = price + reality.slippage;
+                    const profit = (entryPrice - exitPrice) / entryPrice * capital;
                     capital += profit;
                     trades++;
                     if (profit > 0) { wins++; totalProfit += profit; }
