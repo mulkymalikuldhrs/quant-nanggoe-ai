@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { ThemeContext } from '../App';
 import WindowFrame from './WindowFrame';
 import { quantumEngine } from '../services/quantum_engine';
-import { researchAgent } from '../services/research_agent';
+import { ResearchAgent } from '../services/research_agent';
 
 interface NexusWindowProps {
   isOpen: boolean;
@@ -36,7 +36,7 @@ const NexusWindow: React.FC<NexusWindowProps> = ({
       setForecasts(prev => [forecast, ...prev].slice(0, 10));
       
       // Sync with research agent logs if available
-      const logs = researchAgent.getLogs().slice(-5).reverse();
+      const logs = ResearchAgent.getLogs().slice(-5).reverse();
       setResearchLogs(logs);
     }, 3000);
 

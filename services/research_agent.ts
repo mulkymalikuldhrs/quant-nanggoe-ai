@@ -19,6 +19,8 @@ export const ResearchAgent = {
     intervalId: null as any,
     logs: [] as string[],
 
+    getLogs: () => ResearchAgent.logs,
+
     startAutonomousResearch: (intervalMs: number = 60000) => { // Faster for demo: 1 min
         if (ResearchAgent.isAutonomouslyRunning) return;
         ResearchAgent.isAutonomouslyRunning = true;

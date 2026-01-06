@@ -1,10 +1,11 @@
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { AgentState, SwarmAgent, SystemPatch } from '../types';
 import SwarmGraph from './SwarmGraph';
 import { BrowserFS } from '../services/file_system';
 import { MLEngine } from '../services/ml_engine';
 import { IconSearch, IconDownload, IconCheck, IconShield, IconCode, IconGlobe, IconLink, IconBrain } from './Icons';
+import { ThemeContext } from '../App';
 
 interface Props {
   state: AgentState;
