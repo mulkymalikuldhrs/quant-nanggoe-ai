@@ -1,33 +1,58 @@
-# QUANT NANGGROE AI v10.0 - NEURAL SWARM EDITION (WHITE SUR)
+# DOCUMENTATION: QUANT NANGGROE AI v10.0 - THE NEURAL SWARM OPERATING SYSTEM
+================================================================================
 
-Sistem komando trading kuantitatif otonom yang menggabungkan estetika macOS White Sur dengan kecerdasan buatan tingkat institusional.
+## OVERVIEW
+Quant Nanggroe AI v10.0 (White Sur Edition) adalah platform komando trading otonom tercanggih yang mengintegrasikan kecerdasan buatan tingkat lanjut dengan estetika desain macOS White Sur. Sistem ini dirancang untuk menghancurkan hambatan antara data mentah dan keputusan eksekusi yang presisi melalui arsitektur Swarm Intelligence.
 
-## 1. ARSITEKTUR SISTEM (NEURAL SWARM)
-Sistem beroperasi menggunakan model "Neural Swarm Parallelism" di mana setiap permintaan dianalisis oleh 5 agen spesialis secara simultan:
-- **Alpha Prime**: Koordinator pusat yang melakukan sintesis data akhir dan pengambilan keputusan strategis.
-- **Quant-Scanner**: Agen teknikal yang memproses data candlestick, indikator (RSI, EMA, MACD), dan struktur pasar.
-- **News-Sentinel**: Agen fundamental yang memantau berita global, sentimen media sosial, dan kalender ekonomi.
-- **Risk-Guardian**: Pengelola keamanan modal yang menghitung ukuran posisi, rasio risk/reward, dan level drawdown.
-- **Strategy-Weaver**: Pengembang algoritma yang mengoptimalkan strategi berdasarkan data historis dan kondisi pasar real-time.
+## 1. CORE ARCHITECTURE: NEURAL SWARM PARALLELISM
+Sistem beroperasi menggunakan 5 agen otonom yang bekerja secara paralel, dikoordinasikan oleh Alpha Prime:
 
-## 2. ANTARMUKA PENGGUNA (macOS WHITE SUR v10.0)
-- **Dual Mode (Day/Night)**: Fitur switch profesional di Top Bar yang memungkinkan transisi mulus antara tema "White Sur" (cerah/glassy) dan "Space Dark" (profesional).
-- **Icon Refinement**: Ikon di Dock telah diperkecil untuk estetika yang lebih elegan dan profesional, namun tetap mempertahankan fungsionalitas magnifikasi macOS.
-- **Dynamic Glassmorphism**: Seluruh jendela menggunakan efek backdrop-blur tingkat tinggi dengan refleksi dinamis dan noise texture premium.
-- **Magnetic Dock**: Taskbar bawah dengan efek magnifikasi (perbesaran) yang dioptimalkan untuk presisi kursor yang lebih tinggi.
-- **OmniBar (Ctrl+K)**: Pusat kendali universal untuk pencarian data, eksekusi perintah, dan navigasi aplikasi secara cepat.
+*   **Alpha Prime (The Architect)**: 
+    *   Fungsi: Koordinator pusat & Pengambil keputusan akhir.
+    *   Tanggung Jawab: Mensintesis laporan dari agen lain, merencanakan eksekusi jendela, dan memvalidasi strategi final.
+*   **Quant-Scanner (The Math Engine)**: 
+    *   Fungsi: Analisis Teknikal & Algoritmik.
+    *   Tanggung Jawab: Menghitung indikator (RSI, EMA, Bollinger, Ichimoku), menganalisis struktur market (Order Block/Liquidity), dan mendeteksi pola candlestick.
+*   **News-Sentinel (The Macro Watcher)**: 
+    *   Fungsi: Analisis Fundamental & Sentimen.
+    *   Tanggung Jawab: Memindai berita global via Bloomberg/Reuters API, menganalisis sentimen media sosial, dan mengevaluasi dampak rilis data ekonomi (CPI, FOMC, NFP).
+*   **Risk-Guardian (The Protector)**: 
+    *   Fungsi: Manajemen Modal & Risiko.
+    *   Tanggung Jawab: Menghitung Position Sizing berdasarkan Kelly Criterion, memantau Value-at-Risk (VaR), dan memastikan Stop Loss/Take Profit sesuai dengan profil risiko institusional.
+*   **Strategy-Weaver (The Algo Developer)**: 
+    *   Fungsi: Backtesting & Implementasi Strategi.
+    *   Tanggung Jawab: Menulis script Python/JS untuk pengujian strategi historis dan mengonversi ide menjadi algoritma trading yang siap dieksekusi.
 
-## 3. PIPA DATA & ANALITIK (REAL-TIME)
-- **Robust Proxy System**: Menggunakan sistem multi-proxy (AllOrigins, CodeTabs, CorsProxy.io) untuk menjamin ketersediaan data Binance tanpa hambatan CORS.
-- **Multi-Source Support**: Integrasi data dari Polygon.io (Saham), DexScreener (On-chain), dan Frankfurter (Forex).
-- **Neural Consensus**: Algoritma internal yang menggabungkan sinyal dari berbagai agen untuk memberikan vonis (BULLISH/BEARISH/NEUTRAL).
+## 2. USER EXPERIENCE: WHITE SUR DESIGN LANGUAGE
+Kenyamanan UI ("UI Comfort") adalah prioritas utama v10.0:
 
-## 4. PANDUAN OPERASIONAL
-- **Switch Theme**: Gunakan switch toggle di Top Bar (ikon Matahari/Bulan) untuk mengubah suasana kerja.
-- **Navigasi Jendela**: Klik ikon di Dock untuk membuka/meminimalkan jendela.
-- **Komunikasi Agen**: Gunakan Neural Terminal untuk berinteraksi dengan swarm agen.
-- **Quick Commands**: Gunakan OmniBar untuk perintah cepat.
+*   **Dynamic Glassmorphism**: Implementasi filter backdrop-blur (32px+) dengan noise texture 5% untuk memberikan kedalaman visual yang mewah tanpa mengorbankan performa.
+*   **Day/Night Switcher**: Toggle instan di Top Bar yang mengubah skema warna global, intensitas bayangan, dan opacity jendela untuk kenyamanan mata di segala kondisi cahaya.
+*   **Refined Taskbar (Dock)**: Ikon yang telah diperkecil (w-4.5) untuk tampilan yang lebih elegan dan ruang kerja yang lebih luas, dilengkapi dengan sistem magnifikasi magnetis.
+*   **Window Management**: Jendela yang dapat digeser, diperbesar (maximized), dan diminimalkan dengan animasi transisi yang halus (spring animation).
+*   **OmniBar (Command Hub)**: Shortcut universal untuk akses cepat ke semua fitur sistem tanpa harus menyentuh mouse.
 
-Sistem ini dirancang untuk kecepatan, keindahan, dan akurasi data tanpa kompromi.
+## 3. DATA RECOVERY & ROBUSTNESS
+Sistem ini dibangun dengan tingkat toleransi kesalahan yang tinggi:
+
+*   **Multi-Proxy Fallback**: Menjamin 99.9% uptime data market dengan menggunakan rotasi proxy otomatis (AllOrigins, CodeTabs, CorsProxy) untuk melewati batasan CORS browser.
+*   **Self-Healing Logic**: Jika satu agen gagal memproses data, Alpha Prime akan secara otomatis mengalihkan tugas tersebut ke agen cadangan atau mencoba metode pengambilan data alternatif.
+*   **Local State Persistence**: Semua konfigurasi, pesan, dan histori tersimpan secara aman di penyimpanan lokal (BrowserFS) untuk sesi yang berkelanjutan.
+
+## 4. TECHNICAL SPECIFICATIONS
+*   **Engine**: Gemini 2.0 Flash / Pro (Neural Core)
+*   **UI Library**: React 19 + Tailwind CSS 4.0
+*   **Chart**: Lightweight Charts (TradingView Engine)
+*   **Market Coverage**: Crypto (Binance), Stocks (Polygon), Forex (Frankfurter), DEX (DexScreener)
+
+## 5. CHANGELOG v10.0 (WHITE SUR UPGRADE)
+- [UPGRADE] Migrasi ke Estetika macOS White Sur dengan Glassmorphism premium.
+- [UPGRADE] Implementasi Dual-Mode (Day/Night) fungsional.
+- [UPGRADE] Optimasi ukuran ikon Dock untuk kenyamanan visual.
+- [FIX] Perbaikan bug CORS pada data Binance via Multi-Proxy system.
+- [FIX] Optimasi rendering Swarm Graph untuk performa lebih stabil.
+- [CLEANUP] Penghapusan direktori legacy dan file dokumentasi lama.
+
 --------------------------------------------------------------------------------
-© 2026 Quant Nanggroe AI - Built for the Next Generation of Quantitative Trading.
+DOKUMENTASI RESMI - QUANT NANGGROE AI v10.0 (2026)
+"Dominate the markets with beauty and intelligence."
