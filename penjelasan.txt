@@ -1,38 +1,46 @@
-# DOCUMENTATION: QUANT NANGGROE AI v11.5.0 - QUANTUM NEXUS EDITION
+# DOCUMENTATION: QUANT NANGGROE AI v12.0.0 - PROFESSIONAL TRADING EDITION
 ================================================================================
 
 ## OVERVIEW
-Quant Nanggroe AI v11.5.0 (Quantum Nexus Edition) adalah puncak evolusi dari sistem swarm intelligence. Versi ini mengintegrasikan "Quantum Nexus Engine" untuk pemodelan probabilitas pasar tingkat lanjut dan "Nexus Command Center" sebagai pusat kendali intelijen terpadu.
+Quant Nanggroe AI v12.0.0 (Professional Trading Edition) adalah evolusi besar dari sistem OS trading otonom. Versi ini menghilangkan istilah-istilah overclaim dan fokus pada fungsionalitas trading institusional nyata, integrasi data terminal MT4/MT5, serta sistem agen yang benar-benar cerdas dan memiliki memori.
 
-## 1. CORE ARCHITECTURE: QUANTUM NEXUS CORE
-Sistem v11.5.0 memperkenalkan sinkronisasi neural yang lebih dalam:
+## 1. INSTITUTIONAL TRADING LOGIC (STRATEGY ENGINE)
+Sistem v12.0.0 kini mengimplementasikan logika trading profesional yang sesungguhnya:
 
-*   **Quantum Nexus Engine (NEW)**: Inti simulasi baru yang menggunakan pemodelan keadaan probabilitas kuantum untuk peramalan pasar (probabilistic quantum state modeling).
-*   **Neural Swarm v11.5**: Seluruh agen dalam swarm (Alpha Prime, dsb) kini beroperasi di bawah protokol Quantum Nexus, meningkatkan akurasi sinergi model hingga 98.4%.
+*   **Smart Money Concept (SMC)**: Identifikasi Order Blocks, Fair Value Gaps (FVG), dan Market Structure Shift (MSS) secara otomatis.
+*   **Support & Resistance (S/R)**: Penentuan level psikologis dan teknis berdasarkan pivot historis dan volume profile.
+*   **Retail Technical Logic**: Integrasi indikator klasik seperti Golden/Death Cross, RSI Overbought/Oversold tiers, dan Bollinger Bands secara presisi.
 
-## 2. UNIFIED COMMAND: NEXUS COMMAND CENTER
-Pusat kendali baru yang menyatukan seluruh aliran intelijen:
+## 2. PROFESSIONAL TERMINAL & PORTFOLIO
+Tampilan portfolio dan manajemen akun kini menyerupai terminal MT4/MT5 profesional:
 
-*   **Nexus Command Center (NEW)**: Jendela antarmuka tunggal yang menggabungkan seluruh feed real-time (Market, News, Sentiment, dan Research) ke dalam tampilan "War Room" berkepadatan tinggi.
-*   **Real-Time Streaming**: Menampilkan ramalan probabilitas kuantum secara langsung untuk aset-aset utama (BTC, ETH, SOL, BNB).
+*   **Real Portfolio Data**: Data bukan lagi angka simulasi statis, melainkan representasi dari Web Terminal MT4/MT5 termasuk Equity, Balance, Margin, dan PnL real-time.
+*   **Market Analysis**: Pengganti "Neural Chart". Menampilkan grafik harga yang bersih dengan overlay indikator teknikal profesional tanpa istilah yang berlebihan.
 
-## 3. ADVANCED DATA HARVESTING & FORECASTING
-*   **Quantum Probabilistic Forecasts**: Peramalan tren berbasis probabilitas (UP/DOWN/STABLE) dengan tingkat kepercayaan (confidence level) yang dinamis.
-*   **Synaptic Signal Logs**: Indikator visual "firing" pada Research Agent yang merepresentasikan node pemrosesan data aktif secara real-time.
+## 3. AUTONOMOUS AGENT ECOSYSTEM (REAL ANALYSIS)
+Agen di v12.0.0 bukan sekadar script visual, melainkan entitas fungsional:
 
-## 4. TECHNICAL SPECIFICATIONS
-*   **Engine**: Gemini 2.0 Flash / Pro 11.5 (Quantum Nexus Core)
-*   **Forecasting**: Quantum-Inspired Probabilistic State Modeling
-*   **Latency**: 1.2ms Inference Latency
-*   **UI Framework**: macOS Sequoia "Glass" Edition v11.5 with Holographic Accents
+*   **Persistent Memory**: Agen kini memiliki sistem memori untuk mengingat instruksi sebelumnya dan hasil analisa terdahulu, memungkinkan kerjasama antar-agen yang lebih kohesif.
+*   **Real Research & Browser**: Fungsi Research kini melakukan penelusuran data market asli menggunakan Browser Terintegrasi yang mampu membaca dan merangkum konten web market secara otonom.
+*   **Desktop & Web Access**: Kemampuan agen untuk berinteraksi dengan elemen web dan menyediakan output analisis yang dapat ditindaklanjuti.
 
-## 5. CHANGELOG v11.5.0 (QUANTUM NEXUS EDITION)
-- [UPGRADE] Migrasi seluruh ekosistem ke v11.5.0 (Quantum Nexus Edition).
-- [NEW] Quantum Nexus Engine: Simulasi peramalan pasar berbasis probabilitas kuantum.
-- [NEW] Nexus Command Center: Dashboard intelijen terpadu berkepadatan tinggi.
-- [NEW] Holographic Glass Accents: Refinemen visual dengan efek crystalline shimmer.
-- [UPDATE] Synaptic Signal Logs: Visualisasi pemrosesan data otonom yang lebih intuitif.
+## 4. COMMAND SYSTEM & FIXES
+*   **Command /scan**: Perintah `/scan [SYMBOL]` (contoh: `/scan BTCUSD`) kini memberikan output analisis teknikal lengkap, sinyal SMC, dan sentimen pasar secara real-time.
+*   **Data Market Expansion**: Penambahan sumber data market yang lebih luas melampaui API publik gratis standar untuk akurasi harga yang lebih baik.
+
+## 5. OS INTERFACE & USER EXPERIENCE
+Penyempurnaan total pada antarmuka pengguna:
+
+*   **Resizable & Draggable Windows**: Semua jendela (Market Analysis, Terminal, Browser, Research) sekarang dapat diubah ukurannya dan digeser sesuai kebutuhan pengguna.
+*   **Monitor Scaling**: Layout OS telah dioptimalkan agar pas di berbagai ukuran layar monitor PC tanpa terpotong atau terlalu besar.
+*   **Clean Documentation**: Penghapusan tanda baca "_" yang berlebihan dan penyederhanaan bahasa teknis agar lebih profesional.
+
+## 6. TECHNICAL SPECIFICATIONS
+*   **Logic Engine**: SMC & Institutional Strategy Suite
+*   **Data Source**: Unified MT4/MT5 Terminal Data & Multi-Source Market API
+*   **UI System**: Resizable Window Manager v2.0
+*   **Agent Core**: Autonomous Memory-Enabled Intelligence
 
 --------------------------------------------------------------------------------
-DOKUMENTASI RESMI - QUANT NANGGROE AI v11.5.0 (2026)
-"Predicting the future by simulating all possible states."
+DOKUMENTASI RESMI - QUANT NANGGROE AI v12.0.0 (2026)
+"Professional precision. Real-world execution."
