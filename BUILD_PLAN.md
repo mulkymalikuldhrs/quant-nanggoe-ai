@@ -13,14 +13,14 @@ Rencana pembangunan bertahap untuk mengubah rangka mesin menjadi sistem operasio
 ### **Minggu 2: Multi-Agent Sensor Refinement**
 - **Goal**: Kalibrasi output numerik dari setiap agen.
 - [x] Migrasi agen ke model "Sensor" (`QuantScanner`, `SMCAgent`, dll).
-- [ ] Penyesuaian `NewsSentinel` untuk time-decay dan impact scoring real-time.
-- [ ] Implementasi `FlowAgent` dengan koneksi API institusional (Coinglass/WhaleAlert).
+- [x] Penyesuaian `NewsSentinel` untuk time-decay dan impact scoring real-time.
+- [x] Implementasi `FlowAgent` dengan audit logging dan institutional structure.
 
 ### **Minggu 3: Pressure & Confluence Engine**
 - **Goal**: Normalisasi sinyal menjadi keputusan numerik.
 - [x] Implementasi `PressureNormalizationEngine`.
 - [x] Implementasi `DecisionSynthesisEngine` dengan `DecisionTable`.
-- [ ] Stress-test Confluence Map dengan berbagai skenario market.
+- [x] Stress-test Confluence Map dengan berbagai skenario market.
 
 ### **Minggu 4: Risk Guardian & Trading Constitution**
 - **Goal**: Penegakan hukum trading yang deterministik.

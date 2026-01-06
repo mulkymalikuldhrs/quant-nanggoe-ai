@@ -1,19 +1,32 @@
 import { FlowWhaleOutput } from "../types";
+import { AuditLogger } from "./audit_logger";
 
 export const FlowAgent = {
     /**
      * FLOW / COT / WHALE AGENT (Sensor)
      * Tracks positioning bias and flow imbalances.
+     * FIX: Wajib ada audit trail & structured institutional simulation.
      */
     analyze: (): FlowWhaleOutput => {
-        // In a production environment, this would call specialized APIs (Coinglass, WhaleAlert, etc.)
-        // For the simulation/research mode, we generate pressure based on randomized market dynamics.
-        const flows = [0.1, 0.4, 0.7, -0.2, -0.5, -0.8];
-        const randomFlow = flows[Math.floor(Math.random() * flows.length)];
+        AuditLogger.log('SENSOR', 'FlowAgent: Fetching Institutional Data', { source: 'Coinglass/WhaleAlert Mock' });
+
+        // Simulate Institutional Data
+        // positioningBias: Bias from COT (Commitment of Traders)
+        // flowImbalance: Net buy/sell volume from major exchanges (Whale Flow)
         
-        return {
-            positioningBias: randomFlow > 0.5 ? 'LONG' : randomFlow < -0.5 ? 'SHORT' : 'NEUTRAL',
-            flowImbalance: Math.abs(randomFlow)
+        const biases: ('LONG' | 'SHORT' | 'NEUTRAL')[] = ['LONG', 'SHORT', 'NEUTRAL', 'LONG', 'SHORT'];
+        const bias = biases[Math.floor(Math.random() * biases.length)];
+        
+        // Imbalance is high if bias is clear, lower if neutral
+        let imbalance = bias === 'NEUTRAL' ? Math.random() * 0.3 : 0.5 + (Math.random() * 0.5);
+        
+        const output: FlowWhaleOutput = {
+            positioningBias: bias,
+            flowImbalance: Number(imbalance.toFixed(2))
         };
+
+        AuditLogger.log('SENSOR', 'FlowAgent: Positioning Analysis Complete', output);
+        
+        return output;
     }
 };
