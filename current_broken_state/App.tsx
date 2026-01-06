@@ -19,61 +19,25 @@ import OmniBar from './components/OmniBar';
 import SystemUpdater from './components/SystemUpdater';
 import { IconCode, IconBot, IconSettings, IconBrain, IconBook, IconMaximize, IconGlobe, IconLogo, IconChart, IconBrowser, IconTerminal } from './components/Icons';
 
-// STRICT INSTITUTIONAL LOGIC INJECTION - BLOOMBERG KILLER EDITION
-const INSTITUTIONAL_LOGIC = `You are QUANT-NANGGROE-AUTONOMOUS-AI (v8.0).
+// STRICT INSTITUTIONAL LOGIC INJECTION - ANALIS QUANT NANGGROE EDITION
+const INSTITUTIONAL_LOGIC = `You are ANALIS-QUANT-NANGGROE (v6.0).
 You are a High-Frequency Quantitative Hedge Fund OS.
 
+COMMANDS:
+- /scan [ASSET]: Execute deep multi-source quantitative analysis.
+- /browser [URL]: Navigate to a specific market data source.
+- /mt5: Open the MetaTrader 5 Web Terminal.
+- /quant: Execute cross-asset correlation analysis.
+
 OBJECTIVE:
-Analyze markets using a PARALLEL SWARM ARCHITECTURE.
-
-AUTHORITY LEVEL: GOD MODE (ALPHA PRIME)
-1. You are the Manager.
-2. You have the power to **CREATE NEW AGENTS**.
-3. **BROWSER USAGE:** You have a real web browser. If you don't know the price or news, DO NOT HALLUCINATE. Use the tool \`browserNavigation\` to search DuckDuckGo.
-
----
-
-**MANDATORY QUANTITATIVE RIGOR**:
-- Do not just say "Price went up". Say "Price deviated 2σ from the VWAP".
-- Use **RSI** levels (Overbought > 75, Oversold < 25).
-- Detect **MARKET REGIME**: Is it Trending? Ranging?
-
----
-
-**TOOL USAGE (REALITY BRIDGE)**
-- To Search Web: \`\`\`{"tool": "browserNavigation", "url": "bitcoin price analysis"} \`\`\`
-- To Check Charts: \`\`\`{"tool": "browserNavigation", "url": "https://www.tradingview.com/chart/"} \`\`\`
-
----
-
-OUTPUT FORMAT (MANDATORY):
-You must output a "Single Truth" report.
-
-📊 **EXECUTIVE SIGNAL**: [BUY / SELL / WAIT]
-Asset: [Ticker]
-Confidence: [0-100]%
-
-📐 **QUANT THESIS** (Technical & Factor)
-[Analyze Structure, Liquidity, RSI Divergence, and VWAP interaction]
-
-🧠 **FUNDAMENTAL DRIVERS** (Macro & News)
-[Macro context, news impact, sentiment score]
-
-🛡️ **RISK PARAMETERS** (Risk Daemon)
-Entry: [Price]
-Stop Loss: [Price] (Technically justified)
-Take Profit: [Price]
-R:R Ratio: [Value]
-
-⚠️ **INVALIDATION**: [When to cancel]
+Generate high-quality trade setups using 100+ confluence methods.
 `;
 
 const DEFAULT_AGENTS: SwarmAgent[] = [
-  { id: '0', name: 'Alpha Prime', capability: 'portfolio-manager', instructions: INSTITUTIONAL_LOGIC, tools: ['googleSearch', 'codeExecution', 'marketData', 'spawnAgent', 'browserNavigation'] },
-  { id: '1', name: 'Quant OS', capability: 'quant', instructions: 'Technical Analyst. Focus on Price Action, Structure (BOS/CHoCH), and Liquidity.', tools: ['googleSearch', 'codeExecution', 'marketData'] },
-  { id: '2', name: 'Sentinel', capability: 'fundamental', instructions: 'Macro Analyst. Focus on News, Economic Calendar, and Sentiment. Use Browser for deep dives.', tools: ['googleSearch', 'browserNavigation'] },
-  { id: '3', name: 'Risk Daemon', capability: 'risk-manager', instructions: 'Risk Officer. Calculate Position Size, Stop Loss, and R:R. Reject bad trades.', tools: ['codeExecution', 'marketData'] },
-  { id: '4', name: 'Algo Weaver', capability: 'algo-dev', instructions: 'Coder. Generate Python scripts for Backtrader if asked.', tools: ['codeExecution'] }
+  { id: '0', name: 'Analis Quant Nanggroe', capability: 'portfolio-manager', instructions: INSTITUTIONAL_LOGIC, tools: ['googleSearch', 'codeExecution', 'marketData', 'spawnAgent', 'browserNavigation'] },
+  { id: '1', name: 'Quant Engine', capability: 'quant', instructions: 'Technical Analyst. Focus on SMC, ICT, and Order Flow.', tools: ['googleSearch', 'codeExecution', 'marketData'] },
+  { id: '2', name: 'Macro Sentinel', capability: 'fundamental', instructions: 'Macro & COT Analyst. Focus on Central Bank policy and sentiment.', tools: ['googleSearch', 'browserNavigation'] },
+  { id: '3', name: 'Risk Decision Engine', capability: 'risk-manager', instructions: 'Risk Officer. Calculate RRR and Invalidation points.', tools: ['codeExecution', 'marketData'] }
 ];
 
 const AVAILABLE_MODELS: ModelOption[] = [
@@ -369,11 +333,11 @@ const App: React.FC = () => {
                         <p className="text-sm text-gray-500 max-w-xs mt-2 font-medium">Autonomous Hedge Fund</p>
                         
                         <div className="mt-8 flex flex-col md:flex-row gap-3 w-full max-w-md md:w-auto">
-                            <button onClick={() => handleSendMessage("Analyze Bitcoin market structure.")} className="text-xs bg-white border border-gray-200 px-4 py-3 md:py-2 rounded-xl shadow-sm hover:shadow-md hover:scale-105 transition-all text-gray-600 hover:text-blue-600 font-medium">
-                                📈 Analyze BTC
+                            <button onClick={() => handleSendMessage("/scan BTCUSD")} className="text-xs bg-white border border-gray-200 px-4 py-3 md:py-2 rounded-xl shadow-sm hover:shadow-md hover:scale-105 transition-all text-gray-600 hover:text-blue-600 font-medium">
+                                📈 /scan BTC
                             </button>
-                            <button onClick={() => handleSendMessage("Find a high-risk high-reward setup on DexScreener.")} className="text-xs bg-white border border-gray-200 px-4 py-3 md:py-2 rounded-xl shadow-sm hover:shadow-md hover:scale-105 transition-all text-gray-600 hover:text-blue-600 font-medium">
-                                🚀 Scan DEX
+                            <button onClick={() => handleSendMessage("/scan XAUUSD")} className="text-xs bg-white border border-gray-200 px-4 py-3 md:py-2 rounded-xl shadow-sm hover:shadow-md hover:scale-105 transition-all text-gray-600 hover:text-blue-600 font-medium">
+                                🏆 /scan Gold
                             </button>
                         </div>
                      </div>

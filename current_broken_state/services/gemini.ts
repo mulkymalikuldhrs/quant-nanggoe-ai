@@ -5,7 +5,8 @@ import { BrowserFS } from "./file_system";
 import { LLMRouter } from "./llm_router";
 import { MarketService } from "./market";
 import { MLEngine } from "./ml_engine";
-import { BrowserCore } from "./browser_core"; // Import Browser Core
+import { BrowserCore } from "./browser_core";
+import { QUANT_ANALYST_ROLE } from "@/constants/agent_prompts";
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -107,9 +108,11 @@ export class AutonomousAgent {
     
     // 1. DYNAMIC PLANNING with OS AWARENESS & BROWSER VISION
     const contextPrompt = `
+    ${QUANT_ANALYST_ROLE}
+
     CURRENT OS STATE:
     - Open Windows: [${this.openWindows.join(', ')}]
-    - Active Agent: Alpha Prime
+    - Active Agent: Analis Quant Nanggroe
     
     EXTERNAL INTELLIGENCE:
     - You have access to the QUANT NOTEBOOK (Proprietary Research) at: 
@@ -119,31 +122,62 @@ export class AutonomousAgent {
     CAPABILITIES:
     - You can OPEN/CLOSE windows via \`system_actions\`.
     - You can BROWSE the web. If the user asks to "check news" or "read this url", you MUST assume you can do it.
+    - Default Trading Terminal: https://trade.mql5.com/trade (MetaTrader 5 Web)
     
     To Navigate: Return JSON action \`{ "type": "NAVIGATE_BROWSER", "payload": "https://..." }\`.
     The system will auto-read the content for you in the next step.
     `;
 
     // 2. PARALLEL EXECUTION
-    let tasks: AgentTask[] = [{ id: '1', agentId: '0', role: 'portfolio-manager', description: 'Analyze User Request', status: 'pending' }];
+    let tasks: AgentTask[] = [{ id: '1', agentId: '0', role: 'Analis Quant Nanggroe', description: 'Analyze Market for Setup', status: 'pending' }];
     let actions: SystemAction[] = [];
     let finalSynthesis = "";
 
-    // 3. Simple Loop for this implementation
-    // If the prompt implies browsing, we add a specific browser task
-    if (prompt.toLowerCase().includes('news') || prompt.toLowerCase().includes('http') || prompt.toLowerCase().includes('search') || prompt.toLowerCase().includes('check')) {
-        this.addLog(`[DECISION] Web Browsing Required. Engaging Browser Core.`);
+    // 3. Command & Heuristic Processing
+    if (prompt.startsWith('/') || prompt.toLowerCase().includes('news') || prompt.toLowerCase().includes('http') || prompt.toLowerCase().includes('terminal') || prompt.toLowerCase().includes('mt5')) {
+        this.addLog(`[DECISION] Command or Web Request detected. Processing...`);
         
-        // Extract URL or Search Term (Basic Heuristic for now, usually LLM does this)
-        let targetUrl = "https://duckduckgo.com/?q=finance+news";
-        const urlMatch = prompt.match(/https?:\/\/[^\s]+/);
-        if (urlMatch) targetUrl = urlMatch[0];
-        else if (prompt.includes('news')) targetUrl = "https://finance.yahoo.com";
-        else targetUrl = `https://duckduckgo.com/?q=${encodeURIComponent(prompt.replace('check', '').trim())}`;
+        let targetUrl = "";
+        let commandHandled = false;
 
-        // Add action to open browser
-        actions.push({ type: 'OPEN_WINDOW', payload: 'browser' });
-        actions.push({ type: 'NAVIGATE_BROWSER', payload: targetUrl });
+        if (prompt.startsWith('/scan')) {
+            const asset = prompt.replace('/scan', '').trim();
+            this.addLog(`[SCAN] Initializing Deep Quantitative Scan for: ${asset || 'Global Market'}`);
+            targetUrl = `https://www.tradingview.com/chart/?symbol=${asset || 'BTCUSD'}`;
+            actions.push({ type: 'OPEN_WINDOW', payload: 'browser' });
+            actions.push({ type: 'NAVIGATE_BROWSER', payload: targetUrl });
+            commandHandled = true;
+        } else if (prompt.startsWith('/browser')) {
+            targetUrl = prompt.replace('/browser', '').trim();
+            if (!targetUrl.startsWith('http')) targetUrl = `https://duckduckgo.com/?q=${encodeURIComponent(targetUrl)}`;
+            actions.push({ type: 'OPEN_WINDOW', payload: 'browser' });
+            actions.push({ type: 'NAVIGATE_BROWSER', payload: targetUrl });
+            commandHandled = true;
+        } else if (prompt.startsWith('/mt5') || prompt.toLowerCase().includes('mt5') || prompt.toLowerCase().includes('terminal')) {
+            targetUrl = "https://trade.mql5.com/trade";
+            actions.push({ type: 'OPEN_WINDOW', payload: 'trading_terminal' });
+            commandHandled = true;
+        } else if (prompt.startsWith('/quant')) {
+            this.addLog(`[QUANT] Executing Cross-Asset Correlation Analysis...`);
+            targetUrl = "https://www.tradingview.com/markets/currencies/cross-rates-overview/";
+            actions.push({ type: 'OPEN_WINDOW', payload: 'browser' });
+            actions.push({ type: 'NAVIGATE_BROWSER', payload: targetUrl });
+            commandHandled = true;
+        }
+
+        if (!commandHandled) {
+            // Fallback heuristics
+            const urlMatch = prompt.match(/https?:\/\/[^\s]+/);
+            if (urlMatch) {
+                targetUrl = urlMatch[0];
+            } else if (prompt.includes('news')) {
+                targetUrl = "https://www.forexfactory.com";
+            } else {
+                targetUrl = `https://duckduckgo.com/?q=${encodeURIComponent(prompt.trim())}`;
+            }
+            actions.push({ type: 'OPEN_WINDOW', payload: 'browser' });
+            actions.push({ type: 'NAVIGATE_BROWSER', payload: targetUrl });
+        }
         
         this.updateState({ activeBrowserUrl: targetUrl });
         this.addLog(`[BROWSER] Navigating to ${targetUrl}...`);
@@ -157,7 +191,7 @@ export class AutonomousAgent {
             const browserKnowledge: KnowledgeItem = {
                 id: `web-${Date.now()}`,
                 category: 'fact',
-                content: `WEBPAGE CONTENT (${pageData.title}):\n${pageData.content.substring(0, 2000)}...`,
+                content: `WEBPAGE CONTENT (${pageData.title}):\n${pageData.content.substring(0, 2500)}...`,
                 sourceAgentId: 'BrowserCore',
                 timestamp: Date.now(),
                 confidence: 100,

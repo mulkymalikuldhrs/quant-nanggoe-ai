@@ -3,16 +3,6 @@
 
 All notable changes to the **Quant Nanggroe AI Ecosystem** will be documented in this file.
 
-## [6.0.0] - 2026-01-06
-### Super Power Quant Upgrade (The Bloomberg/OpenBB Evolution)
-- **Symbol Expansion (100x):** Added a comprehensive library of hundreds of instruments, including Forex Majors/Minors/Exotics, Global Indices (S&P 500, Nikkei, FTSE, CAC), Commodities (Gold, Oil, Copper, Platinum), and Global Equities (Apple, NVIDIA, Tesla, Microsoft, Berkshire Hathaway).
-- **AI-Driven Browser Access:** Implemented a ground-truth data validation engine ("Browser-use" simulation). The AI can now autonomously access MetaTrader 5 Web and TradingView for real-time verification.
-- **Dhaher Command Language (DCL):** Introduced a professional command-line interface for quant analysis (e.g., `/scan`, `/quant`, `/news`).
-- **Institutional Market Feed:** Overhauled `marketDataService.ts` with institutional pricing models for non-crypto assets and live Binance ticker integration for crypto.
-- **Bloomberg Terminal UI:** Redesigned `TradingTerminalWindow.tsx` for high-information density, featuring an interactive Browser Overlay and a Command Center.
-- **Quant Intelligence Engine v3:** Upgraded Gemini reasoning with a 32k thinking budget and a new "System Constitution" for institutional-grade logic.
-- **Stability Fixes:** Resolved identifier duplication errors in `Icons.tsx` and improved HMR reliability.
-
 ## [4.7.0] - 2025-05-26
 ### Community & Credits
 - **Developer Profile:** Updated global credits to **Mulky Malikul Dhaher**.
