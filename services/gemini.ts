@@ -94,10 +94,17 @@ export class AutonomousAgent {
   }
 
   private async runSwarmParallel(prompt: string): Promise<{ text: string, groundingSources: GroundingSource[], actions?: SystemAction[] }> {
-    this.addLog(`[SWARM] Parallel Processing Initiated for: ${this.swarm.map(a => a.name).join(', ')}`);
+    this.addLog(`[NEURAL_LINK] Swarm Parallel Core Activated.`);
+    this.addLog(`[SWARM] Spawning ${this.swarm.length} specialized agents simultaneously...`);
     
-    const tasks = this.swarm.map(async (agent) => {
-        this.addLog(`[${agent.name}] Branching neural path...`);
+    // Simulate some "spawning" delay for effect and to show logs
+    this.updateState({ currentAction: 'Spawning Neural Nodes...', emotion: 'thinking' });
+
+    const tasks = this.swarm.map(async (agent, index) => {
+        // Staggered logs to look more "system-like"
+        await sleep(index * 200);
+        this.addLog(`[${agent.name}] Node online. Initializing ${agent.capability} module...`);
+        
         const memory = MemoryManager.getAgentMemory(agent.id);
         const systemSnapshot = DesktopIntelligence.getSystemSnapshot(this.openWindows);
         
@@ -108,16 +115,24 @@ export class AutonomousAgent {
             TASK: Analyze this request from your specialized perspective: ${prompt}
             ${systemSnapshot}
             ${memory ? `MEMORY: ${memory.summary}` : ''}
+            
+            FORMAT: Provide a concise technical analysis.
         `;
         
-        const res = await this.router.generate(this.selectedModel, agentPrompt);
-        return { name: agent.name, output: res.text };
+        try {
+            const res = await this.router.generate(this.selectedModel, agentPrompt);
+            this.addLog(`[${agent.name}] Analysis complete. Transmission successful.`);
+            return { name: agent.name, output: res.text };
+        } catch (e: any) {
+            this.addLog(`[${agent.name}] Link error: ${e.message}`);
+            return { name: agent.name, output: `ERROR: ${e.message}` };
+        }
     });
 
     const results = await Promise.all(tasks);
     
-    // Swarm Weaver (Alpha Prime) synthesizes everything
-    this.addLog(`[SWARM] Synthesizing results from ${results.length} nodes...`);
+    this.addLog(`[SWARM] All nodes reporting. Commencing Neural Synthesis...`);
+    this.updateState({ currentAction: 'Synthesizing Swarm Data...', emotion: 'thinking' });
     
     const synthesisPrompt = `
         SWARM_SYNTHESIS_TASK:
@@ -126,11 +141,14 @@ export class AutonomousAgent {
         ${results.map(r => `[${r.name}]: ${r.output}`).join('\n\n')}
         
         Consolidate these into a final institutional-grade response and execution plan.
+        Be decisive. Use real-world data logic.
         If specific trades or browser actions are needed, use the [ACTION:TYPE:PAYLOAD] format.
     `;
 
     const finalResult = await this.router.generate(this.selectedModel, synthesisPrompt);
     const actions = this.parseActions(finalResult.text);
+    
+    this.addLog(`[KERNEL] Synthesis complete. Execution plan ready.`);
 
     return { text: finalResult.text, groundingSources: [], actions };
   }

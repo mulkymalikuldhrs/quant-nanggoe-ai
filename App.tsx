@@ -13,6 +13,7 @@ import MarketWindow from './components/MarketWindow';
 import BrowserWindow from './components/BrowserWindow';
 import TradingTerminalWindow from './components/TradingTerminalWindow';
 import SwarmConfigModal from './components/SwarmConfigModal';
+import { SystemArchitecture } from './components/SystemArchitecture';
 import Avatar from './components/Avatar';
 import WindowFrame from './components/WindowFrame';
 import Taskbar from './components/Taskbar';

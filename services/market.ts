@@ -290,13 +290,19 @@ export const MarketService = {
             if (symbol) {
                 try {
                     const interval = days <= 1 ? '15m' : days <= 7 ? '1h' : '4h';
-                    const res = await fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=100`);
-                    const data = await res.json();
+                    const apiUrl = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=100`;
+                    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
+                    const res = await fetch(proxyUrl);
+                    const proxyData = await res.json();
+                    const data = JSON.parse(proxyData.contents);
+                    
                     return data.map((d: any) => ({
                         timestamp: d[0], open: parseFloat(d[1]), high: parseFloat(d[2]),
                         low: parseFloat(d[3]), close: parseFloat(d[4]), volume: parseFloat(d[5])
                     }));
-                } catch (e) {}
+                } catch (e) {
+                    console.error("Market Chart Fetch Error (Binance):", e);
+                }
             }
         }
 
