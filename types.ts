@@ -8,6 +8,8 @@ export enum MessageRole {
 export interface GroundingSource {
   title: string;
   uri: string;
+  type?: 'REAL_TIME' | 'KNOWLEDGE_BASE' | 'SYSTEM_SNAPSHOT' | 'NEURAL_INFERENCE';
+  trustScore?: number;
 }
 
 export interface Attachment {

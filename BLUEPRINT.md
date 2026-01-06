@@ -1,13 +1,18 @@
 # 🦅 BLUEPRINT FINAL: QUANT NANGGROE AI
 ## **Deterministic Multi-Agent Quant Research & Decision Intelligence OS**
+### **Version 15.1.0 (Advanced Intelligence & Reality Patch)**
 
-Sistem ini dirancang sebagai ekosistem kuantitatif yang mengeliminasi bias naratif LLM melalui arsitektur **Deterministic Agent Execution**.
+Sistem ini dirancang sebagai ekosistem kuantitatif yang mengeliminasi bias naratif LLM melalui arsitektur **Deterministic Agent Execution** dan **Contextual Neural Grounding**.
 
 ---
 
 ## 🏛️ 1. ARSITEKTUR CORE (TOP-DOWN)
 
 Sistem beroperasi dalam hirarki yang kaku untuk memastikan integritas keputusan.
+
+### **Layer 0: Neural Grounding Layer (New in v15.1)**
+- **Fungsi**: Sebelum reasoning dimulai, sistem memanen data mentah dari `MarketService` dan `KnowledgeBase`.
+- **Constraint**: LLM dilarang berhalusinasi harga atau status; data wajib berasal dari grounding source yang tervalidasi.
 
 ### **Layer 1: Market Regime Engine (The Gatekeeper)**
 - **Fungsi**: Menentukan kondisi pasar global sebelum analisa dimulai.
@@ -64,4 +69,5 @@ Simulasi backtesting mencakup variabel dunia nyata:
 - **Audit Trail**: Logging setiap langkah dari sensor hingga keputusan final untuk transparansi riset.
 
 ---
-**© 2026 Quant Nanggroe AI | Final Architecture Document v15.0.0**
+**© 2026 Quant Nanggroe AI | Final Architecture Document v15.1.0**
+

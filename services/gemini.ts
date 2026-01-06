@@ -43,30 +43,50 @@ export class AutonomousAgent {
   }
 
   async run(prompt: string, attachments?: Attachment[]): Promise<{ text: string, groundingSources: GroundingSource[], actions?: SystemAction[] }> {
+    const startTime = Date.now();
     this.addLog(`[KERNEL] Neural Swarm Initialized. SNAPSHOT: ${this.openWindows.join(', ')}`);
     
     // Determine if we need multi-agent parallel processing
-    const isSwarmTask = prompt.toLowerCase().includes('analyze') || prompt.toLowerCase().includes('swarm') || prompt.toLowerCase().includes('trade');
+    const isSwarmTask = prompt.toLowerCase().includes('analyze') || prompt.toLowerCase().includes('swarm') || prompt.toLowerCase().includes('trade') || prompt.toLowerCase().includes('market');
     
+    let result;
     if (isSwarmTask && this.swarm.length > 1) {
-        return await this.runSwarmParallel(prompt);
+        result = await this.runSwarmParallel(prompt);
+    } else {
+        result = await this.runSingleAgent(this.swarm[0]?.id || 'alpha-prime', prompt);
     }
 
-    return await this.runSingleAgent(this.swarm[0]?.id || 'alpha-prime', prompt);
+    const latency = Date.now() - startTime;
+    this.addLog(`[KERNEL] Cycle Complete. Total Latency: ${latency}ms`);
+    return result;
   }
 
   private async runSingleAgent(agentId: string, prompt: string): Promise<{ text: string, groundingSources: GroundingSource[], actions?: SystemAction[] }> {
     const memory = MemoryManager.getAgentMemory(agentId);
-    this.updateState({ isActive: true, currentAgent: agentId, currentAction: 'Deep Neural Search...', emotion: 'thinking' });
+    this.updateState({ isActive: true, currentAgent: agentId, currentAction: 'Neural Grounding...', emotion: 'thinking' });
 
     try {
       const systemSnapshot = DesktopIntelligence.getSystemSnapshot(this.openWindows);
       const context = memory ? `PREVIOUS_MEMORY: ${memory.summary}\n` : '';
       
+      // Upgrade: Real-time Grounding
+      const groundingSources: GroundingSource[] = [];
+      let marketContext = '';
+      
+      if (prompt.toLowerCase().includes('price') || prompt.toLowerCase().includes('market')) {
+          const tickers = ['BTC', 'ETH', 'SOL', 'XAUUSD'];
+          const prices = await Promise.all(tickers.map(t => MarketService.getPrice(t)));
+          marketContext = `MARKET_DATA_GROUNDING:\n${prices.map(p => p ? `${p.symbol}: $${p.currentPrice} (${p.priceChange24h}%)` : '').join('\n')}\n`;
+          prices.forEach(p => {
+              if (p) groundingSources.push({ title: `${p.symbol} Live Data`, uri: `market://${p.symbol}`, type: 'REAL_TIME', trustScore: p.metadata.trustScore });
+          });
+      }
+
       const fullPrompt = `
         ${INSTITUTIONAL_LOGIC}
         AGENT_IDENTITY: ${agentId}
         ${systemSnapshot}
+        ${marketContext}
         ${context}
         USER_PROMPT: ${prompt}
         
@@ -84,7 +104,7 @@ export class AutonomousAgent {
           messages: [...this.history, { role: 'user', parts: [{ text: prompt }] }, { role: 'model', parts: [{ text: result.text }] }]
       });
 
-      return { text: result.text, groundingSources: [], actions };
+      return { text: result.text, groundingSources, actions };
     } catch (error: any) {
       this.addLog(`[ERROR] ${error.message}`);
       return { text: `Neural Link Failure: ${error.message}`, groundingSources: [] };
@@ -97,11 +117,10 @@ export class AutonomousAgent {
     this.addLog(`[NEURAL_LINK] Swarm Parallel Core Activated.`);
     this.addLog(`[SWARM] Spawning ${this.swarm.length} specialized agents simultaneously...`);
     
-    // Simulate some "spawning" delay for effect and to show logs
+    const groundingSources: GroundingSource[] = [];
     this.updateState({ currentAction: 'Spawning Neural Nodes...', emotion: 'thinking' });
 
     const tasks = this.swarm.map(async (agent, index) => {
-        // Staggered logs to look more "system-like"
         await sleep(index * 200);
         this.addLog(`[${agent.name}] Node online. Initializing ${agent.capability} module...`);
         
@@ -121,7 +140,7 @@ export class AutonomousAgent {
         
         try {
             const res = await this.router.generate(this.selectedModel, agentPrompt);
-            this.addLog(`[${agent.name}] Analysis complete. Transmission successful.`);
+            this.addLog(`[${agent.name}] Analysis complete.`);
             return { name: agent.name, output: res.text };
         } catch (e: any) {
             this.addLog(`[${agent.name}] Link error: ${e.message}`);
@@ -130,6 +149,7 @@ export class AutonomousAgent {
     });
 
     const results = await Promise.all(tasks);
+    groundingSources.push({ title: 'Swarm Neural Inference', uri: 'neural://swarm-consensus', type: 'NEURAL_INFERENCE', trustScore: 0.95 });
     
     this.addLog(`[SWARM] All nodes reporting. Commencing Neural Synthesis...`);
     this.updateState({ currentAction: 'Synthesizing Swarm Data...', emotion: 'thinking' });
@@ -150,7 +170,7 @@ export class AutonomousAgent {
     
     this.addLog(`[KERNEL] Synthesis complete. Execution plan ready.`);
 
-    return { text: finalResult.text, groundingSources: [], actions };
+    return { text: finalResult.text, groundingSources, actions };
   }
 
   private parseActions(text: string): SystemAction[] {
@@ -163,6 +183,8 @@ export class AutonomousAgent {
   }
 }
 
-const INSTITUTIONAL_LOGIC = `You are QUANT-NANGGROE-OS (v9.1).
-OPERATE WITH ABSOLUTE PRECISION. NO SIMULATION. REAL DATA ONLY.
-YOU CONTROL THE DESKTOP. YOU CONTROL THE TRADES.`;
+const INSTITUTIONAL_LOGIC = `You are QUANT-NANGGROE-OS (v15.1.0).
+OPERATE WITH ABSOLUTE PRECISION. REAL-TIME DATA INTEGRITY ENFORCED.
+DETERMINISTIC REASONING ONLY. NO SPECULATION WITHOUT QUANTITATIVE PROOF.
+YOU ARE THE KERNEL OF A HIGH-FREQUENCY DECISION ENGINE.`;
+

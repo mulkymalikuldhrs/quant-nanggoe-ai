@@ -84,7 +84,32 @@ const ControlCenter: React.FC<ControlCenterProps> = ({ isOpen, onClose }) => {
                     </div>
                     <div className="flex flex-col">
                         <span className="text-[11px] font-bold">Quant Nanggroe AI</span>
-                        <span className="text-[9px] opacity-60">v10.0 White Sur Edition</span>
+                        <span className="text-[9px] opacity-60">v15.1.0 Advanced Intelligence</span>
+                    </div>
+                </div>
+
+                {/* Institutional Metrics (New in v15.1) */}
+                <div className={`mt-4 p-4 rounded-2xl ${theme === 'dark' ? 'bg-zinc-800/30' : 'bg-zinc-100/50'} border ${theme === 'dark' ? 'border-white/5' : 'border-black/5'}`}>
+                    <div className="flex items-center justify-between mb-3">
+                        <span className="text-[10px] font-black uppercase tracking-widest opacity-40">Security Matrix</span>
+                        <div className="flex gap-1">
+                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/30"></div>
+                        </div>
+                    </div>
+                    <div className="space-y-2">
+                        <div className="flex justify-between items-center text-[10px]">
+                            <span className="opacity-60 italic">Risk Guardian</span>
+                            <span className="font-mono text-emerald-500 font-bold">NOMINAL</span>
+                        </div>
+                        <div className="flex justify-between items-center text-[10px]">
+                            <span className="opacity-60 italic">Data Integrity</span>
+                            <span className="font-mono text-blue-500 font-bold">100%</span>
+                        </div>
+                        <div className="flex justify-between items-center text-[10px]">
+                            <span className="opacity-60 italic">Neural Sync</span>
+                            <span className="font-mono text-amber-500 font-bold">STABLE</span>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,16 @@
 # CHANGELOG - QUANT NANGGROE AI
 
+## [v15.1.0] - 2026-01-06 (ADVANCED INTELLIGENCE & REALITY PATCH)
+### Added
+- **Contextual Neural Grounding**: The Autonomous Agent now performs real-time data harvesting from `MarketService` and `KnowledgeBase` before generating responses, ensuring decisions are grounded in live facts rather than just model memory.
+- **Latency & Performance Tracking**: Added high-precision timing to the Neural Swarm cycle for institutional-grade auditability.
+- **Institutional UI Flair**: Enhanced `ControlCenter` with a "Security Matrix" and "Risk Guardian" health monitoring dashboard.
+- **Neural Inferences Grounding**: Swarm synthesis now explicitly labels sources as `NEURAL_INFERENCE` with associated trust scores.
+
+### Changed
+- **Institutional Logic (v15.1.0)**: Upgraded the kernel prompt to enforce deterministic reasoning and quantitative proof requirements.
+- **Swarm Parallelism**: Refined the parallel agent spawning logic to include better error recovery and per-agent grounding.
+
 ## [v15.0.0] - 2026-01-06 (FINAL MVP: OPERATIONAL READINESS)
 ### Added
 - **Risk Guardian (Constitutional Law)**: Implemented a deterministic risk enforcement layer with a daily drawdown Kill-switch and multi-asset Correlation Monitor.

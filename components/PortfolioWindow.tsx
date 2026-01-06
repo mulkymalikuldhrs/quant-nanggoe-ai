@@ -25,12 +25,12 @@ const PortfolioWindow: React.FC = () => {
       const updates: Record<string, number> = {};
       const assets = current.filter(p => p.ticker !== 'USD' && p.amount > 0);
       
-      for (const asset of assets) {
-          const marketData = await MarketService.getPrice(asset.ticker);
-          if (marketData) {
-              updates[asset.ticker] = marketData.current_price;
-          }
-      }
+        for (const asset of assets) {
+            const marketData = await MarketService.getPrice(asset.ticker);
+            if (marketData) {
+                updates[asset.ticker] = marketData.currentPrice;
+            }
+        }
 
       if (Object.keys(updates).length > 0) {
           BrowserFS.updatePortfolioPrices(updates);

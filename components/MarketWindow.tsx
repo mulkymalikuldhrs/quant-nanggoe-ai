@@ -136,11 +136,11 @@ const MarketWindow: React.FC = () => {
                                             {selectedAsset === ticker.symbol && <div className="absolute left-0 top-0 w-1 h-full bg-emerald-500 shadow-[0_0_10px_emerald]"></div>}
                                             <div className="flex justify-between items-center mb-2">
                                                 <span className={`font-black text-[11px] tracking-widest ${theme === 'dark' ? 'text-zinc-100' : 'text-zinc-800'}`}>{ticker.symbol}</span>
-                                                <span className={`font-mono text-xs font-bold ${theme === 'dark' ? 'text-zinc-100' : 'text-zinc-900'}`}>${ticker.current_price.toLocaleString(undefined, { maximumSignificantDigits: 6 })}</span>
+                                                <span className={`font-mono text-xs font-bold ${theme === 'dark' ? 'text-zinc-100' : 'text-zinc-900'}`}>${ticker.currentPrice.toLocaleString(undefined, { maximumSignificantDigits: 6 })}</span>
                                             </div>
                                             <div className="flex justify-between items-center">
-                                                <span className={`text-[10px] font-mono ${ticker.price_change_percentage_24h >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
-                                                    {ticker.price_change_percentage_24h >= 0 ? '+' : ''}{ticker.price_change_percentage_24h.toFixed(2)}%
+                                                <span className={`text-[10px] font-mono ${ticker.priceChange24h >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
+                                                    {ticker.priceChange24h >= 0 ? '+' : ''}{ticker.priceChange24h.toFixed(2)}%
                                                 </span>
                                                 <span className={`text-[8px] px-2 py-0.5 rounded-md font-black uppercase tracking-wider border ${verdictColor}`}>
                                                     {verdict}
@@ -162,11 +162,11 @@ const MarketWindow: React.FC = () => {
                                         </div>
                                         <div className="flex items-baseline gap-4">
                                             <span className={`text-3xl font-mono font-black tracking-tighter ${theme === 'dark' ? 'text-zinc-100' : 'text-zinc-900'}`}>
-                                                ${activeTicker?.current_price.toLocaleString() || '---'}
+                                                ${activeTicker?.currentPrice.toLocaleString() || '---'}
                                             </span>
-                                            <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black ${activeTicker && activeTicker.price_change_percentage_24h >= 0 ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-500'}`}>
-                                                <div className={`w-1.5 h-1.5 rounded-full ${activeTicker && activeTicker.price_change_percentage_24h >= 0 ? 'bg-emerald-500' : 'bg-red-500'} animate-pulse`}></div>
-                                                {activeTicker?.price_change_percentage_24h.toFixed(2)}%
+                                            <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black ${activeTicker && activeTicker.priceChange24h >= 0 ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-500'}`}>
+                                                <div className={`w-1.5 h-1.5 rounded-full ${activeTicker && activeTicker.priceChange24h >= 0 ? 'bg-emerald-500' : 'bg-red-500'} animate-pulse`}></div>
+                                                {activeTicker?.priceChange24h.toFixed(2)}%
                                             </div>
                                         </div>
                                     </div>
