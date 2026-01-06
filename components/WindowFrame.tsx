@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 
 interface WindowFrameProps {
@@ -39,12 +40,9 @@ const WindowFrame: React.FC<WindowFrameProps> = ({
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const windowRef = useRef<HTMLDivElement>(null);
 
-  // Responsive: Check viewport on mount/resize
   useEffect(() => {
     const handleResize = () => {
-        // Ensure window doesn't get lost off-screen on resize
         if (window.innerWidth < 768) {
-             // Mobile safeguard
              if (size.width > window.innerWidth) setSize(prev => ({ ...prev, width: window.innerWidth - 20 }));
              if (position.x < 0) setPosition(prev => ({ ...prev, x: 0 }));
         }
@@ -53,7 +51,6 @@ const WindowFrame: React.FC<WindowFrameProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, [size, position]);
 
-  // Dragging Logic
   const handleMouseDown = (e: React.MouseEvent) => {
     if (isMaximized) return;
     onFocus();
@@ -95,8 +92,8 @@ const WindowFrame: React.FC<WindowFrameProps> = ({
       } else {
           setPreMaxSize(size);
           setPreMaxPos(position);
-          setPosition({ x: 0, y: 32 }); // Start below Top Bar
-          setSize({ width: window.innerWidth, height: window.innerHeight - 110 }); // Account for Dock and Bar
+          setPosition({ x: 0, y: 40 }); // Start below Top Bar (which is 40px)
+          setSize({ width: window.innerWidth, height: window.innerHeight - 120 }); // Account for Dock and Bar
       }
       setIsMaximized(!isMaximized);
   };
@@ -106,7 +103,7 @@ const WindowFrame: React.FC<WindowFrameProps> = ({
   return (
     <div 
         ref={windowRef}
-        className="fixed flex flex-col rounded-xl overflow-hidden glass-panel transition-all duration-200 scanline-effect"
+        className={`fixed flex flex-col rounded-xl overflow-hidden glass-panel transition-all duration-300 ${isActive ? 'shadow-[0_20px_60px_-15px_rgba(0,0,0,0.7)]' : 'shadow-xl opacity-90'}`}
         style={{
             left: position.x,
             top: position.y,
@@ -115,48 +112,46 @@ const WindowFrame: React.FC<WindowFrameProps> = ({
             zIndex: zIndex,
             maxWidth: '100vw',
             maxHeight: 'calc(100vh - 80px)', 
-            transform: isActive ? 'scale(1.002)' : 'scale(1)',
-            opacity: isActive ? 1 : 0.85,
-            border: isActive ? '1px solid var(--accent-primary)' : '1px solid var(--panel-border)',
+            transform: isActive ? 'scale(1)' : 'scale(0.995)',
+            border: isActive ? '1px solid rgba(255,255,255,0.15)' : '1px solid rgba(255,255,255,0.05)',
         }}
         onMouseDown={onFocus}
     >
-        {/* Terminal Header Bar */}
+        {/* macOS Style Title Bar */}
         <div 
-            className="h-10 bg-[#121214] border-b border-white/10 flex items-center px-4 cursor-grab active:cursor-grabbing select-none relative justify-between"
+            className="h-10 bg-[#121214]/60 backdrop-blur-3xl border-b border-white/5 flex items-center px-4 cursor-grab active:cursor-grabbing select-none relative"
             onMouseDown={handleMouseDown}
             onDoubleClick={toggleMaximize}
         >
-            <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1.5">
-                    <button onClick={onClose} className="w-2.5 h-2.5 rounded-full bg-red-500/80 hover:bg-red-500 shadow-[0_0_5px_rgba(239,68,68,0.5)] transition-all" />
-                    <button onClick={onMinimize} className="w-2.5 h-2.5 rounded-full bg-amber-500/80 hover:bg-amber-500 shadow-[0_0_5px_rgba(245,158,11,0.5)] transition-all" />
-                    <button onClick={toggleMaximize} className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 hover:bg-emerald-500 shadow-[0_0_5px_rgba(16,185,129,0.5)] transition-all" />
-                </div>
-                <div className="flex items-center gap-2">
-                    {icon && React.isValidElement(icon) ? React.cloneElement(icon as React.ReactElement<{ className?: string }>, { className: `w-4 h-4 ${isActive ? 'text-[var(--accent-primary)]' : 'text-zinc-500'}` }) : icon}
-                    <span className={`text-[11px] font-bold uppercase tracking-widest ${isActive ? 'text-zinc-100' : 'text-zinc-500'}`}>{title}</span>
+            {/* Traffic Lights */}
+            <div className="flex items-center gap-2 group/lights w-16">
+                <button onClick={(e) => { e.stopPropagation(); onClose(); }} className="w-3 h-3 rounded-full bg-[#ff5f57] flex items-center justify-center group-hover/lights:after:content-['×'] after:text-[8px] after:text-black/50 after:font-bold" />
+                <button onClick={(e) => { e.stopPropagation(); onMinimize(); }} className="w-3 h-3 rounded-full bg-[#febc2e] flex items-center justify-center group-hover/lights:after:content-['−'] after:text-[8px] after:text-black/50 after:font-bold" />
+                <button onClick={(e) => { e.stopPropagation(); toggleMaximize(); }} className="w-3 h-3 rounded-full bg-[#28c840] flex items-center justify-center group-hover/lights:after:content-['+'] after:text-[8px] after:text-black/50 after:font-bold" />
+            </div>
+
+            {/* Title & Icon */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="flex items-center gap-2 opacity-60">
+                    {icon && React.isValidElement(icon) ? React.cloneElement(icon as React.ReactElement<{ className?: string }>, { className: 'w-3.5 h-3.5' }) : icon}
+                    <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-zinc-100">{title}</span>
                 </div>
             </div>
 
-            <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-zinc-900 border border-white/5 text-[9px] font-mono text-zinc-500">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    SECURE_NODE
-                </div>
+            <div className="ml-auto flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/50 animate-pulse" />
             </div>
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-hidden relative bg-transparent backdrop-blur-sm">
+        <div className="flex-1 overflow-hidden relative bg-black/20">
             {children}
         </div>
-
 
         {/* Resizer Handle */}
         {!isMaximized && (
             <div 
-                className="absolute bottom-0 right-0 w-6 h-6 cursor-se-resize z-50 flex items-end justify-end p-1 opacity-0 hover:opacity-100 transition-opacity"
+                className="absolute bottom-0 right-0 w-4 h-4 cursor-se-resize z-50"
                 onMouseDown={(e) => {
                     e.stopPropagation(); e.preventDefault();
                     const startX = e.clientX; const startY = e.clientY;
@@ -167,9 +162,7 @@ const WindowFrame: React.FC<WindowFrameProps> = ({
                     const stopResize = () => { document.removeEventListener('mousemove', handleResize); document.removeEventListener('mouseup', stopResize); };
                     document.addEventListener('mousemove', handleResize); document.addEventListener('mouseup', stopResize);
                 }}
-            >
-                <div className="w-3 h-3 bg-gray-400/50 rounded-br"></div>
-            </div>
+            />
         )}
     </div>
   );
