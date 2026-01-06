@@ -1,3 +1,4 @@
+
 import { MarketTicker, NewsItem, ChartPoint, CandleData, SystemConfiguration } from "../types";
 import { BrowserFS } from "./file_system";
 import { MathEngine } from "./math_engine";
@@ -12,7 +13,7 @@ const FRANKFURTER_BASE_URL = "https://api.frankfurter.app";
 const COINCAP_BASE_URL = "https://api.coincap.io/v2";
 
 // Caching
-const CACHE_DURATION = 30000; 
+const CACHE_DURATION = 15000; // 15 seconds for v10.0
 const priceCache: Record<string, { data: any; timestamp: number }> = {};
 let newsCache: { data: NewsItem[], timestamp: number } | null = null;
 
@@ -190,25 +191,31 @@ export const MarketService = {
             const symbol = BINANCE_MAP[id];
             if (symbol) {
                 try {
-                    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`)}`;
-                    const res = await fetch(proxyUrl);
-                    if (!res.ok) throw new Error("Proxy failed");
-                    const proxyData = await res.json();
-                    if (!proxyData || !proxyData.contents) throw new Error("No contents");
+                    // v10.0: Enhanced multi-proxy fallback
+                    const proxies = [
+                        `https://api.allorigins.win/get?url=${encodeURIComponent(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`)}`,
+                        `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`)}`
+                    ];
                     
-                    const data = JSON.parse(proxyData.contents);
-                    if (data && data.lastPrice) {
-                        return {
-                            id: id, symbol: symbol.replace('USDT', ''), name: id.charAt(0).toUpperCase() + id.slice(1),
-                            current_price: parseFloat(data.lastPrice), market_cap: 0,
-                            price_change_percentage_24h: parseFloat(data.priceChangePercent),
-                            high_24h: parseFloat(data.highPrice), low_24h: parseFloat(data.lowPrice),
-                            volume: parseFloat(data.volume), type: 'crypto', source: 'Binance'
-                        };
+                    for (const proxyUrl of proxies) {
+                        try {
+                            const res = await fetch(proxyUrl);
+                            const proxyData = await res.json();
+                            const content = proxyData.contents || proxyData;
+                            const data = typeof content === 'string' ? JSON.parse(content) : content;
+                            
+                            if (data && data.lastPrice) {
+                                return {
+                                    id: id, symbol: symbol.replace('USDT', ''), name: id.charAt(0).toUpperCase() + id.slice(1),
+                                    current_price: parseFloat(data.lastPrice), market_cap: 0,
+                                    price_change_percentage_24h: parseFloat(data.priceChangePercent),
+                                    high_24h: parseFloat(data.highPrice), low_24h: parseFloat(data.lowPrice),
+                                    volume: parseFloat(data.volume), type: 'crypto', source: 'Binance (v10 Proxy)'
+                                };
+                            }
+                        } catch (e) { continue; }
                     }
-                } catch (e) {
-                    console.warn(`Binance fetch via proxy failed for ${symbol}, trying direct/coincap`, e);
-                }
+                } catch (e) {}
             }
             return await MarketService.getCoinCapPrice(id);
         } catch (e) {
@@ -299,20 +306,16 @@ export const MarketService = {
                     const apiUrl = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=100`;
                     const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
                     const res = await fetch(proxyUrl);
-                    if (!res.ok) throw new Error("Proxy failed");
                     const proxyData = await res.json();
-                    if (!proxyData || !proxyData.contents) throw new Error("No contents");
+                    const data = typeof proxyData.contents === 'string' ? JSON.parse(proxyData.contents) : proxyData.contents;
                     
-                    const data = JSON.parse(proxyData.contents);
                     if (Array.isArray(data)) {
                         return data.map((d: any) => ({
                             timestamp: d[0], open: parseFloat(d[1]), high: parseFloat(d[2]),
                             low: parseFloat(d[3]), close: parseFloat(d[4]), volume: parseFloat(d[5])
                         }));
                     }
-                } catch (e) {
-                    console.error("Market Chart Fetch Error (Binance via proxy):", e);
-                }
+                } catch (e) {}
             }
         }
 

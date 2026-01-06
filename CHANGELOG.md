@@ -1,26 +1,24 @@
 # CHANGELOG - Quant Nanggroe OS
 
-## [v10.0.0] - 2026-01-06 (Neural Swarm Edition)
+## [v10.0.0] - 2026-01-06 (White Sur & Neural Swarm Edition)
 ### Added
-- **Neural Swarm Parallelism**: Agents now work simultaneously via `runSwarmParallel` logic, synthesizing multi-node intelligence into a single verdict.
-- **Binance Institutional Data**: Replaced all simulated/unreliable crypto sources with direct Binance API integration (Klines/Tickers).
-- **Institutional Math Suite**: Added Stochastic, ADX, CCI, and Volume Profile analysis to the core Math Engine.
-- **Nanggroe macOS UX**: Finalized the Macintosh-inspired ecosystem with custom Traffic-Light buttons and Floating Crystal Dock.
-- **Autonomous Execution Parser**: Agents can now trigger system actions like `OPEN_WINDOW` and `NAVIGATE_BROWSER` directly from neural output.
+- **macOS White Sur UI**: Estetika premium dengan mode Cerah (Day) dan Gelap (Night) yang dapat dipindah secara instan melalui switch di Top Bar.
+- **Neural Swarm Parallelism**: Koordinasi simultan 5 agen spesialis (Alpha Prime, Quant-Scanner, News-Sentinel, Risk-Guardian, Strategy-Weaver).
+- **Day/Night Switch**: Tombol Matahari/Bulan di Top Bar untuk transisi visual instan dengan efek glassmorphism yang dioptimalkan.
+- **Robust Market Proxy (v10)**: Sistem pengambilan data pasar yang lebih tangguh dengan multi-proxy fallback untuk mengatasi limitasi CORS pada data Binance.
+- **Institutional Quant Suite**: Analisis teknikal canggih (RSI, EMA, Bollinger Bands, dll) yang langsung terintegrasi ke dalam feed harga.
+- **Dynamic Backdrop Blur**: Efek blur 32px pada Top Bar dan Window Frame untuk kedalaman visual yang nyata.
+
+### Removed
+- Menghapus direktori legacy: "Dhaher Quant 01" dan "Quant Nanggroe Back Up".
+- Menghapus file `keterangan.txt` (konten digabungkan ke `penjelasan.txt`).
 
 ### Fixed
-- Fixed CORS issues with CoinGecko by migrating to Binance and CoinCap.
-- Improved window management and top-bar atomic sync.
+- Memperbaiki `SyntaxError` pada export `IconMoon` di `components/Icons.tsx`.
+- Optimasi performa rendering jendela pada layar resolusi tinggi.
 
 ## [v9.1.0] - 2026-01-06 (Glass Edition)
 ### Added
-- **True macOS-Style UI**: Implemented a floating glassmorphism Dock with magnification effect and status indicators.
-- **Top Menu Bar**: Added a global system bar with an Apple-like menu, command shortcuts, and real-time status indicators.
-- **macOS Window Management**: Redesigned Window Frame with traffic-light buttons (red, yellow, green) and institutional glass styling.
-- **Multi-Agent Memory System**: New `MemoryManager` service allows agents to save and load state across sessions.
-- **Desktop Awareness (v2)**: Agents can now perceive all active windows and system snapshots for coordinated task execution.
-- **Adaptive OS Layout**: Optimized the responsive engine to handle diverse screen resolutions and mobile views dynamically.
-
-### Fixed
-- Improved glassmorphism saturation and backdrop-blur levels for better accessibility.
-- Synchronized window z-index management across the entire ecosystem.
+- **True macOS-Style UI**: Implemented a floating glassmorphism Dock with magnification effect.
+- **Top Menu Bar**: Added a global system bar with an Apple-like menu.
+- **macOS Window Management**: Redesigned Window Frame with traffic-light buttons.

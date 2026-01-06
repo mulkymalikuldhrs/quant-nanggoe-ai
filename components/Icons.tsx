@@ -5,9 +5,9 @@ export const IconLogo = ({ className }: { className?: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className={className} fill="none">
     <defs>
       <linearGradient id="logoGradient" x1="0%" y1="100%" x2="100%" y2="0%">
-        <stop offset="0%" stopColor="#3b82f6" />   {/* Blue */}
-        <stop offset="50%" stopColor="#10b981" />  {/* Emerald */}
-        <stop offset="100%" stopColor="#f59e0b" /> {/* Amber */}
+        <stop offset="0%" stopColor="#3b82f6" />
+        <stop offset="50%" stopColor="#10b981" />
+        <stop offset="100%" stopColor="#f59e0b" />
       </linearGradient>
       <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
         <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
@@ -17,14 +17,8 @@ export const IconLogo = ({ className }: { className?: string }) => (
         </feMerge>
       </filter>
     </defs>
-    
-    {/* Hexagon Border */}
     <path d="M50 5 L91.5 28.5 V71.5 L50 95 L8.5 71.5 V28.5 Z" stroke="url(#logoGradient)" strokeWidth="4" strokeLinejoin="round" fill="#0f172a" />
-    
-    {/* Abstract Region/Map Shape */}
     <path d="M30 35 L65 25 L80 45 L70 75 L45 80 L20 60 Z" fill="#1e293b" opacity="0.6" stroke="none" />
-
-    {/* Network Nodes (Constellation) */}
     <g opacity="0.8">
         <circle cx="35" cy="40" r="2" fill="white" />
         <circle cx="65" cy="30" r="2" fill="white" />
@@ -32,15 +26,11 @@ export const IconLogo = ({ className }: { className?: string }) => (
         <circle cx="50" cy="75" r="2" fill="white" />
         <circle cx="25" cy="60" r="2" fill="white" />
         <circle cx="50" cy="50" r="2" fill="white" />
-        
         <path d="M35 40 L65 30 L75 55 L50 75 L25 60 L35 40" stroke="white" strokeWidth="0.5" opacity="0.4" />
         <path d="M65 30 L50 50 L25 60" stroke="white" strokeWidth="0.5" opacity="0.4" />
         <path d="M50 50 L75 55" stroke="white" strokeWidth="0.5" opacity="0.4" />
     </g>
-
-    {/* Rising Chart Arrow (White with Glow) */}
     <path d="M22 72 L42 62 L58 68 L82 28" stroke="white" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" filter="url(#glow)" />
-    {/* Arrow Head */}
     <path d="M82 28 L68 28 M82 28 L82 42" stroke="white" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" filter="url(#glow)" />
   </svg>
 );
