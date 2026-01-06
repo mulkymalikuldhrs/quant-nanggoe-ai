@@ -1,0 +1,40 @@
+=========================================
+QUANT NANGGROE AI v10.0 - OPERATIONAL GUIDE
+=========================================
+
+1. APA ITU QUANT NANGGROE AI?
+Quant Nanggroe AI adalah ekosistem trading kuantitatif berbasis Swarm Intelligence (Kecerdasan Kawanan) yang dirancang untuk bekerja secara otonom di pasar finansial global. Sistem ini menggabungkan antarmuka estetika tinggi (macOS Glass Edition) dengan logika institusional tingkat lanjut.
+
+2. BAGAIMANA MULTI-AGENT BEKERJA?
+Sistem ini menggunakan arsitektur "Neural Swarm Parallelism" di mana lima agen spesialis bekerja secara simultan:
+   - Alpha Prime (Lead): Komandan utama yang mensintesis data dan mengambil keputusan final.
+   - Quant-Scanner (Technical): Spesialis indikator teknikal (RSI, MACD, Bollinger, dll).
+   - News-Sentinel (Macro/Fundamental): Memantau berita global, sentimen pasar, dan data makro.
+   - Risk-Guardian (Risk Management): Penjaga keamanan modal, menghitung rasio risk/reward secara real-time.
+   - Strategy-Weaver (Algo Dev): Pengembang algoritma yang terus mengoptimalkan logika trading.
+
+Saat Anda memberikan perintah (misal: "Analisis BTC"), sistem tidak hanya memberikan satu jawaban LLM biasa. Sebaliknya, semua agen ini "terbang" (spawning) secara paralel, menganalisis dari sudut pandang masing-masing, dan hasilnya disatukan oleh Alpha Prime menjadi satu rencana aksi yang matang.
+
+3. FITUR YANG SUDAH ADA (CURRENT CAPABILITIES):
+   - macOS Glass UI: Antarmuka transparan dengan Dock, Top Bar, dan Window Management.
+   - Real-Time Market Data: Terhubung langsung ke API Binance untuk data harga asli (bukan simulasi).
+   - Swarm Graph: Visualisasi real-time bagaimana agen saling berkomunikasi dan bertukar data.
+   - Autonomous Browser: Agen bisa menjelajahi web untuk mencari berita terbaru secara mandiri.
+   - Quantitative Terminal: Terminal khusus untuk eksekusi algoritma dan analisis matematis.
+   - Portfolio Manager: Pelacakan aset dan performa secara visual.
+   - Neural Memory: Sistem mengingat strategi dan percakapan sebelumnya untuk pembelajaran berkelanjutan.
+
+4. ALUR KERJA (SYSTEM FLOW):
+   Step 1: Input -> User memberikan perintah via Neural Terminal atau OmniBar.
+   Step 2: Processing -> Alpha Prime menentukan apakah tugas membutuhkan Swarm Intelligence.
+   Step 3: Execution -> Jika ya, Agen spesialis diaktifkan secara paralel (Parallel Spawning).
+   Step 4: Synthesis -> Alpha Prime mengumpulkan semua analisis dan menyusun System Action.
+   Step 5: Action -> Sistem secara otomatis membuka window yang diperlukan (Browser, Chart, Terminal) atau melakukan eksekusi trading.
+   Step 6: Learning -> Hasil disimpan dalam Neural Memory untuk optimasi di masa depan.
+
+5. VISUAL & FILOSOFI:
+Desain mengusung tema "Neural Glass" - menggabungkan ketajaman fungsional macOS dengan transparansi futuristik. Setiap elemen dirancang agar trader merasa berada di pusat komando intelijen tingkat tinggi.
+
+STATUS: SEMUA SISTEM OPERASIONAL (A TO Z AUDITED)
+VERSION: 10.0.1 (Neural Swarm Edition)
+=========================================

@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { IconSettings, IconBot, IconCode, IconBook, IconSearch, IconLogo, IconChart, IconBrowser, IconTerminal } from './Icons';
+import { IconSettings, IconBot, IconCode, IconBook, IconSearch, IconLogo, IconChart, IconBrowser, IconTerminal, IconBrain } from './Icons';
 
 interface Props {
   windows: Record<string, { isOpen: boolean; isMinimized: boolean; isActive: boolean }>;
@@ -20,6 +20,7 @@ const Taskbar: React.FC<Props> = ({ windows, onToggleWindow, onStartClick }) => 
         { id: 'market', icon: <IconChart className="w-5 h-5 md:w-6 md:h-6 text-[#34C759]" />, label: 'Market Feed', bg: 'bg-black/20' },
         { id: 'portfolio', icon: <IconBook className="w-5 h-5 md:w-6 md:h-6 text-[#5856D6]" />, label: 'Portfolio', bg: 'bg-black/20' },
         { id: 'monitor', icon: <IconBot className="w-5 h-5 md:w-6 md:h-6 text-[#FF2D55]" />, label: 'Swarm Monitor', bg: 'bg-black/20' },
+        { id: 'architecture', icon: <IconBrain className="w-5 h-5 md:w-6 md:h-6 text-[#10b981]" />, label: 'Visual Guide', bg: 'bg-black/20' },
         { id: 'artifact', icon: <IconSearch className="w-5 h-5 md:w-6 md:h-6 text-[#AF52DE]" />, label: 'Research Lab', bg: 'bg-black/20' },
         { id: 'settings', icon: <IconSettings className="w-5 h-5 md:w-6 md:h-6 text-[#8E8E93]" />, label: 'Sys Config', bg: 'bg-black/20' },
     ];

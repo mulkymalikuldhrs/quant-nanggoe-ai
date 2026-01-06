@@ -189,8 +189,12 @@ export const MarketService = {
             };
             const symbol = BINANCE_MAP[id];
             if (symbol) {
-                const res = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`);
-                const data = await res.json();
+                // Using a CORS proxy to avoid "Failed to fetch" in browser
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`)}`;
+                const res = await fetch(proxyUrl);
+                const proxyData = await res.json();
+                const data = JSON.parse(proxyData.contents);
+                
                 return {
                     id: id, symbol: symbol.replace('USDT', ''), name: id.charAt(0).toUpperCase() + id.slice(1),
                     current_price: parseFloat(data.lastPrice), market_cap: 0,
@@ -201,9 +205,9 @@ export const MarketService = {
             }
             return await MarketService.getCoinCapPrice(id);
         } catch (e) {
-            console.error("Crypto Fetch Error:", e);
+            console.error("Crypto Fetch Error (Binance), falling back to CoinCap:", e);
+            return await MarketService.getCoinCapPrice(id);
         }
-        return null;
     },
 
     getCoinCapPrice: async (id: string): Promise<MarketTicker | null> => {

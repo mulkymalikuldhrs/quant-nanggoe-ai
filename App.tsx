@@ -48,7 +48,7 @@ const DEFAULT_CONFIG: SystemConfiguration = {
   apiKeys: { google: '', groq: '', openai: '', huggingface: '', llm7: '', alphaVantage: '', finnhub: '', fred: '', polygon: '' }
 };
 
-type WindowId = 'terminal' | 'monitor' | 'settings' | 'about' | 'docs' | 'artifact' | 'portfolio' | 'market' | 'browser' | 'trading_terminal';
+type WindowId = 'terminal' | 'monitor' | 'settings' | 'about' | 'docs' | 'artifact' | 'portfolio' | 'market' | 'browser' | 'trading_terminal' | 'architecture';
 
 interface WindowState {
     id: WindowId;
@@ -86,6 +86,7 @@ const App: React.FC = () => {
         portfolio: { id: 'portfolio', isOpen: true, isMinimized: false, zIndex: 6, title: 'ASSET_PORTFOLIO', icon: <IconBook />, defaultPos: getLayout('portfolio'), defaultSize: { width: getLayout('portfolio').width, height: getLayout('portfolio').height } },
         market: { id: 'market', isOpen: true, isMinimized: false, zIndex: 7, title: 'MARKET_DATA', icon: <IconChart />, defaultPos: getLayout('market'), defaultSize: { width: getLayout('market').width, height: getLayout('market').height } },
         monitor: { id: 'monitor', isOpen: true, isMinimized: false, zIndex: 8, title: 'SWARM_INTELLIGENCE', icon: <IconBot />, defaultPos: getLayout('monitor'), defaultSize: { width: getLayout('monitor').width, height: getLayout('monitor').height } },
+        architecture: { id: 'architecture', isOpen: false, isMinimized: false, zIndex: 9, title: 'SYSTEM_ARCHITECTURE', icon: <IconBrain />, defaultPos: { x: 50, y: 50 }, defaultSize: { width: 900, height: 700 } },
         artifact: { id: 'artifact', isOpen: false, isMinimized: false, zIndex: 4, title: 'RESEARCH_LAB', icon: <IconMaximize />, defaultPos: { x: 150, y: 80 }, defaultSize: { width: 800, height: 600 } },
         settings: { id: 'settings', isOpen: false, isMinimized: false, zIndex: 5, title: 'SYSTEM_SETTINGS', icon: <IconSettings />, defaultPos: { x: 300, y: 200 }, defaultSize: { width: 600, height: 500 } },
         about: { id: 'about', isOpen: false, isMinimized: false, zIndex: 6, title: 'OS_INFO', icon: <IconBrain />, defaultPos: { x: 400, y: 200 }, defaultSize: { width: 400, height: 350 } },
@@ -279,6 +280,7 @@ const App: React.FC = () => {
                 {win.id === 'market' && <MarketWindow />}
                 {win.id === 'portfolio' && <PortfolioWindow />}
                 {win.id === 'monitor' && <AgentHud state={agentState} agents={swarmAgents} />}
+                {win.id === 'architecture' && <SystemArchitecture />}
                 {win.id === 'settings' && <SwarmConfigModal agents={swarmAgents} config={systemConfig} onUpdateAgents={setSwarmAgents} onUpdateConfig={(c) => { setSystemConfig(c); BrowserFS.saveSystemConfig(c); }} />}
                 {win.id === 'about' && (
                     <div className="flex flex-col items-center justify-center h-full p-8 text-center bg-[#09090b]/60">
