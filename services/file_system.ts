@@ -367,23 +367,36 @@ Keputusan: [BUY / SELL / NO TRADE]
     // --- LONG TERM MEMORY (VECTOR-LITE) ---
     // Stores past analyses and allows retrieval by keyword/context
     
-    saveMemory: (content: string, tags: string[]) => {
+    saveMemory: (content: string, tags: string[], agentId?: string) => {
         const raw = localStorage.getItem(STORAGE_KEY_MEMORY);
         const memories: KnowledgeItem[] = raw ? JSON.parse(raw) : [];
         
-        // Optimize: Limit memory size (last 50 items)
-        if (memories.length > 50) memories.shift();
+        // Optimize: Limit memory size (last 200 items for multi-agent support)
+        if (memories.length > 200) memories.shift();
 
         memories.push({
             id: `mem-${Date.now()}`,
             category: 'memory',
             content: content,
-            sourceAgentId: 'Alpha Prime',
+            sourceAgentId: agentId || 'Alpha Prime',
             timestamp: Date.now(),
             confidence: 100,
             tags: tags
         });
         localStorage.setItem(STORAGE_KEY_MEMORY, JSON.stringify(memories));
+    },
+
+    loadMemoryByAgent: (agentId: string): string => {
+        const raw = localStorage.getItem(STORAGE_KEY_MEMORY);
+        if (!raw) return "";
+        const memories: KnowledgeItem[] = JSON.parse(raw);
+        
+        const agentMemories = memories.filter(m => m.sourceAgentId === agentId);
+        if (agentMemories.length === 0) return "";
+        
+        return agentMemories.slice(-5).map(h => 
+            `[AGENT MEMORY - ${new Date(h.timestamp).toLocaleDateString()}]: ${h.content}`
+        ).join('\n');
     },
 
     searchMemory: (query: string): string => {

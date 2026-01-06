@@ -84,7 +84,11 @@ interface WindowState {
     defaultSize: { width: number, height: number };
 }
 
+import { useAdaptiveLayout } from './services/adaptive_layout';
+
 const App: React.FC = () => {
+  const { screenSize, getLayout } = useAdaptiveLayout();
+  
   // --- STATE ---
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -105,27 +109,6 @@ const App: React.FC = () => {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Init
-  useEffect(() => {
-    const savedConfig = BrowserFS.loadSystemConfig();
-    if (savedConfig) setSystemConfig(savedConfig);
-
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    
-    const handleGlobalKeys = (e: KeyboardEvent) => {
-        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-            e.preventDefault();
-            setIsOmniBarOpen(prev => !prev);
-        }
-    };
-    window.addEventListener('keydown', handleGlobalKeys);
-
-    return () => { 
-        clearInterval(timer); 
-        window.removeEventListener('keydown', handleGlobalKeys);
-    };
-  }, []);
-
   const handleUpdateConfig = (newConfig: SystemConfiguration) => {
       setSystemConfig(newConfig);
       BrowserFS.saveSystemConfig(newConfig); 
@@ -135,11 +118,11 @@ const App: React.FC = () => {
   const [windows, setWindows] = useState<Record<WindowId, WindowState>>({
       terminal: { 
           id: 'terminal', isOpen: true, isMinimized: false, zIndex: 10, title: 'NEURAL_TERMINAL_V9', 
-          icon: <IconCode />, defaultPos: { x: 20, y: 50 }, defaultSize: { width: 580, height: 600 }
+          icon: <IconCode />, defaultPos: getLayout('terminal'), defaultSize: { width: getLayout('terminal').width, height: getLayout('terminal').height }
       },
       browser: {
           id: 'browser', isOpen: true, isMinimized: false, zIndex: 5, title: 'QUANT_BROWSER',
-          icon: <IconBrowser />, defaultPos: { x: 620, y: 50 }, defaultSize: { width: 850, height: 650 }
+          icon: <IconBrowser />, defaultPos: getLayout('browser'), defaultSize: { width: getLayout('browser').width, height: getLayout('browser').height }
       },
       trading_terminal: {
           id: 'trading_terminal', isOpen: false, isMinimized: false, zIndex: 3, title: 'INSTITUTIONAL_EXECUTION',
@@ -147,15 +130,15 @@ const App: React.FC = () => {
       },
       portfolio: {
           id: 'portfolio', isOpen: true, isMinimized: false, zIndex: 6, title: 'ASSET_INVENTORY',
-          icon: <IconBook />, defaultPos: { x: 1100, y: 720 }, defaultSize: { width: 400, height: 350 }
+          icon: <IconBook />, defaultPos: getLayout('portfolio'), defaultSize: { width: getLayout('portfolio').width, height: getLayout('portfolio').height }
       },
       market: { 
           id: 'market', isOpen: true, isMinimized: false, zIndex: 7, title: 'GLOBAL_MARKET_TICKER',
-          icon: <IconChart />, defaultPos: { x: 620, y: 720 }, defaultSize: { width: 450, height: 350 }
+          icon: <IconChart />, defaultPos: getLayout('market'), defaultSize: { width: getLayout('market').width, height: getLayout('market').height }
       },
       monitor: { 
           id: 'monitor', isOpen: true, isMinimized: false, zIndex: 8, title: 'SWARM_INTELLIGENCE',
-          icon: <IconBot />, defaultPos: { x: 20, y: 670 }, defaultSize: { width: 580, height: 400 }
+          icon: <IconBot />, defaultPos: getLayout('monitor'), defaultSize: { width: getLayout('monitor').width, height: getLayout('monitor').height }
       },
       artifact: { 
           id: 'artifact', isOpen: false, isMinimized: false, zIndex: 4, title: 'RESEARCH_LAB',
@@ -174,6 +157,26 @@ const App: React.FC = () => {
           icon: <IconBook />, defaultPos: { x: 200, y: 150 }, defaultSize: { width: 500, height: 600 }
       }
   });
+
+  // Re-sync layout on screen size change
+  useEffect(() => {
+    setWindows(prev => {
+        const next = { ...prev };
+        Object.keys(next).forEach(key => {
+            const id = key as WindowId;
+            const layout = getLayout(id);
+            if (layout) {
+                next[id] = { 
+                    ...next[id], 
+                    defaultPos: layout, 
+                    defaultSize: { width: layout.width, height: layout.height } 
+                };
+            }
+        });
+        return next;
+    });
+  }, [screenSize]);
+
 
   const [activeWindow, setActiveWindow] = useState<WindowId>('terminal');
   const [highestZ, setHighestZ] = useState(20);
@@ -215,21 +218,22 @@ const App: React.FC = () => {
           role: msg.role === MessageRole.MODEL ? 'model' : 'user', parts: [{ text: msg.text }]
       }));
       
-      const agent = new AutonomousAgent(
-          history, 
-          swarmAgents, 
-          (partial) => {
-              setAgentState(prev => {
-                  const ns = { ...prev, ...partial };
-                  if (partial.logs) ns.logs = [...prev.logs, ...partial.logs];
-                  if (partial.activeSwarm) setSwarmAgents(partial.activeSwarm);
-                  return ns;
-              });
-          }, 
-          selectedModel, 
-          systemConfig,
-          openWindowList 
-      );
+        const agent = new AutonomousAgent(
+            history, 
+            swarmAgents, 
+            (partial) => {
+                setAgentState(prev => {
+                    const ns = { ...prev, ...partial };
+                    if (partial.logs) ns.logs = [...prev.logs, ...partial.logs];
+                    if (partial.activeSwarm) setSwarmAgents(partial.activeSwarm);
+                    return ns;
+                });
+            }, 
+            selectedModel, 
+            systemConfig,
+            windows 
+        );
+
 
       const response = await agent.run(text, attachments);
       setMessages(prev => [...prev, { id: Date.now().toString(), role: MessageRole.MODEL, text: response.text, timestamp: Date.now(), groundingSources: response.groundingSources }]);

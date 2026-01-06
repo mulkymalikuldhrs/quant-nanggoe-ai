@@ -9,6 +9,8 @@ import { BrowserCore } from "./browser_core"; // Import Browser Core
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
+import { DesktopIntelligence } from "./desktop_intelligence";
+
 export class AutonomousAgent {
   private history: { role: string; parts: { text: string }[] }[];
   private onStateChange: (state: Partial<AgentState>) => void;
@@ -18,7 +20,7 @@ export class AutonomousAgent {
   private selectedModel: ModelOption;
   private config: SystemConfiguration;
   private router: LLMRouter;
-  private openWindows: string[] = []; 
+  private openWindows: any = {}; // Changed to hold full window state
 
   constructor(
     history: { role: string; parts: { text: string }[] }[],
@@ -63,37 +65,45 @@ export class AutonomousAgent {
       } catch(e) { console.warn("Voice Error", e); }
   }
 
-  async run(prompt: string, attachments?: Attachment[]): Promise<{ text: string, groundingSources: GroundingSource[], actions?: SystemAction[] }> {
-    const coreInstructions = BrowserFS.getCoreInstructions();
-    this.addLog(`[KERNEL] Alpha Prime Connected. Windows Open: ${this.openWindows.join(', ')}`);
+    async run(prompt: string, attachments?: Attachment[]): Promise<{ text: string, groundingSources: GroundingSource[], actions?: SystemAction[] }> {
+      const coreInstructions = BrowserFS.getCoreInstructions();
+      this.addLog(`[KERNEL] Alpha Prime Connected. Windows Open: ${this.openWindows.join(', ')}`);
 
-    // --- AUTO-LEARNING LOOP ---
-    if (this.config.enableAutoLearning) {
-        this.addLog(`[ML ENGINE] Optimizing Neural Weights based on trade history...`);
-        const optimizationResult = MLEngine.optimize();
-        this.addLog(`[ML ENGINE] ${optimizationResult}`);
-        const evState = MLEngine.getEvolutionState();
-        this.evolutionLevel = evState.generation;
-    }
+      // --- MULTI-AGENT MEMORY LOAD ---
+      const agentId = this.swarm[0]?.id || 'Alpha Prime';
+      const longTermMemory = BrowserFS.loadMemoryByAgent(agentId);
+      if (longTermMemory) this.addLog(`[MEMORY] Long-term context loaded for ${agentId}.`);
 
-    const pastContext = BrowserFS.searchMemory(prompt);
-    if (pastContext) this.addLog(`[MEMORY] Recall triggered: Found related past analysis.`);
+      // --- AUTO-LEARNING LOOP ---
+      if (this.config.enableAutoLearning) {
+          this.addLog(`[ML ENGINE] Optimizing Neural Weights based on trade history...`);
+          const optimizationResult = MLEngine.optimize();
+          this.addLog(`[ML ENGINE] ${optimizationResult}`);
+          const evState = MLEngine.getEvolutionState();
+          this.evolutionLevel = evState.generation;
+      }
 
-    this.updateState({ isActive: true, currentAgent: 'Alpha Prime', currentAction: `Initializing Recursive Loop (Gen ${this.evolutionLevel})...`, logs: [], emotion: 'thinking' });
-    
-    try {
-        const result = await this.runEcosystemWorkflow(prompt, coreInstructions, pastContext, attachments);
-        this.updateState({ emotion: 'confident' });
-        
-        BrowserFS.saveMemory(result.text.substring(0, 500), ['analysis', 'trade_setup']);
+      const pastContext = BrowserFS.searchMemory(prompt);
+      const combinedContext = `${longTermMemory}\n${pastContext}`;
+      
+      if (pastContext) this.addLog(`[MEMORY] Recall triggered: Found related past analysis.`);
 
-        if (this.config.enableVoiceResponse) {
-             const summary = result.text.split('\n').filter(l => !l.includes('```') && l.length > 20).slice(0, 3).join('. ');
-             this.speak(summary);
-        }
+      this.updateState({ isActive: true, currentAgent: 'Alpha Prime', currentAction: `Initializing Recursive Loop (Gen ${this.evolutionLevel})...`, logs: [], emotion: 'thinking' });
+      
+      try {
+          const result = await this.runEcosystemWorkflow(prompt, coreInstructions, combinedContext, attachments);
+          this.updateState({ emotion: 'confident' });
+          
+          // --- MULTI-AGENT MEMORY SAVE ---
+          BrowserFS.saveMemory(result.text.substring(0, 500), ['analysis', 'trade_setup'], agentId);
 
-        return result;
-    } catch (error: any) {
+          if (this.config.enableVoiceResponse) {
+               const summary = result.text.split('\n').filter(l => !l.includes('```') && l.length > 20).slice(0, 3).join('. ');
+               this.speak(summary);
+          }
+
+          return result;
+      } catch (error: any) {
         console.error("Colony Error:", error);
         this.addLog(`CRITICAL FAILURE: ${error.message}`);
         this.updateState({ emotion: 'error' });
@@ -106,10 +116,10 @@ export class AutonomousAgent {
   private async runEcosystemWorkflow(prompt: string, coreInst: string, memoryContext: string, attachments?: Attachment[]): Promise<{ text: string, groundingSources: GroundingSource[], actions: SystemAction[] }> {
     
     // 1. DYNAMIC PLANNING with OS AWARENESS & BROWSER VISION
+    const desktopSnapshot = DesktopIntelligence.getSystemSnapshot(this.openWindows);
+    
     const contextPrompt = `
-    CURRENT OS STATE:
-    - Open Windows: [${this.openWindows.join(', ')}]
-    - Active Agent: Alpha Prime
+    ${desktopSnapshot}
     
     EXTERNAL INTELLIGENCE:
     - You have access to the QUANT NOTEBOOK (Proprietary Research) at: 

@@ -1,64 +1,28 @@
+# QUANT NANGGROE AI - V9.0 (ULTIMATE EDITION)
 
-# Quant Nanggroe AI (v5.0.1)
+## OVERVIEW
+Sistem Operasi Kuantitatif Otonom (Autonomous Quantitative Trading OS) yang dirancang untuk eksekusi tingkat institusi. Menggunakan arsitektur Multi-Agent Parallel Swarm (Nanggroe Swarm v9).
 
-**Lead Developer:** Mulky Malikul Dhaher <mulkymalikuldhr@mail.com>  
-**Organization:** Dhaher & Contributors  
-**Architecture:** Autonomous Swarm Intelligence / Web-Based OS
+## FITUR UTAMA (V9.0)
+1.  **Adaptive Resolution OS**: Antarmuka yang secara otomatis menyesuaikan layout jendela berdasarkan resolusi layar (Responsive Dashboard).
+2.  **Multi-Agent Memory System**: Setiap agen (Alpha Prime, Quant-Scanner, dll) memiliki namespace memori jangka panjang sendiri untuk menyimpan dan memuat konteks analisis masa lalu.
+3.  **Desktop Intelligence (OS Awareness)**: Agen AI memiliki kemampuan untuk "melihat" status seluruh desktop OS (jendela yang terbuka, posisi, dan konten) serta berinteraksi dengan sistem secara menyeluruh.
+4.  **Institutional UI/UX**: Desain densitas tinggi bertema Bloomberg Terminal dengan efek scanline, dashboard grid, dan monitoring real-time.
+5.  **Parallel Swarm Architecture**: Koordinasi antar agen spesialis untuk analisis Macro, Fundamental, dan Teknikal secara simultan.
 
----
+## STRUKTUR SISTEM
+- `App.tsx`: Kernel Utama & Window Manager.
+- `services/gemini.ts`: Otak AI (Autonomous Agent).
+- `services/file_system.ts`: Neural Storage (BrowserFS) & Memory.
+- `services/adaptive_layout.ts`: Engine Resolusi Adaptif.
+- `services/desktop_intelligence.ts`: Layer Interaksi Sistem.
 
-## 🌌 The Ecosystem
-
-Quant Nanggroe AI is a **Living Operating System** designed for high-frequency quantitative analysis and autonomous research. It transcends traditional chatbots by offering a fully functional desktop environment (`Nanggroe OS`) where the AI Agent acts as an operator, not just a responder.
-
-### 🔥 100x Upgrade Features (v5.0)
-
-1.  **Neural Shell (CLI)**
-    *   A fully functional Debian-like terminal (`root@nanggroe:~$`).
-    *   File System manipulation (`ls`, `cat`, `mkdir`) directly on the Virtual Drive.
-    *   Hybrid Intelligence: Pipe natural language commands directly to the Swarm.
-
-2.  **Neural Browser (Agent Vision)**
-    *   **Active Reading:** The Agent can navigate to URLs and *read* the content via a Neural Proxy engine, bypassing iframe restrictions.
-    *   **Motor Cortex:** The Agent can issue `NAVIGATE_BROWSER` commands to surf the web autonomously.
-    *   **Dual Mode:** Supports "Reader Mode" for text extraction and "Direct Mode" for apps like **TradingView** and **MetaTrader 5**.
-
-3.  **Real-World Integration**
-    *   **No Simulation:** All market data is fetched real-time from CoinGecko, DexScreener, and AlphaVantage.
-    *   **Professional Tools:** Built-in MT5 Web Terminal and TradingView Advanced Charts.
-
-## 🚀 Key Modules
-
-*   **Alpha Prime:** The Orchestrator Agent using `gemini-3-pro` or `llm7`.
-*   **Quant OS:** The Technical Analyst using deterministic math (RSI, MACD, Bollinger).
-*   **BrowserFS:** A persistent virtual file system stored in your browser.
-*   **ML Engine:** An auto-evolving weighting system that learns from trade history.
+## INSTRUKSI INSTALASI
+1. `npm install`
+2. `npm run dev`
+3. Masukkan API Key Gemini di `.env.local` atau melalui menu Settings di dalam OS.
 
 ---
-
-## 🛠 Installation & Usage
-
-1.  **Install Dependencies:**
-    ```bash
-    npm install
-    ```
-2.  **Run System:**
-    ```bash
-    npm start
-    ```
-3.  **Boot Sequence:**
-    *   Open **Neural Terminal**.
-    *   Type `help` to see Linux commands.
-    *   Type `Analyze BTC` to trigger the Swarm.
-    *   Type `browse https://bloomberg.com` to let the Agent read news.
-
-## 🤝 Contribution
-
-We are actively recruiting.
-*   **GitHub:** [github.com/mulkymalikuldhrs](https://github.com/mulkymalikuldhrs)
-*   **Instagram:** [@mulkymalikuldhr](https://instagram.com/mulkymalikuldhr)
-
----
-
-**Proprietary System**  
-Copyright © 2025 Mulky Malikul Dhaher.
+**DEVELOPER**: MULKY MALIKUL DHAHER
+**VERSION**: 9.0.0 (A1)
+**LICENSE**: PROPRIETARY QUANT NANGGROE
