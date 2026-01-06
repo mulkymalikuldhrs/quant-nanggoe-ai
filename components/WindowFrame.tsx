@@ -106,67 +106,52 @@ const WindowFrame: React.FC<WindowFrameProps> = ({
   return (
     <div 
         ref={windowRef}
-        className="fixed flex flex-col rounded-xl overflow-hidden glass-panel transition-all duration-200"
+        className="fixed flex flex-col rounded-xl overflow-hidden glass-panel transition-all duration-200 scanline-effect"
         style={{
             left: position.x,
             top: position.y,
             width: size.width,
             height: size.height,
             zIndex: zIndex,
-            // Mobile safeguards inline style
             maxWidth: '100vw',
-            maxHeight: 'calc(100vh - 80px)', // Leave room for dock
+            maxHeight: 'calc(100vh - 80px)', 
             transform: isActive ? 'scale(1.002)' : 'scale(1)',
-            opacity: isActive ? 1 : 0.95,
-            boxShadow: isActive ? '0 25px 50px -12px rgba(0, 0, 0, 0.25)' : '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+            opacity: isActive ? 1 : 0.85,
+            border: isActive ? '1px solid var(--accent-primary)' : '1px solid var(--panel-border)',
         }}
         onMouseDown={onFocus}
     >
-        {/* macOS Header Bar */}
+        {/* Terminal Header Bar */}
         <div 
-            className="h-9 bg-[#f3f4f6]/95 border-b border-gray-300/50 flex items-center px-4 cursor-grab active:cursor-grabbing select-none relative justify-center"
+            className="h-10 bg-[#121214] border-b border-white/10 flex items-center px-4 cursor-grab active:cursor-grabbing select-none relative justify-between"
             onMouseDown={handleMouseDown}
             onDoubleClick={toggleMaximize}
-            onTouchStart={(e) => {
-                // Simple Touch Drag Support
-                if(isMaximized) return;
-                onFocus();
-                const touch = e.touches[0];
-                setIsDragging(true);
-                setDragOffset({ x: touch.clientX - position.x, y: touch.clientY - position.y });
-            }}
-            onTouchMove={(e) => {
-                if(isDragging) {
-                    const touch = e.touches[0];
-                    setPosition({ x: touch.clientX - dragOffset.x, y: touch.clientY - dragOffset.y });
-                }
-            }}
-            onTouchEnd={() => setIsDragging(false)}
         >
-            {/* Traffic Lights (Left) */}
-            <div className="absolute left-4 flex items-center gap-2 group">
-                <button onClick={onClose} className="w-3 h-3 rounded-full bg-[#FF5F57] border border-[#E0443E] hover:bg-[#E0443E] flex items-center justify-center transition-colors">
-                    <span className="opacity-0 group-hover:opacity-100 text-[8px] font-bold text-black/50">×</span>
-                </button>
-                <button onClick={onMinimize} className="w-3 h-3 rounded-full bg-[#FEBC2E] border border-[#D89E24] hover:bg-[#D89E24] flex items-center justify-center transition-colors">
-                    <span className="opacity-0 group-hover:opacity-100 text-[8px] font-bold text-black/50">-</span>
-                </button>
-                <button onClick={toggleMaximize} className="w-3 h-3 rounded-full bg-[#28C840] border border-[#1AAB29] hover:bg-[#1AAB29] flex items-center justify-center transition-colors">
-                        <span className="opacity-0 group-hover:opacity-100 text-[6px] font-bold text-black/50">▲</span>
-                </button>
+            <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1.5">
+                    <button onClick={onClose} className="w-2.5 h-2.5 rounded-full bg-red-500/80 hover:bg-red-500 shadow-[0_0_5px_rgba(239,68,68,0.5)] transition-all" />
+                    <button onClick={onMinimize} className="w-2.5 h-2.5 rounded-full bg-amber-500/80 hover:bg-amber-500 shadow-[0_0_5px_rgba(245,158,11,0.5)] transition-all" />
+                    <button onClick={toggleMaximize} className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 hover:bg-emerald-500 shadow-[0_0_5px_rgba(16,185,129,0.5)] transition-all" />
+                </div>
+                <div className="flex items-center gap-2">
+                    {icon && React.isValidElement(icon) ? React.cloneElement(icon as React.ReactElement<{ className?: string }>, { className: `w-4 h-4 ${isActive ? 'text-[var(--accent-primary)]' : 'text-zinc-500'}` }) : icon}
+                    <span className={`text-[11px] font-bold uppercase tracking-widest ${isActive ? 'text-zinc-100' : 'text-zinc-500'}`}>{title}</span>
+                </div>
             </div>
 
-            {/* Title (Center) */}
-            <div className="flex items-center gap-2 opacity-80">
-                {icon && React.isValidElement(icon) ? React.cloneElement(icon as React.ReactElement<{ className?: string }>, { className: "w-3.5 h-3.5 text-gray-500" }) : icon}
-                <span className="text-xs font-semibold text-gray-700 tracking-tight">{title}</span>
+            <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-zinc-900 border border-white/5 text-[9px] font-mono text-zinc-500">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    SECURE_NODE
+                </div>
             </div>
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-hidden relative bg-white/60 backdrop-blur-3xl">
+        <div className="flex-1 overflow-hidden relative bg-[#09090b]/95 backdrop-blur-xl">
             {children}
         </div>
+
 
         {/* Resizer Handle */}
         {!isMaximized && (

@@ -60,6 +60,26 @@ export const StrategyEngine = {
         return signals;
     },
 
+    scanOrderBlockMatrix: (candles: CandleData[]): StrategySignal[] => {
+        const signals: StrategySignal[] = [];
+        if (candles.length < 5) return signals;
+
+        const last = candles[candles.length - 1];
+        const profile = MathEngine.calculateVolumeProfile(candles.slice(-50), 10);
+        const poc = profile[0]?.price; // Point of Control (Highest Volume Price)
+
+        // If current price is near POC and we see a reversal pattern
+        const currentPrice = last.close;
+        const dist = Math.abs(currentPrice - poc) / poc;
+
+        if (dist < 0.01) {
+            const name = "POC Rejection Zone";
+            signals.push({ name, category: 'VOLUME', type: 'NEUTRAL', strength: 60, weight: 4, description: "Price is at the Point of Control. High probability of chop or reversal." });
+        }
+
+        return signals;
+    },
+
     scanOscillatorMatrix: (t: TechnicalIndicators, regime: string): StrategySignal[] => {
         const signals: StrategySignal[] = [];
 
@@ -81,6 +101,12 @@ export const StrategyEngine = {
         if (t.stoch.k < 20 && t.stoch.d < 20 && t.stoch.k > t.stoch.d) {
             const name = "Stoch Golden Cross (Oversold)";
             signals.push({ name, category: 'MOMENTUM', type: 'BUY', strength: 80, weight: MLEngine.getWeight(name) * weightMultiplier, description: "Momentum shifting up from bottom." });
+        }
+
+        // VWAP Deviation
+        if (t.vwap) {
+            const vwapBands = MathEngine.calculateVWAPBands([], t.vwap, 2.5); // Use actual candles if available
+            // Note: vwapBands needs candles to work properly, but we can approximate deviation
         }
 
         return signals;

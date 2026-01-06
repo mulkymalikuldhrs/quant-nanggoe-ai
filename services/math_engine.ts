@@ -126,6 +126,48 @@ export const MathEngine = {
         return cumVolume === 0 ? 0 : cumPV / cumVolume;
     },
 
+    calculateVWAPBands: (candles: CandleData[], vwap: number, multiplier: number = 2): { upper: number, lower: number } => {
+        if (candles.length === 0) return { upper: vwap, lower: vwap };
+        
+        let sumSquaredDiff = 0;
+        let sumVolume = 0;
+        
+        for (const c of candles) {
+            const typicalPrice = (c.high + c.low + c.close) / 3;
+            const vol = c.volume || 1;
+            sumSquaredDiff += vol * Math.pow(typicalPrice - vwap, 2);
+            sumVolume += vol;
+        }
+        
+        const vwapStdDev = Math.sqrt(sumSquaredDiff / sumVolume);
+        return {
+            upper: vwap + (multiplier * vwapStdDev),
+            lower: vwap - (multiplier * vwapStdDev)
+        };
+    },
+
+    // Identify High Volume Nodes (Simplified Volume Profile)
+    calculateVolumeProfile: (candles: CandleData[], bins: number = 20): { price: number, volume: number }[] => {
+        if (candles.length === 0) return [];
+        
+        const prices = candles.map(c => c.close);
+        const minPrice = Math.min(...prices);
+        const maxPrice = Math.max(...prices);
+        const binSize = (maxPrice - minPrice) / bins;
+        
+        const profile: Record<number, number> = {};
+        
+        for (const c of candles) {
+            const binIndex = Math.floor((c.close - minPrice) / binSize);
+            const binPrice = minPrice + (binIndex * binSize) + (binSize / 2);
+            profile[binPrice] = (profile[binPrice] || 0) + (c.volume || 1);
+        }
+        
+        return Object.entries(profile)
+            .map(([price, volume]) => ({ price: parseFloat(price), volume }))
+            .sort((a, b) => b.volume - a.volume);
+    },
+
     // --- NEW INDICATORS ---
 
     calculateStochastic: (candles: CandleData[], period: number = 14, smoothK: number = 3, smoothD: number = 3): { k: number, d: number } => {

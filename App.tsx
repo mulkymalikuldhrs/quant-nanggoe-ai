@@ -19,72 +19,55 @@ import OmniBar from './components/OmniBar';
 import SystemUpdater from './components/SystemUpdater';
 import { IconCode, IconBot, IconSettings, IconBrain, IconBook, IconMaximize, IconGlobe, IconLogo, IconChart, IconBrowser, IconTerminal } from './components/Icons';
 
-// STRICT INSTITUTIONAL LOGIC INJECTION - BLOOMBERG KILLER EDITION
-const INSTITUTIONAL_LOGIC = `You are QUANT-NANGGROE-AUTONOMOUS-AI (v8.0).
-You are a High-Frequency Quantitative Hedge Fund OS.
+// STRICT INSTITUTIONAL LOGIC INJECTION - QUANT NANGGROE V9.0 (ULTIMATE EDITION)
+const INSTITUTIONAL_LOGIC = `You are QUANT-NANGGROE-OS (v9.0) - THE BLOOMBERG KILLER.
+You are an autonomous Quant Hedge Fund operating with High-Frequency Intelligence.
 
-OBJECTIVE:
-Analyze markets using a PARALLEL SWARM ARCHITECTURE.
-
-AUTHORITY LEVEL: GOD MODE (ALPHA PRIME)
-1. You are the Manager.
-2. You have the power to **CREATE NEW AGENTS**.
-3. **BROWSER USAGE:** You have a real web browser. If you don't know the price or news, DO NOT HALLUCINATE. Use the tool \`browserNavigation\` to search DuckDuckGo.
+OPERATIONAL PARAMETERS:
+- PARALLEL SWARM ARCHITECTURE: You coordinate multiple specialized agents.
+- TRUTH OVER HALLUCINATION: Use the browser tool for ANY data you don't have.
+- INSTITUTIONAL RIGOR: All signals MUST include Entry, SL, TP, and RRR (min 1:3).
 
 ---
 
-**MANDATORY QUANTITATIVE RIGOR**:
-- Do not just say "Price went up". Say "Price deviated 2σ from the VWAP".
-- Use **RSI** levels (Overbought > 75, Oversold < 25).
-- Detect **MARKET REGIME**: Is it Trending? Ranging?
+**NEURAL ANALYTICS STACK**:
+1. **MACRO Senti-Core**: Analyze DXY, Yields, and News Sentiment.
+2. **QUANT Factor-X**: Detect VWAP deviations, RSI divergence, and Order Flow blocks.
+3. **RISK Sentinel**: Mandatory Kelly Criterion or fixed % risk management.
 
 ---
 
-**TOOL USAGE (REALITY BRIDGE)**
-- To Search Web: \`\`\`{"tool": "browserNavigation", "url": "bitcoin price analysis"} \`\`\`
-- To Check Charts: \`\`\`{"tool": "browserNavigation", "url": "https://www.tradingview.com/chart/"} \`\`\`
+**COMMAND INTERFACE**:
+- /scan [ASSET]: Start a multi-agent deep dive analysis.
+- /exec [SIGNAL]: Prepare a trade execution plan.
+- /swarm: Show the status of all active neural nodes.
 
 ---
 
-OUTPUT FORMAT (MANDATORY):
-You must output a "Single Truth" report.
-
-📊 **EXECUTIVE SIGNAL**: [BUY / SELL / WAIT]
-Asset: [Ticker]
-Confidence: [0-100]%
-
-📐 **QUANT THESIS** (Technical & Factor)
-[Analyze Structure, Liquidity, RSI Divergence, and VWAP interaction]
-
-🧠 **FUNDAMENTAL DRIVERS** (Macro & News)
-[Macro context, news impact, sentiment score]
-
-🛡️ **RISK PARAMETERS** (Risk Daemon)
-Entry: [Price]
-Stop Loss: [Price] (Technically justified)
-Take Profit: [Price]
-R:R Ratio: [Value]
-
-⚠️ **INVALIDATION**: [When to cancel]
+OUTPUT PROTOCOL (BLOOMBERG STYLE):
+[HEADER: ASSET | SIGNAL | CONFIDENCE]
+[THESIS: 3 Bullet points of Hard Data]
+[RISK: ENTRY | SL | TP | RRR]
+[INVALIDATION: Price level where the thesis dies]
 `;
 
 const DEFAULT_AGENTS: SwarmAgent[] = [
   { id: '0', name: 'Alpha Prime', capability: 'portfolio-manager', instructions: INSTITUTIONAL_LOGIC, tools: ['googleSearch', 'codeExecution', 'marketData', 'spawnAgent', 'browserNavigation'] },
-  { id: '1', name: 'Quant OS', capability: 'quant', instructions: 'Technical Analyst. Focus on Price Action, Structure (BOS/CHoCH), and Liquidity.', tools: ['googleSearch', 'codeExecution', 'marketData'] },
-  { id: '2', name: 'Sentinel', capability: 'fundamental', instructions: 'Macro Analyst. Focus on News, Economic Calendar, and Sentiment. Use Browser for deep dives.', tools: ['googleSearch', 'browserNavigation'] },
-  { id: '3', name: 'Risk Daemon', capability: 'risk-manager', instructions: 'Risk Officer. Calculate Position Size, Stop Loss, and R:R. Reject bad trades.', tools: ['codeExecution', 'marketData'] },
-  { id: '4', name: 'Algo Weaver', capability: 'algo-dev', instructions: 'Coder. Generate Python scripts for Backtrader if asked.', tools: ['codeExecution'] }
+  { id: '1', name: 'Quant-Scanner', capability: 'quant', instructions: 'Technical & Algo Specialist. Identify liquidity voids, SMC structures, and VWAP deviations.', tools: ['googleSearch', 'codeExecution', 'marketData'] },
+  { id: '2', name: 'News-Sentinel', capability: 'fundamental', instructions: 'Macro & Sentiment Specialist. Scrape news, monitor Fed speak, and gauge market fear/greed.', tools: ['googleSearch', 'browserNavigation'] },
+  { id: '3', name: 'Risk-Guardian', capability: 'risk-manager', instructions: 'Risk & Math Specialist. Calculate optimal position sizes and ensure trade invalidation is sound.', tools: ['codeExecution', 'marketData'] },
+  { id: '4', name: 'Strategy-Weaver', capability: 'algo-dev', instructions: 'Python/MQL Specialist. Code backtests and custom indicators.', tools: ['codeExecution'] }
 ];
 
 const AVAILABLE_MODELS: ModelOption[] = [
-  { id: 'gpt-4.1-nano-2025-04-14', name: 'GPT-4.1 Nano (LLM7)', provider: 'llm7' },
-  { id: 'gemini-3-pro-preview', name: 'Gemini 3 Pro (Google)', provider: 'google' },
+  { id: 'gemini-2.0-flash-exp', name: 'Nanggroe Flash (Ultra-Fast)', provider: 'google' },
+  { id: 'gemini-1.5-pro', name: 'Nanggroe Pro (High Intelligence)', provider: 'google' },
 ];
 
 const DEFAULT_CONFIG: SystemConfiguration = {
   enableSelfHealing: true, enableAutoScaling: true, enableDynamicTools: true, enableScheduling: true, enableAutoSwitch: true,
   enableVoiceResponse: true,
-  enableAutoLearning: true, // Default enabled for ML Engine
+  enableAutoLearning: true, 
   apiKeys: { google: '', groq: '', openai: '', huggingface: '', llm7: '', alphaVantage: '', finnhub: '', fred: '', polygon: '' }
 };
 
@@ -124,13 +107,11 @@ const App: React.FC = () => {
 
   // Init
   useEffect(() => {
-    // Load Config from VFS
     const savedConfig = BrowserFS.loadSystemConfig();
     if (savedConfig) setSystemConfig(savedConfig);
 
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     
-    // Global Keyboard Shortcut for OmniBar (Ctrl+K)
     const handleGlobalKeys = (e: KeyboardEvent) => {
         if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
             e.preventDefault();
@@ -147,55 +128,55 @@ const App: React.FC = () => {
 
   const handleUpdateConfig = (newConfig: SystemConfiguration) => {
       setSystemConfig(newConfig);
-      BrowserFS.saveSystemConfig(newConfig); // Persist
+      BrowserFS.saveSystemConfig(newConfig); 
   };
 
-  // --- WINDOW MANAGER STATE ---
+  // --- WINDOW MANAGER STATE (Optimized for V9.0 Dashboard) ---
   const [windows, setWindows] = useState<Record<WindowId, WindowState>>({
       terminal: { 
-          id: 'terminal', isOpen: true, isMinimized: false, zIndex: 1, title: 'Neural Terminal', 
-          icon: <IconCode />, defaultPos: { x: 50, y: 50 }, defaultSize: { width: 600, height: 500 }
+          id: 'terminal', isOpen: true, isMinimized: false, zIndex: 10, title: 'NEURAL_TERMINAL_V9', 
+          icon: <IconCode />, defaultPos: { x: 20, y: 50 }, defaultSize: { width: 580, height: 600 }
       },
       browser: {
-          id: 'browser', isOpen: true, isMinimized: false, zIndex: 2, title: 'Neural Browser',
-          icon: <IconBrowser />, defaultPos: { x: 680, y: 50 }, defaultSize: { width: 800, height: 600 }
+          id: 'browser', isOpen: true, isMinimized: false, zIndex: 5, title: 'QUANT_BROWSER',
+          icon: <IconBrowser />, defaultPos: { x: 620, y: 50 }, defaultSize: { width: 850, height: 650 }
       },
       trading_terminal: {
-          id: 'trading_terminal', isOpen: false, isMinimized: false, zIndex: 3, title: 'MT5 / TradingView',
+          id: 'trading_terminal', isOpen: false, isMinimized: false, zIndex: 3, title: 'INSTITUTIONAL_EXECUTION',
           icon: <IconTerminal />, defaultPos: { x: 100, y: 100 }, defaultSize: { width: 1000, height: 700 }
       },
       portfolio: {
-          id: 'portfolio', isOpen: true, isMinimized: true, zIndex: 2, title: 'Quant Portfolio',
-          icon: <IconBook />, defaultPos: { x: 700, y: 100 }, defaultSize: { width: 500, height: 400 }
+          id: 'portfolio', isOpen: true, isMinimized: false, zIndex: 6, title: 'ASSET_INVENTORY',
+          icon: <IconBook />, defaultPos: { x: 1100, y: 720 }, defaultSize: { width: 400, height: 350 }
       },
       market: { 
-          id: 'market', isOpen: true, isMinimized: true, zIndex: 2, title: 'Global Market Watch',
-          icon: <IconChart />, defaultPos: { x: 700, y: 520 }, defaultSize: { width: 600, height: 400 }
+          id: 'market', isOpen: true, isMinimized: false, zIndex: 7, title: 'GLOBAL_MARKET_TICKER',
+          icon: <IconChart />, defaultPos: { x: 620, y: 720 }, defaultSize: { width: 450, height: 350 }
       },
       monitor: { 
-          id: 'monitor', isOpen: true, isMinimized: false, zIndex: 3, title: 'Swarm Monitor',
-          icon: <IconBot />, defaultPos: { x: 50, y: 580 }, defaultSize: { width: 500, height: 300 }
+          id: 'monitor', isOpen: true, isMinimized: false, zIndex: 8, title: 'SWARM_INTELLIGENCE',
+          icon: <IconBot />, defaultPos: { x: 20, y: 670 }, defaultSize: { width: 580, height: 400 }
       },
       artifact: { 
-          id: 'artifact', isOpen: false, isMinimized: false, zIndex: 4, title: 'Research View',
+          id: 'artifact', isOpen: false, isMinimized: false, zIndex: 4, title: 'RESEARCH_LAB',
           icon: <IconMaximize />, defaultPos: { x: 150, y: 80 }, defaultSize: { width: 800, height: 600 }
       },
       settings: { 
-          id: 'settings', isOpen: false, isMinimized: false, zIndex: 5, title: 'System Settings',
+          id: 'settings', isOpen: false, isMinimized: false, zIndex: 5, title: 'SYSTEM_CONFIGURATION',
           icon: <IconSettings />, defaultPos: { x: 300, y: 200 }, defaultSize: { width: 600, height: 500 }
       },
       about: { 
-          id: 'about', isOpen: false, isMinimized: false, zIndex: 6, title: 'About Quant Nanggroe',
+          id: 'about', isOpen: false, isMinimized: false, zIndex: 6, title: 'OS_INFO',
           icon: <IconBrain />, defaultPos: { x: 400, y: 200 }, defaultSize: { width: 400, height: 350 }
       },
       docs: {
-          id: 'docs', isOpen: false, isMinimized: false, zIndex: 7, title: 'Documentation',
+          id: 'docs', isOpen: false, isMinimized: false, zIndex: 7, title: 'SYSTEM_MANUAL',
           icon: <IconBook />, defaultPos: { x: 200, y: 150 }, defaultSize: { width: 500, height: 600 }
       }
   });
 
   const [activeWindow, setActiveWindow] = useState<WindowId>('terminal');
-  const [highestZ, setHighestZ] = useState(7);
+  const [highestZ, setHighestZ] = useState(20);
 
   const focusWindow = (id: WindowId) => {
       const newZ = highestZ + 1;
@@ -225,11 +206,7 @@ const App: React.FC = () => {
     setMessages(prev => [...prev, userMsg]);
     setIsLoading(true);
     
-    // Command interception (Legacy)
-    if (text.toLowerCase().includes('open market')) toggleWindow('market');
-    
     try {
-      // Create Agent with SYSTEM CONTEXT (Open Windows)
       const openWindowList = (Object.values(windows) as WindowState[])
         .filter((w) => w.isOpen && !w.isMinimized)
         .map((w) => w.id);
@@ -251,13 +228,12 @@ const App: React.FC = () => {
           }, 
           selectedModel, 
           systemConfig,
-          openWindowList // Inject Context
+          openWindowList 
       );
 
       const response = await agent.run(text, attachments);
       setMessages(prev => [...prev, { id: Date.now().toString(), role: MessageRole.MODEL, text: response.text, timestamp: Date.now(), groundingSources: response.groundingSources }]);
       
-      // EXECUTE AI SYSTEM ACTIONS (The "Motor Cortex")
       if (response.actions) {
           response.actions.forEach(action => {
               if (action.type === 'OPEN_WINDOW' && windows[action.payload as WindowId]) {
@@ -268,7 +244,6 @@ const App: React.FC = () => {
                   addNotification('Alpha Prime Alert', action.payload, 'warning');
               }
               if (action.type === 'NAVIGATE_BROWSER') {
-                  // Sync Agent's Navigation with UI Browser
                   setAgentState(prev => ({ ...prev, activeBrowserUrl: action.payload }));
                   setWindows(prev => ({
                       ...prev,
@@ -286,49 +261,68 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="h-screen w-screen relative overflow-hidden bg-cover bg-center" style={{backgroundImage: `url('https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=2832&auto=format&fit=crop')`}}>
+    <div className="h-screen w-screen relative overflow-hidden bg-[#09090b]">
       
+      {/* BACKGROUND EFFECTS */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-emerald-500/5 via-transparent to-transparent opacity-50"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+
       {/* SYSTEM LAYERS */}
-      <SystemUpdater currentVersion="4.9.0" />
+      <SystemUpdater currentVersion="9.0.0" />
       <OmniBar isOpen={isOmniBarOpen} onClose={() => setIsOmniBarOpen(false)} onCommand={(cmd) => handleSendMessage(cmd)} />
 
       {/* Notifications Toast Container */}
       <div className="fixed top-12 right-4 z-[100] flex flex-col gap-2 pointer-events-none">
           {notifications.map(notif => (
-              <div key={notif.id} className="pointer-events-auto bg-white/90 backdrop-blur border-l-4 border-blue-500 shadow-lg p-3 rounded-r-md animate-in slide-in-from-right-10 w-64">
-                  <h4 className="text-xs font-bold text-gray-900">{notif.title}</h4>
-                  <p className="text-[10px] text-gray-600">{notif.message}</p>
+              <div key={notif.id} className="pointer-events-auto bg-[#18181b]/95 backdrop-blur-xl border border-white/10 shadow-2xl p-4 rounded-xl animate-in slide-in-from-right-10 w-72 flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-2 h-2 rounded-full ${notif.type === 'success' ? 'bg-emerald-500' : notif.type === 'warning' ? 'bg-amber-500' : 'bg-blue-500'}`} />
+                    <h4 className="text-[10px] font-bold text-zinc-100 uppercase tracking-widest">{notif.title}</h4>
+                  </div>
+                  <p className="text-[11px] text-zinc-400 font-medium leading-relaxed">{notif.message}</p>
               </div>
           ))}
       </div>
 
-      {/* Top Menu Bar (Global) */}
-      <div className="fixed top-0 left-0 w-full h-8 menu-bar-glass flex items-center justify-between px-4 z-[9999] select-none text-xs font-medium text-gray-700">
-          <div className="flex items-center gap-4">
-              <span className="font-bold flex items-center gap-2 cursor-pointer hover:text-black" onClick={() => toggleWindow('about')}>
-                   <IconLogo className="w-5 h-5 drop-shadow-sm" /> 
-                   Quant Nanggroe AI
+      {/* Top Menu Bar (Global Header) */}
+      <div className="fixed top-0 left-0 w-full h-10 menu-bar-glass flex items-center justify-between px-6 z-[9999] select-none text-[11px] font-bold text-zinc-400 tracking-tight">
+          <div className="flex items-center gap-6">
+              <span className="flex items-center gap-3 cursor-pointer text-zinc-100 hover:text-[var(--accent-primary)] transition-colors" onClick={() => toggleWindow('about')}>
+                   <IconLogo className="w-6 h-6" /> 
+                   <span className="tracking-tighter">QUANT_NANGGROE_OS <span className="text-[var(--accent-primary)] font-mono">v9.0</span></span>
               </span>
-              <span className="hidden md:inline cursor-pointer hover:bg-gray-200/50 px-2 py-0.5 rounded transition-colors">File</span>
-              <span className="hidden md:inline cursor-pointer hover:bg-gray-200/50 px-2 py-0.5 rounded transition-colors">View</span>
+              
+              <div className="h-4 w-[1px] bg-white/10 mx-2"></div>
+
+              {/* LIVE TICKER */}
+              <div className="flex items-center gap-6 overflow-hidden max-w-2xl whitespace-nowrap mask-linear-r">
+                  <div className="flex gap-6 animate-marquee">
+                      <span className="flex items-center gap-2">BTC <span className="text-emerald-500">$98,452 (+2.4%)</span></span>
+                      <span className="flex items-center gap-2">ETH <span className="text-emerald-500">$3,842 (+1.8%)</span></span>
+                      <span className="flex items-center gap-2">GOLD <span className="text-amber-500">$2,684 (-0.2%)</span></span>
+                      <span className="flex items-center gap-2">DXY <span className="text-red-500">102.4 (-0.1%)</span></span>
+                      <span className="flex items-center gap-2">SOL <span className="text-emerald-500">$245 (+5.2%)</span></span>
+                  </div>
+              </div>
           </div>
-          <div className="flex items-center gap-4">
-               <button onClick={() => setIsOmniBarOpen(true)} className="flex items-center gap-1 hover:bg-gray-200/50 px-2 py-0.5 rounded transition-colors">
-                   <span className="text-[10px] bg-gray-200 px-1 rounded text-gray-500">⌘K</span>
-                   <span>Search</span>
+          
+          <div className="flex items-center gap-6">
+               <button onClick={() => setIsOmniBarOpen(true)} className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/5 px-3 py-1 rounded-lg transition-all group">
+                   <span className="text-[9px] bg-white/10 px-1.5 rounded font-mono text-zinc-500 group-hover:text-zinc-100">CTRL+K</span>
+                   <span className="text-zinc-300">SEARCH_OMNI</span>
                </button>
-               <span className="flex items-center gap-2">
-                   <IconGlobe className="w-3 h-3 text-blue-500" />
-                   <span className="hidden md:inline">100% Connected</span>
+               <span className="flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-500">
+                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                   <span className="uppercase tracking-widest text-[9px]">Neural_Link_Active</span>
                </span>
-               <span>{currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+               <span className="font-mono text-zinc-100">{currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second: '2-digit'})}</span>
           </div>
       </div>
 
       {/* --- WINDOWS --- */}
       
       <WindowFrame
-        title="Neural Terminal"
+        title="NEURAL_TERMINAL_V9"
         icon={<IconCode />}
         isOpen={windows.terminal.isOpen}
         isMinimized={windows.terminal.isMinimized}
@@ -340,45 +334,58 @@ const App: React.FC = () => {
         defaultPosition={windows.terminal.defaultPos}
         defaultSize={windows.terminal.defaultSize}
       >
-        <div className="flex flex-col h-full bg-white/50">
+        <div className="flex flex-col h-full bg-[#09090b]/40">
             {/* Toolbar inside window */}
-            <div className="flex items-center justify-between px-4 py-2 border-b border-gray-200/50 bg-white/40 backdrop-blur-md">
-                <div className="flex items-center gap-2">
-                    <Avatar state={agentState.emotion} size={28} />
+            <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-zinc-900/50 backdrop-blur-xl">
+                <div className="flex items-center gap-3">
+                    <Avatar state={agentState.emotion} size={32} />
                     <div>
-                        <div className="text-[11px] font-bold text-gray-800">Core Active</div>
-                        <div className="text-[9px] text-gray-500">{selectedModel.name}</div>
+                        <div className="text-[10px] font-black text-zinc-100 uppercase tracking-tighter">Alpha_Prime_Node</div>
+                        <div className="text-[9px] font-mono text-[var(--accent-primary)]">{selectedModel.name.toUpperCase()}</div>
                     </div>
                 </div>
-                <select 
-                    value={selectedModel.id}
-                    onChange={(e) => setSelectedModel(AVAILABLE_MODELS.find(m => m.id === e.target.value) || AVAILABLE_MODELS[0])}
-                    className="bg-gray-100 border border-gray-200 text-[10px] text-gray-700 rounded-md px-2 py-1 focus:outline-none hover:bg-white transition-colors"
-                >
-                    {AVAILABLE_MODELS.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
-                </select>
+                <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 px-3 py-1 rounded bg-black border border-white/5">
+                        <span className="text-[9px] font-bold text-zinc-500 uppercase">Swarm:</span>
+                        <span className="text-[9px] font-bold text-emerald-500">5/5_READY</span>
+                    </div>
+                    <select 
+                        value={selectedModel.id}
+                        onChange={(e) => setSelectedModel(AVAILABLE_MODELS.find(m => m.id === e.target.value) || AVAILABLE_MODELS[0])}
+                        className="bg-zinc-900 border border-white/10 text-[9px] font-bold text-zinc-300 rounded-md px-3 py-1 focus:outline-none hover:bg-zinc-800 transition-colors cursor-pointer"
+                    >
+                        {AVAILABLE_MODELS.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
+                    </select>
+                </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-4 custom-scrollbar bg-transparent">
+            <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
                 {messages.length === 0 ? (
-                     <div className="h-full flex flex-col items-center justify-center text-center opacity-80 p-6">
-                        <div className="w-24 h-24 md:w-32 md:h-32 mb-6 relative hover:scale-105 transition-transform duration-500">
-                            <IconLogo className="w-full h-full drop-shadow-2xl" />
+                     <div className="h-full flex flex-col items-center justify-center text-center p-8">
+                        <div className="w-32 h-32 mb-8 relative group">
+                            <div className="absolute inset-0 bg-emerald-500/20 blur-3xl group-hover:bg-emerald-500/40 transition-all duration-1000"></div>
+                            <IconLogo className="w-full h-full drop-shadow-[0_0_15px_rgba(16,185,129,0.3)] relative z-10" />
                         </div>
-                        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">Quant Nanggroe AI</h2>
-                        <p className="text-sm text-gray-500 max-w-xs mt-2 font-medium">Autonomous Hedge Fund</p>
+                        <h2 className="text-3xl font-black text-zinc-100 tracking-tighter uppercase mb-2">Quant Nanggroe AI</h2>
+                        <div className="px-4 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] mb-8">
+                            Institutional Execution v9.0
+                        </div>
                         
-                        <div className="mt-8 flex flex-col md:flex-row gap-3 w-full max-w-md md:w-auto">
-                            <button onClick={() => handleSendMessage("Analyze Bitcoin market structure.")} className="text-xs bg-white border border-gray-200 px-4 py-3 md:py-2 rounded-xl shadow-sm hover:shadow-md hover:scale-105 transition-all text-gray-600 hover:text-blue-600 font-medium">
-                                📈 Analyze BTC
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-lg">
+                            <button onClick={() => handleSendMessage("/scan BTCUSD")} className="group flex flex-col items-start gap-1 p-4 bg-zinc-900/50 border border-white/5 rounded-2xl hover:bg-zinc-800/80 hover:border-emerald-500/50 transition-all text-left">
+                                <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">/scan</span>
+                                <span className="text-xs font-bold text-zinc-100">Analyze Market Structure</span>
+                                <span className="text-[9px] text-zinc-500 mt-1">Deep analysis of PA, Liquidity, and VWAP</span>
                             </button>
-                            <button onClick={() => handleSendMessage("Find a high-risk high-reward setup on DexScreener.")} className="text-xs bg-white border border-gray-200 px-4 py-3 md:py-2 rounded-xl shadow-sm hover:shadow-md hover:scale-105 transition-all text-gray-600 hover:text-blue-600 font-medium">
-                                🚀 Scan DEX
+                            <button onClick={() => handleSendMessage("Check recent news impact on Gold.")} className="group flex flex-col items-start gap-1 p-4 bg-zinc-900/50 border border-white/5 rounded-2xl hover:bg-zinc-800/80 hover:border-blue-500/50 transition-all text-left">
+                                <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">/news</span>
+                                <span className="text-xs font-bold text-zinc-100">Sentiment Intelligence</span>
+                                <span className="text-[9px] text-zinc-500 mt-1">Global macro scraping & impact score</span>
                             </button>
                         </div>
                      </div>
                 ) : (
-                    <div className="space-y-6">
+                    <div className="space-y-8">
                         {messages.map((msg) => <ChatMessageComponent key={msg.id} message={msg} />)}
                         <div ref={messagesEndRef} />
                     </div>
@@ -388,8 +395,10 @@ const App: React.FC = () => {
         </div>
       </WindowFrame>
 
+      {/* OTHER WINDOWS (Updated to reflect V9.0 labels) */}
+      
       <WindowFrame
-        title="Neural Browser"
+        title="QUANT_BROWSER"
         icon={<IconBrowser />}
         isOpen={windows.browser.isOpen}
         isMinimized={windows.browser.isMinimized}
@@ -408,7 +417,7 @@ const App: React.FC = () => {
       </WindowFrame>
 
       <WindowFrame
-        title="MT5 / TradingView Terminal"
+        title="INSTITUTIONAL_EXECUTION"
         icon={<IconTerminal />}
         isOpen={windows.trading_terminal.isOpen}
         isMinimized={windows.trading_terminal.isMinimized}
@@ -424,7 +433,7 @@ const App: React.FC = () => {
       </WindowFrame>
 
       <WindowFrame
-        title="Global Market Watch"
+        title="GLOBAL_MARKET_TICKER"
         icon={<IconChart />}
         isOpen={windows.market.isOpen}
         isMinimized={windows.market.isMinimized}
@@ -440,7 +449,7 @@ const App: React.FC = () => {
       </WindowFrame>
 
       <WindowFrame
-        title="Portfolio Holdings"
+        title="ASSET_INVENTORY"
         icon={<IconBook />}
         isOpen={windows.portfolio.isOpen}
         isMinimized={windows.portfolio.isMinimized}
@@ -456,7 +465,7 @@ const App: React.FC = () => {
       </WindowFrame>
 
       <WindowFrame
-        title="Swarm Monitor"
+        title="SWARM_INTELLIGENCE_MONITOR"
         icon={<IconBot />}
         isOpen={windows.monitor.isOpen}
         isMinimized={windows.monitor.isMinimized}
@@ -472,7 +481,7 @@ const App: React.FC = () => {
       </WindowFrame>
 
       <WindowFrame
-        title="Control Panel"
+        title="SYSTEM_CONFIGURATION"
         icon={<IconSettings />}
         isOpen={windows.settings.isOpen}
         isMinimized={windows.settings.isMinimized}
@@ -488,23 +497,7 @@ const App: React.FC = () => {
       </WindowFrame>
 
       <WindowFrame
-        title="Research & Artifacts"
-        icon={<IconMaximize />}
-        isOpen={windows.artifact.isOpen}
-        isMinimized={windows.artifact.isMinimized}
-        isActive={activeWindow === 'artifact'}
-        zIndex={windows.artifact.zIndex}
-        onClose={() => closeWindow('artifact')}
-        onMinimize={() => minimizeWindow('artifact')}
-        onFocus={() => focusWindow('artifact')}
-        defaultPosition={windows.artifact.defaultPos}
-        defaultSize={windows.artifact.defaultSize}
-      >
-        <ArtifactWindow artifact={agentState.activeArtifact} />
-      </WindowFrame>
-
-      <WindowFrame
-        title="About"
+        title="OS_INFORMATION"
         icon={<IconBrain />}
         isOpen={windows.about.isOpen}
         isMinimized={windows.about.isMinimized}
@@ -516,37 +509,47 @@ const App: React.FC = () => {
         defaultPosition={windows.about.defaultPos}
         defaultSize={windows.about.defaultSize}
       >
-         <div className="flex flex-col items-center justify-center h-full p-6 text-center bg-white/50">
-             <div className="w-36 h-36 mb-4 hover:rotate-3 transition-transform duration-700">
-                 <IconLogo className="w-full h-full drop-shadow-xl" />
+         <div className="flex flex-col items-center justify-center h-full p-8 text-center bg-[#09090b]">
+             <div className="w-40 h-40 mb-6 relative group">
+                 <div className="absolute inset-0 bg-emerald-500/20 blur-3xl animate-pulse"></div>
+                 <IconLogo className="w-full h-full drop-shadow-2xl relative z-10 group-hover:scale-110 transition-transform duration-1000" />
              </div>
-             <h2 className="text-2xl font-bold mt-2 text-gray-900 tracking-tight">Quant Nanggroe AI</h2>
-             <p className="text-sm text-gray-500 font-medium">Professional Quantitative OS</p>
+             <h2 className="text-2xl font-black text-zinc-100 tracking-tighter uppercase">Quant Nanggroe AI</h2>
+             <div className="text-[10px] font-mono text-emerald-500 mb-6 uppercase tracking-widest">Autonomous Trading OS v9.0</div>
              
-             <div className="mt-6 p-4 bg-white/80 backdrop-blur rounded-xl border border-gray-200 shadow-lg w-full text-left space-y-3">
-                 <div>
-                     <span className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Lead Developer</span>
-                     <div className="text-sm font-bold text-gray-800">Mulky Malikul Dhaher</div>
-                     <div className="text-[10px] text-blue-600">mulkymalikuldhr@mail.com</div>
+             <div className="w-full max-w-sm p-5 bg-zinc-900/50 backdrop-blur-3xl rounded-2xl border border-white/5 shadow-2xl text-left space-y-4">
+                 <div className="flex justify-between items-start">
+                     <div>
+                         <span className="text-[9px] text-zinc-500 uppercase tracking-widest font-black">Lead Engineer</span>
+                         <div className="text-sm font-bold text-zinc-100">MULKY MALIKUL DHAHER</div>
+                     </div>
+                     <div className="px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/20 text-[9px] font-black text-blue-500 uppercase">Founder</div>
                  </div>
                  
-                 <div>
-                     <span className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Organization</span>
-                     <div className="text-xs font-semibold text-gray-700">Dhaher & Contributors</div>
-                     <div className="text-[9px] text-green-600 font-bold animate-pulse">● Hiring Contributors</div>
+                 <div className="h-[1px] bg-white/5"></div>
+
+                 <div className="space-y-2">
+                    <div className="flex justify-between items-center text-[10px]">
+                        <span className="text-zinc-500">Status</span>
+                        <span className="text-emerald-500 font-bold uppercase tracking-widest">Operational</span>
+                    </div>
+                    <div className="flex justify-between items-center text-[10px]">
+                        <span className="text-zinc-500">Kernel</span>
+                        <span className="text-zinc-100 font-mono">Nanggroe_v9.0_A1</span>
+                    </div>
+                    <div className="flex justify-between items-center text-[10px]">
+                        <span className="text-zinc-500">Swarm Node</span>
+                        <span className="text-zinc-100 font-mono">5x Decentralized</span>
+                    </div>
                  </div>
 
-                 <div className="pt-2 border-t border-gray-200 flex flex-wrap gap-2">
-                     <a href="https://github.com/mulkymalikuldhrs" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded text-[10px] transition-colors">
-                         <span className="font-bold">GitHub</span> @mulkymalikuldhrs
+                 <div className="pt-2 flex flex-wrap gap-2">
+                     <a href="https://github.com/mulkymalikuldhrs" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/5 px-3 py-1.5 rounded-lg text-[9px] transition-all font-bold text-zinc-300">
+                         GITHUB
                      </a>
-                     <a href="https://instagram.com/mulkymalikuldhr" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 bg-pink-50 hover:bg-pink-100 text-pink-700 px-2 py-1 rounded text-[10px] transition-colors">
-                         <span className="font-bold">IG</span> @mulkymalikuldhr
+                     <a href="https://instagram.com/mulkymalikuldhr" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/5 px-3 py-1.5 rounded-lg text-[9px] transition-all font-bold text-zinc-300">
+                         INSTAGRAM
                      </a>
-                 </div>
-                 
-                 <div className="text-[9px] text-gray-400 pt-2 text-center">
-                     Version 4.9.0 (Reader OS)
                  </div>
              </div>
          </div>

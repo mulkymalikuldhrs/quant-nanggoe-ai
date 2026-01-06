@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { MarketService } from '../services/market';
 import { MarketTicker, NewsItem, ChartPoint, CandleData } from '../types';
 import RealTimeChart from './RealTimeChart';
-import { IconSearch, IconGlobe, IconLink, IconShield } from './Icons';
+import { IconSearch, IconGlobe, IconLink, IconShield, IconChart } from './Icons';
 
 const ASSET_LISTS = {
     crypto: ['BTC', 'ETH', 'SOL', 'XRP', 'DOGE', 'PEPE', 'WIF'],
@@ -62,10 +62,10 @@ const MarketWindow: React.FC = () => {
     const activeTicker = tickers.find(t => t.symbol === selectedAsset);
 
     return (
-        <div className="flex h-full w-full bg-gray-50/50 flex-col">
+        <div className="flex h-full w-full bg-[#09090b] flex-col">
             
             {/* Top Tabs */}
-            <div className="flex-none px-4 pt-2 border-b border-gray-200 bg-white flex gap-4 overflow-x-auto">
+            <div className="flex-none px-4 pt-2 border-b border-white/5 bg-[#121214] flex gap-6 overflow-x-auto select-none">
                 {['crypto', 'stocks', 'forex', 'news'].map(tab => (
                     <button
                         key={tab}
@@ -75,9 +75,9 @@ const MarketWindow: React.FC = () => {
                             if(tab === 'crypto') setSelectedAsset('BTC');
                             if(tab === 'forex') setSelectedAsset('EURUSD');
                         }}
-                        className={`text-xs font-bold py-2 border-b-2 uppercase tracking-wider transition-colors ${activeTab === tab ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
+                        className={`text-[10px] font-black py-3 border-b-2 uppercase tracking-[0.2em] transition-all ${activeTab === tab ? 'border-[var(--accent-primary)] text-[var(--accent-primary)] shadow-[0_10px_10px_-10px_var(--accent-primary)]' : 'border-transparent text-zinc-600 hover:text-zinc-400'}`}
                     >
-                        {tab === 'forex' ? 'FX & Comm' : tab}
+                        {tab === 'forex' ? 'FX_COMM' : tab.toUpperCase()}
                     </button>
                 ))}
             </div>
@@ -86,18 +86,25 @@ const MarketWindow: React.FC = () => {
                 
                 {/* NEWS VIEW */}
                 {activeTab === 'news' ? (
-                    <div className="w-full h-full overflow-y-auto p-4 space-y-3 custom-scrollbar">
-                        {news.length === 0 && <div className="text-center text-gray-400 text-xs mt-10">No News Available (Check Finnhub Key)</div>}
-                        {news.map(item => (
-                            <div key={item.id} className="bg-white p-3 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                                <div className="flex justify-between items-start">
-                                    <h4 className="text-xs font-bold text-gray-800 leading-tight mb-1">{item.headline}</h4>
-                                    <span className="text-[9px] text-gray-400 whitespace-nowrap ml-2">{new Date(item.timestamp).toLocaleTimeString()}</span>
+                    <div className="w-full h-full overflow-y-auto p-6 space-y-4 custom-scrollbar bg-[#09090b]">
+                        {news.length === 0 && (
+                            <div className="h-full flex flex-col items-center justify-center text-zinc-700 uppercase font-black text-[10px] tracking-widest gap-4">
+                                <div className="w-12 h-12 border border-zinc-800 rounded-full flex items-center justify-center animate-pulse">
+                                    <IconGlobe className="w-6 h-6" />
                                 </div>
-                                <p className="text-[10px] text-gray-500 line-clamp-2">{item.summary}</p>
-                                <div className="flex justify-between items-center mt-2">
-                                    <span className="text-[9px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full uppercase">{item.source}</span>
-                                    <a href={item.url} target="_blank" className="text-gray-400 hover:text-blue-500">
+                                CHECK_FINNHUB_UPLINK
+                            </div>
+                        )}
+                        {news.map(item => (
+                            <div key={item.id} className="bg-[#121214] p-5 rounded-2xl border border-white/5 hover:border-zinc-700 transition-all group">
+                                <div className="flex justify-between items-start mb-3">
+                                    <h4 className="text-xs font-bold text-zinc-100 leading-relaxed group-hover:text-[var(--accent-primary)] transition-colors">{item.headline}</h4>
+                                    <span className="text-[9px] font-mono text-zinc-600 bg-black px-2 py-0.5 rounded border border-white/5">{new Date(item.timestamp).toLocaleTimeString()}</span>
+                                </div>
+                                <p className="text-[11px] text-zinc-500 leading-relaxed line-clamp-2 mb-4">{item.summary}</p>
+                                <div className="flex justify-between items-center pt-4 border-t border-white/5">
+                                    <span className="text-[9px] font-black text-[var(--accent-secondary)] uppercase tracking-widest">{item.source}</span>
+                                    <a href={item.url} target="_blank" className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-400 transition-all">
                                         <IconLink className="w-3 h-3" />
                                     </a>
                                 </div>
@@ -107,32 +114,33 @@ const MarketWindow: React.FC = () => {
                 ) : (
                     /* MARKET VIEW (Sidebar + Chart) */
                     <>
-                        <div className="w-1/3 min-w-[180px] bg-white border-r border-gray-200 flex flex-col">
+                        <div className="w-1/3 min-w-[220px] bg-[#09090b] border-r border-white/5 flex flex-col">
                             <div className="flex-1 overflow-y-auto custom-scrollbar">
                                 {tickers.map(ticker => {
                                     const verdict = ticker.consensus?.verdict || 'NEUTRAL';
                                     const score = ticker.consensus?.score || 0;
-                                    let verdictColor = 'text-gray-500 bg-gray-100';
-                                    if (score > 50) verdictColor = 'text-green-700 bg-green-100';
-                                    else if (score > 20) verdictColor = 'text-green-600 bg-green-50';
-                                    else if (score < -50) verdictColor = 'text-red-700 bg-red-100';
-                                    else if (score < -20) verdictColor = 'text-red-600 bg-red-50';
+                                    let verdictColor = 'text-zinc-500 bg-zinc-900 border-zinc-800';
+                                    if (score > 50) verdictColor = 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20';
+                                    else if (score > 20) verdictColor = 'text-emerald-500 bg-emerald-500/5 border-emerald-500/10';
+                                    else if (score < -50) verdictColor = 'text-red-400 bg-red-500/10 border-red-500/20';
+                                    else if (score < -20) verdictColor = 'text-red-500 bg-red-500/5 border-red-500/10';
 
                                     return (
                                         <div 
                                             key={ticker.id}
                                             onClick={() => setSelectedAsset(ticker.symbol)}
-                                            className={`px-4 py-3 cursor-pointer border-b border-gray-50 transition-colors ${selectedAsset === ticker.symbol ? 'bg-blue-50 border-blue-100' : 'hover:bg-gray-50'}`}
+                                            className={`px-5 py-4 cursor-pointer border-b border-white/5 transition-all relative ${selectedAsset === ticker.symbol ? 'bg-zinc-900/50 border-emerald-500/30' : 'hover:bg-zinc-900/30'}`}
                                         >
-                                            <div className="flex justify-between items-center">
-                                                <span className="font-bold text-xs text-gray-700">{ticker.symbol}</span>
-                                                <span className="font-mono text-xs text-gray-900">${ticker.current_price.toLocaleString(undefined, { maximumSignificantDigits: 6 })}</span>
+                                            {selectedAsset === ticker.symbol && <div className="absolute left-0 top-0 w-1 h-full bg-emerald-500 shadow-[0_0_10px_emerald]"></div>}
+                                            <div className="flex justify-between items-center mb-2">
+                                                <span className="font-black text-[11px] text-zinc-100 tracking-widest">{ticker.symbol}</span>
+                                                <span className="font-mono text-xs text-zinc-100 font-bold">${ticker.current_price.toLocaleString(undefined, { maximumSignificantDigits: 6 })}</span>
                                             </div>
-                                            <div className="flex justify-between items-center mt-1.5">
-                                                <span className={`text-[10px] font-bold ${ticker.price_change_percentage_24h >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                                    {ticker.price_change_percentage_24h.toFixed(2)}%
+                                            <div className="flex justify-between items-center">
+                                                <span className={`text-[10px] font-mono ${ticker.price_change_percentage_24h >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
+                                                    {ticker.price_change_percentage_24h >= 0 ? '+' : ''}{ticker.price_change_percentage_24h.toFixed(2)}%
                                                 </span>
-                                                <span className={`text-[8px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wide ${verdictColor}`}>
+                                                <span className={`text-[8px] px-2 py-0.5 rounded-md font-black uppercase tracking-wider border ${verdictColor}`}>
                                                     {verdict}
                                                 </span>
                                             </div>
@@ -142,40 +150,44 @@ const MarketWindow: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="flex-1 flex flex-col bg-white">
-                            <div className="px-6 py-4 border-b border-gray-100">
-                                <div className="flex justify-between items-start">
-                                    <div>
-                                        <div className="flex items-center gap-2">
-                                            <h2 className="text-xl font-bold text-gray-900">{activeTicker?.name || selectedAsset}</h2>
-                                            <span className="bg-gray-100 text-gray-500 px-2 py-0.5 rounded text-[10px] font-bold uppercase">{activeTicker?.source}</span>
+                        <div className="flex-1 flex flex-col bg-[#09090b]">
+                            <div className="px-8 py-6 border-b border-white/5 bg-zinc-900/20 backdrop-blur-xl">
+                                <div className="flex justify-between items-start gap-8">
+                                    <div className="flex-1">
+                                        <div className="flex items-center gap-3 mb-2">
+                                            <h2 className="text-2xl font-black text-zinc-100 uppercase tracking-tighter">{activeTicker?.name || selectedAsset}</h2>
+                                            <span className="bg-white/5 text-zinc-500 px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-[0.2em] border border-white/5">{activeTicker?.source}</span>
                                         </div>
-                                        <div className="mt-1 flex items-baseline gap-2">
-                                            <span className="text-2xl font-mono font-bold text-gray-800">
+                                        <div className="flex items-baseline gap-4">
+                                            <span className="text-3xl font-mono font-black text-zinc-100 tracking-tighter">
                                                 ${activeTicker?.current_price.toLocaleString() || '---'}
                                             </span>
-                                            <span className={`text-sm font-bold ${activeTicker && activeTicker.price_change_percentage_24h >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                                {activeTicker?.price_change_percentage_24h.toFixed(2)}% (24h)
-                                            </span>
+                                            <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black ${activeTicker && activeTicker.price_change_percentage_24h >= 0 ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-500'}`}>
+                                                <div className={`w-1.5 h-1.5 rounded-full ${activeTicker && activeTicker.price_change_percentage_24h >= 0 ? 'bg-emerald-500' : 'bg-red-500'} animate-pulse`}></div>
+                                                {activeTicker?.price_change_percentage_24h.toFixed(2)}%
+                                            </div>
                                         </div>
                                     </div>
-                                    {/* CONSENSUS CARD */}
+                                    
+                                    {/* CONSENSUS CARD (Institutional) */}
                                     {activeTicker?.consensus && (
-                                        <div className="bg-gray-50 rounded-xl p-3 border border-gray-200 shadow-sm w-[200px]">
-                                            <div className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">Algo Consensus</div>
-                                            <div className={`text-sm font-bold flex items-center gap-2 ${activeTicker.consensus.score > 0 ? 'text-green-600' : activeTicker.consensus.score < 0 ? 'text-red-600' : 'text-gray-600'}`}>
-                                                <IconShield className="w-4 h-4" />
-                                                {activeTicker.consensus.verdict} ({activeTicker.consensus.score}%)
+                                        <div className="bg-[#121214] rounded-2xl p-5 border border-white/5 shadow-2xl min-w-[240px]">
+                                            <div className="flex justify-between items-center mb-4">
+                                                <span className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Neural_Consensus</span>
+                                                <IconShield className={`w-4 h-4 ${activeTicker.consensus.score > 0 ? 'text-emerald-500' : 'text-red-500'}`} />
                                             </div>
-                                            <div className="mt-2 w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                            <div className={`text-xl font-black mb-3 ${activeTicker.consensus.score > 0 ? 'text-emerald-400' : activeTicker.consensus.score < 0 ? 'text-red-400' : 'text-zinc-400'}`}>
+                                                {activeTicker.consensus.verdict}
+                                            </div>
+                                            <div className="w-full h-2 bg-zinc-800 rounded-full overflow-hidden mb-3">
                                                 <div 
-                                                    className={`h-full ${activeTicker.consensus.score > 0 ? 'bg-green-500' : 'bg-red-500'}`} 
+                                                    className={`h-full transition-all duration-1000 ${activeTicker.consensus.score > 0 ? 'bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]' : 'bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]'}`} 
                                                     style={{ width: `${Math.abs(activeTicker.consensus.score)}%` }}
                                                 ></div>
                                             </div>
-                                            <div className="flex justify-between mt-1 text-[8px] text-gray-400">
-                                                <span>{activeTicker.consensus.bullishCount} BULL</span>
-                                                <span>{activeTicker.consensus.bearishCount} BEAR</span>
+                                            <div className="flex justify-between text-[9px] font-black font-mono">
+                                                <span className="text-emerald-500">{activeTicker.consensus.bullishCount} BULL_NODES</span>
+                                                <span className="text-red-500">{activeTicker.consensus.bearishCount} BEAR_NODES</span>
                                             </div>
                                         </div>
                                     )}
@@ -183,12 +195,16 @@ const MarketWindow: React.FC = () => {
 
                                 {/* SIGNAL TAPE */}
                                 {activeTicker?.activeSignals && activeTicker.activeSignals.length > 0 && (
-                                    <div className="mt-4 flex gap-2 overflow-x-auto pb-2 custom-scrollbar">
-                                        {activeTicker.activeSignals.slice(0, 6).map((s, i) => (
-                                            <div key={i} className={`shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-lg border ${s.type === 'BUY' ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-800'}`}>
+                                    <div className="mt-8 flex gap-3 overflow-x-auto pb-2 custom-scrollbar">
+                                        {activeTicker.activeSignals.map((s, i) => (
+                                            <div key={i} className={`shrink-0 flex items-center gap-3 px-4 py-3 rounded-xl border transition-all hover:scale-105 ${s.type === 'BUY' ? 'bg-emerald-500/5 border-emerald-500/20 text-emerald-400' : 'bg-red-500/5 border-red-500/20 text-red-400'}`}>
                                                 <div className="flex flex-col">
-                                                    <span className="text-[9px] font-bold uppercase tracking-wider">{s.name}</span>
-                                                    <span className="text-[8px] opacity-70">{s.category} • Strength: {s.strength}</span>
+                                                    <span className="text-[10px] font-black uppercase tracking-widest">{s.name}</span>
+                                                    <div className="flex items-center gap-2 mt-1">
+                                                        <span className="text-[8px] opacity-60 font-bold">{s.category}</span>
+                                                        <div className="w-1 h-1 rounded-full bg-current opacity-30"></div>
+                                                        <span className="text-[8px] font-mono">STRENGTH: {s.strength}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         ))}
@@ -196,19 +212,20 @@ const MarketWindow: React.FC = () => {
                                 )}
                             </div>
 
-                            <div className="flex-1 p-6 relative">
+                            <div className="flex-1 p-8 relative bg-[#09090b]">
                                 {loadingChart ? (
-                                    <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10">
-                                        <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-10">
+                                        <div className="w-10 h-10 border-4 border-[var(--accent-primary)] border-t-transparent rounded-full animate-spin"></div>
                                     </div>
                                 ) : null}
                                 
-                                <div className="w-full h-full bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden p-1 shadow-inner">
+                                <div className="w-full h-full rounded-3xl border border-white/5 overflow-hidden p-1 bg-black/40 shadow-2xl">
                                     {chartData.length > 0 ? (
                                         <RealTimeChart data={chartData} />
                                     ) : (
-                                        <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">
-                                            {activeTab === 'crypto' ? "Loading Data..." : "API Key Required for Intraday Chart"}
+                                        <div className="w-full h-full flex flex-col items-center justify-center text-center gap-4">
+                                            <IconChart className="w-12 h-12 text-zinc-800" />
+                                            <div className="text-[10px] text-zinc-600 font-black uppercase tracking-[0.3em]">Neural_Data_Streaming_Required</div>
                                         </div>
                                     )}
                                 </div>
