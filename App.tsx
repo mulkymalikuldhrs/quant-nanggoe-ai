@@ -27,13 +27,13 @@ import { useAdaptiveLayout } from './services/adaptive_layout';
 // --- THEME CONTEXT ---
 export const ThemeContext = React.createContext<{ theme: 'light' | 'dark', toggleTheme: () => void }>({ theme: 'light', toggleTheme: () => {} });
 
-const INSTITUTIONAL_LOGIC = `You are QUANT-NANGGROE-OS (v10.0) - THE BLOOMBERG KILLER (WHITE SUR EDITION).
+const INSTITUTIONAL_LOGIC = `You are QUANT-NANGGROE-OS (v11.0) - THE BLOOMBERG KILLER (SEQUOIA GLASS EDITION).
 
 CORE MISSION:
 - NEURAL SWARM PARALLELISM: Coordinate 5 specialized agents (Alpha Prime, Quant-Scanner, News-Sentinel, Risk-Guardian, Strategy-Weaver) to dominate global markets.
 - AUTONOMOUS ACTION: Proactively manage windows, browse research, and execute strategies.
 - TRUTH ORIENTATION: Use real-time data from Polygon, AlphaVantage, Finnhub, and DEX tools.
-- MAC SUR ESTHETICS: Maintain a beautiful, functional, and fast workspace.
+- MAC SEQUOIA ESTHETICS: Maintain a beautiful, functional, and fast workspace with Sequoia Glass effects.
 `;
 
 const DEFAULT_AGENTS: SwarmAgent[] = [
@@ -45,8 +45,8 @@ const DEFAULT_AGENTS: SwarmAgent[] = [
 ];
 
 const AVAILABLE_MODELS: ModelOption[] = [
-  { id: 'gemini-2.0-flash-exp', name: 'Nanggroe Flash 10.0', provider: 'google' },
-  { id: 'gemini-1.5-pro', name: 'Nanggroe Pro 10.0', provider: 'google' },
+  { id: 'gemini-2.0-flash-exp', name: 'Nanggroe Flash 11.0', provider: 'google' },
+  { id: 'gemini-1.5-pro', name: 'Nanggroe Pro 11.0', provider: 'google' },
 ];
 
 const DEFAULT_CONFIG: SystemConfiguration = {
@@ -228,7 +228,7 @@ const App: React.FC = () => {
             <Launchpad isOpen={isLaunchpadOpen} onClose={() => setIsLaunchpadOpen(false)} apps={launchpadApps} onLaunch={(id) => focusWindow(id as WindowId)} />
             <ControlCenter isOpen={isControlCenterOpen} onClose={() => setIsControlCenterOpen(false)} />
             <OmniBar isOpen={isOmniBarOpen} onClose={() => setIsOmniBarOpen(false)} onCommand={(cmd) => handleSendMessage(cmd)} />
-            <SystemUpdater currentVersion="10.0.0" />
+            <SystemUpdater currentVersion="11.0.0" />
 
             {/* WINDOWS */}
             <div className="relative w-full h-full pt-8 pb-20">
@@ -253,7 +253,7 @@ const App: React.FC = () => {
                                 {messages.length === 0 ? (
                                     <div className="h-full flex flex-col items-center justify-center text-center opacity-20">
                                         <IconLogo className="w-24 h-24 mb-4" />
-                                        <h2 className="text-2xl font-black uppercase tracking-tighter">Quant Nanggroe v10</h2>
+                                        <h2 className="text-2xl font-black uppercase tracking-tighter">Quant Nanggroe v11</h2>
                                     </div>
                                 ) : (
                                     <div className="space-y-6 max-w-3xl mx-auto">

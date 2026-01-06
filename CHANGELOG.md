@@ -1,5 +1,25 @@
 # CHANGELOG - QUANT NANGGROE AI
 
+## [v11.0.0] - 2026-01-06 (SEQUOIA GLASS EDITION)
+### Added
+- **macOS Sequoia Aesthetic**: Upgraded the entire UI to match macOS Sequoia's "Glass" design language.
+- **Launchpad**: Implemented a full-screen application launcher for quick access to all modules.
+- **Control Center**: Added a unified system controls hub for theme, network, and system toggles.
+- **Sequoia Glassmorphism**: Increased backdrop blur (32px -> 50px) and refined glass textures for a deeper visual experience.
+- **Magnetic Dock**: Optimized the taskbar with ultra-small icons, magnetic magnification, and active status indicators.
+
+### Changed
+- **Version Upgrade**: System-wide migration to v11.0.0 across all documentation and UI components.
+- **Model Names**: Updated available models to "Nanggroe Flash 11.0" and "Nanggroe Pro 11.0".
+- **Window Interaction**: Enhanced WindowFrame with authentic macOS traffic light interactions.
+
+### Fixed
+- **UI Consistency**: Standardized versioning and naming conventions across `App.tsx`, `penjelasan.txt`, and metadata files.
+- **Documentation**: Synchronized technical specifications and core architecture descriptions in `penjelasan.txt`.
+
+### Removed
+- **Legacy References**: Removed mentions of "White Sur Edition" to maintain focus on the Sequoia evolution.
+
 ## [v10.0.0] - 2026-01-06 (WHITE SUR EDITION)
 ### Added
 - **macOS White Sur Aesthetic**: Completely overhauled the UI with a brighter, cleaner "White Sur" look in Day Mode.

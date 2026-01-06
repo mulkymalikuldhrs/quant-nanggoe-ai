@@ -1,8 +1,8 @@
-# DOCUMENTATION: QUANT NANGGROE AI v10.0 - THE NEURAL SWARM OPERATING SYSTEM
+# DOCUMENTATION: QUANT NANGGROE AI v11.0 - THE NEURAL SWARM OPERATING SYSTEM
 ================================================================================
 
 ## OVERVIEW
-Quant Nanggroe AI v10.0 (White Sur Edition) adalah platform komando trading otonom tercanggih yang mengintegrasikan kecerdasan buatan tingkat lanjut dengan estetika desain macOS White Sur. Sistem ini dirancang untuk menghancurkan hambatan antara data mentah dan keputusan eksekusi yang presisi melalui arsitektur Swarm Intelligence.
+Quant Nanggroe AI v11.0 (Sequoia Glass Edition) adalah platform komando trading otonom tercanggih yang mengintegrasikan kecerdasan buatan tingkat lanjut dengan estetika desain macOS Sequoia. Sistem ini dirancang untuk menghancurkan hambatan antara data mentah dan keputusan eksekusi yang presisi melalui arsitektur Swarm Intelligence yang lebih cerdas dan fungsional.
 
 ## 1. CORE ARCHITECTURE: NEURAL SWARM PARALLELISM
 Sistem beroperasi menggunakan 5 agen otonom yang bekerja secara paralel, dikoordinasikan oleh Alpha Prime:
@@ -23,14 +23,14 @@ Sistem beroperasi menggunakan 5 agen otonom yang bekerja secara paralel, dikoord
     *   Fungsi: Backtesting & Implementasi Strategi.
     *   Tanggung Jawab: Menulis script Python/JS untuk pengujian strategi historis dan mengonversi ide menjadi algoritma trading yang siap dieksekusi.
 
-## 2. USER EXPERIENCE: WHITE SUR DESIGN LANGUAGE
-Kenyamanan UI ("UI Comfort") adalah prioritas utama v10.0:
+## 2. USER EXPERIENCE: SEQUOIA GLASS DESIGN LANGUAGE
+Estetika dan fungsionalitas ("Better Features") adalah prioritas utama v11.0:
 
-*   **Dynamic Glassmorphism**: Implementasi filter backdrop-blur (32px+) dengan noise texture 5% untuk memberikan kedalaman visual yang mewah tanpa mengorbankan performa.
-*   **Day/Night Switcher**: Toggle instan di Top Bar yang mengubah skema warna global, intensitas bayangan, dan opacity jendela untuk kenyamanan mata di segala kondisi cahaya.
-*   **Refined Taskbar (Dock)**: Ikon yang telah diperkecil (w-4.5) untuk tampilan yang lebih elegan dan ruang kerja yang lebih luas, dilengkapi dengan sistem magnifikasi magnetis.
-*   **Window Management**: Jendela yang dapat digeser, diperbesar (maximized), dan diminimalkan dengan animasi transisi yang halus (spring animation).
-*   **OmniBar (Command Hub)**: Shortcut universal untuk akses cepat ke semua fitur sistem tanpa harus menyentuh mouse.
+*   **Authentic Launchpad**: Antarmuka peluncur aplikasi layar penuh yang elegan untuk akses cepat ke semua modul sistem (Terminal, Market, Portfolio, dll).
+*   **Integrated Control Center**: Panel pengaturan sistem terpadu untuk kendali cepat atas tema (Day/Night), konektivitas, volume, dan kecerahan.
+*   **Sequoia Glassmorphism**: Peningkatan efek transparansi dan blur (50px+) dengan tekstur kristal yang lebih tajam, memberikan kesan "Premium Glass" yang otentik.
+*   **Magnetic Magnetic Dock**: Dock dengan ikon ultra-kompresi (`9x9` logic) yang memiliki efek magnifikasi dinamis dan indikator aktif yang presisi.
+*   **Traffic Light Controls**: Frame jendela dengan kontrol Merah, Kuning, Hijau yang fungsional sesuai standar macOS Sequoia.
 
 ## 3. DATA RECOVERY & ROBUSTNESS
 Sistem ini dibangun dengan tingkat toleransi kesalahan yang tinggi:
@@ -40,19 +40,20 @@ Sistem ini dibangun dengan tingkat toleransi kesalahan yang tinggi:
 *   **Local State Persistence**: Semua konfigurasi, pesan, dan histori tersimpan secara aman di penyimpanan lokal (BrowserFS) untuk sesi yang berkelanjutan.
 
 ## 4. TECHNICAL SPECIFICATIONS
-*   **Engine**: Gemini 2.0 Flash / Pro (Neural Core)
+*   **Engine**: Gemini 2.0 Flash / Pro 11.0 (Neural Core)
 *   **UI Library**: React 19 + Tailwind CSS 4.0
 *   **Chart**: Lightweight Charts (TradingView Engine)
 *   **Market Coverage**: Crypto (Binance), Stocks (Polygon), Forex (Frankfurter), DEX (DexScreener)
 
-## 5. CHANGELOG v10.0 (WHITE SUR UPGRADE)
-- [UPGRADE] Migrasi ke Estetika macOS White Sur dengan Glassmorphism premium.
-- [UPGRADE] Implementasi Dual-Mode (Day/Night) fungsional.
-- [UPGRADE] Optimasi ukuran ikon Dock untuk kenyamanan visual.
-- [FIX] Perbaikan bug CORS pada data Binance via Multi-Proxy system.
-- [FIX] Optimasi rendering Swarm Graph untuk performa lebih stabil.
-- [CLEANUP] Penghapusan direktori legacy dan file dokumentasi lama.
+## 5. CHANGELOG v11.0 (SEQUOIA GLASS EDITION)
+- [UPGRADE] Migrasi penuh ke Estetika macOS Sequoia dengan "Sequoia Glass" effects.
+- [NEW] Implementasi Launchpad (Full-screen App Launcher).
+- [NEW] Implementasi Control Center (System Toggles Hub).
+- [UPGRADE] Optimasi Dock dengan magnifikasi magnetik dan indikator aktif.
+- [UPGRADE] Pembaruan Window Frame dengan interaksi "Traffic Lights" yang asli.
+- [UPGRADE] Peningkatan Blur Radius jendela (32px -> 50px) untuk kedalaman visual.
+- [CLEANUP] Penataan ulang struktur dokumentasi dan sinkronisasi versi sistem.
 
 --------------------------------------------------------------------------------
-DOKUMENTASI RESMI - QUANT NANGGROE AI v10.0 (2026)
-"Dominate the markets with beauty and intelligence."
+DOKUMENTASI RESMI - QUANT NANGGROE AI v11.0 (2026)
+"Experience the future of trading with Sequoia elegance."
