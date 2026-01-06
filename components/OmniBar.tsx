@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { IconSearch, IconTerminal, IconChart, IconBook, IconGlobe } from './Icons';
 import { ThemeContext } from '../App';
 
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const OmniBar: React.FC<Props> = ({ isOpen, onClose, onCommand }) => {
-    const { theme } = useContext(ThemeContext);
+    const { theme } = React.useContext(ThemeContext);
     const [input, setInput] = useState('');
     const inputRef = useRef<HTMLInputElement>(null);
 
