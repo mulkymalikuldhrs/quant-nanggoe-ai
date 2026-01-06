@@ -32,14 +32,23 @@ export const RiskManagement = {
         correlation: number, 
         isMacroEventImminent: boolean
     ): 'CLEAR' | 'BLOCKED' | 'PAUSE' => {
-        // 1. Daily Drawdown Kill-Switch
-        if (dailyPnL <= -RiskManagement.CONSTITUTION.DAILY_DRAWDOWN_KILL_SWITCH) return 'BLOCKED';
+        // 1. Daily Drawdown Kill-Switch (Rule: if daily_dd > 4% -> BLOCK_ALL)
+        if (dailyPnL <= -RiskManagement.CONSTITUTION.DAILY_DRAWDOWN_KILL_SWITCH) {
+            console.error("!!! RISK GUARDIAN: DAILY DRAWDOWN KILL-SWITCH !!!");
+            return 'BLOCKED';
+        }
         
-        // 2. Correlation Filter
-        if (correlation > RiskManagement.CONSTITUTION.MAX_CORRELATION) return 'BLOCKED';
+        // 2. Correlation Filter (Rule: Max correlation 0.7)
+        if (correlation > RiskManagement.CONSTITUTION.MAX_CORRELATION) {
+            console.warn("!!! RISK GUARDIAN: CORRELATION LIMIT EXCEEDED !!!");
+            return 'BLOCKED';
+        }
         
-        // 3. Macro Event Pause
-        if (isMacroEventImminent) return 'PAUSE';
+        // 3. Macro Event Pause (Rule: if macro_event_imminent -> PAUSE)
+        if (isMacroEventImminent) {
+            console.info("!!! RISK GUARDIAN: MACRO EVENT IMMINENT - PAUSED !!!");
+            return 'PAUSE';
+        }
 
         return 'CLEAR';
     },

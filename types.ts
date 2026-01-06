@@ -31,6 +31,18 @@ export interface ChatMessage {
 
 export type MarketRegime = 'TRENDING' | 'RANGE' | 'MEAN_REVERT' | 'RISK_OFF' | 'PANIC' | 'NO_TRADE';
 
+export interface TradingConstitution {
+    riskGreaterThanOpportunity: boolean;
+    regimeGreaterThanStrategy: boolean;
+    structureGreaterThanIndicator: boolean;
+    invalidationGreaterThanRR: boolean;
+    noTradeIsValidDecision: boolean;
+    maxLeverage: number;
+    maxCorrelation: number;
+    maxExposurePerAsset: number;
+    dailyDrawdownLimit: number;
+}
+
 export interface DataMetadata {
   source: string;
   trustScore: number; // 0.0 - 1.0
@@ -80,7 +92,7 @@ export interface SMCOutput {
 }
 
 export interface NewsSentinelOutput {
-    eventType: 'MACRO' | 'NOISE' | 'SHOCK';
+    eventType: 'MACRO' | 'SCHEDULED' | 'SHOCK' | 'NOISE';
     impactScore: number; // 0.0 - 1.0
     directionalUncertainty: number; // 0.0 - 1.0
     timeDecay: number; // seconds
@@ -89,6 +101,15 @@ export interface NewsSentinelOutput {
 export interface FlowWhaleOutput {
     positioningBias: 'LONG' | 'SHORT' | 'NEUTRAL';
     flowImbalance: number; // 0.0 - 1.0
+}
+
+export interface DecisionTableEntry {
+    regime: MarketRegime[];
+    minBuyPressure: number;
+    maxSellPressure: number;
+    allowedVolatility: ('LOW' | 'NORMAL' | 'HIGH')[];
+    minConfidence: number;
+    action: 'ALLOW_ENTRY' | 'NO_TRADE';
 }
 
 export interface DecisionSynthesis {
