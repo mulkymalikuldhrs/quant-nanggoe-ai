@@ -1,8 +1,8 @@
-# DOCUMENTATION: QUANT NANGGROE AI v11.0 - THE NEURAL SWARM OPERATING SYSTEM
+# DOCUMENTATION: QUANT NANGGROE AI v11.0.1 - THE NEURAL SWARM OPERATING SYSTEM
 ================================================================================
 
 ## OVERVIEW
-Quant Nanggroe AI v11.0 (Sequoia Glass Edition) adalah platform komando trading otonom tercanggih yang mengintegrasikan kecerdasan buatan tingkat lanjut dengan estetika desain macOS Sequoia. Sistem ini dirancang untuk menghancurkan hambatan antara data mentah dan keputusan eksekusi yang presisi melalui arsitektur Swarm Intelligence yang lebih cerdas dan fungsional.
+Quant Nanggroe AI v11.0.1 (Sequoia Glass Edition) adalah platform komando trading otonom tercanggih yang mengintegrasikan kecerdasan buatan tingkat lanjut dengan estetika desain macOS Sequoia. Sistem ini dirancang untuk menghancurkan hambatan antara data mentah dan keputusan eksekusi yang presisi melalui arsitektur Swarm Intelligence yang lebih cerdas dan fungsional.
 
 ## 1. CORE ARCHITECTURE: NEURAL SWARM PARALLELISM
 Sistem beroperasi menggunakan 5 agen otonom yang bekerja secara paralel, dikoordinasikan oleh Alpha Prime:
@@ -46,7 +46,8 @@ Sistem ini dibangun dengan tingkat toleransi kesalahan yang tinggi:
 *   **Chart**: Lightweight Charts (TradingView Engine)
 *   **Market Coverage**: Crypto (Binance), Stocks (Polygon), Forex (Frankfurter), DEX (DexScreener)
 
-## 5. CHANGELOG v11.0 (SEQUOIA GLASS EDITION)
+## 5. CHANGELOG v11.0.1 (SEQUOIA GLASS EDITION)
+- [SYNC] Finalisasi integrasi AutoSwitch API Engine dan sinkronisasi sistem ke v11.0.1.
 - [NEW] AutoSwitch API Engine: Mekanisme failover & retry otomatis untuk LLM dan Data Market.
 - [UPGRADE] Migrasi penuh ke Estetika macOS Sequoia dengan "Sequoia Glass" effects.
 - [NEW] Implementasi Launchpad (Full-screen App Launcher).
@@ -57,5 +58,5 @@ Sistem ini dibangun dengan tingkat toleransi kesalahan yang tinggi:
 - [CLEANUP] Penataan ulang struktur dokumentasi dan sinkronisasi versi sistem.
 
 --------------------------------------------------------------------------------
-DOKUMENTASI RESMI - QUANT NANGGROE AI v11.0 (2026)
+DOKUMENTASI RESMI - QUANT NANGGROE AI v11.0.1 (2026)
 "Experience the future of trading with Sequoia elegance."

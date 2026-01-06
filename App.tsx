@@ -27,7 +27,7 @@ import { useAdaptiveLayout } from './services/adaptive_layout';
 // --- THEME CONTEXT ---
 export const ThemeContext = React.createContext<{ theme: 'light' | 'dark', toggleTheme: () => void }>({ theme: 'light', toggleTheme: () => {} });
 
-const INSTITUTIONAL_LOGIC = `You are QUANT-NANGGROE-OS (v11.0) - THE BLOOMBERG KILLER (SEQUOIA GLASS EDITION).
+const INSTITUTIONAL_LOGIC = `You are QUANT-NANGGROE-OS (v11.0.1) - THE BLOOMBERG KILLER (SEQUOIA GLASS EDITION).
 
 CORE MISSION:
 - NEURAL SWARM PARALLELISM: Coordinate 5 specialized agents (Alpha Prime, Quant-Scanner, News-Sentinel, Risk-Guardian, Strategy-Weaver) to dominate global markets.
@@ -228,7 +228,7 @@ const App: React.FC = () => {
             <Launchpad isOpen={isLaunchpadOpen} onClose={() => setIsLaunchpadOpen(false)} apps={launchpadApps} onLaunch={(id) => focusWindow(id as WindowId)} />
             <ControlCenter isOpen={isControlCenterOpen} onClose={() => setIsControlCenterOpen(false)} />
             <OmniBar isOpen={isOmniBarOpen} onClose={() => setIsOmniBarOpen(false)} onCommand={(cmd) => handleSendMessage(cmd)} />
-            <SystemUpdater currentVersion="11.0.0" />
+            <SystemUpdater currentVersion="11.0.1" />
 
             {/* WINDOWS */}
             <div className="relative w-full h-full pt-8 pb-20">

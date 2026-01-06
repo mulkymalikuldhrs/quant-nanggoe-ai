@@ -1,5 +1,10 @@
 # CHANGELOG - QUANT NANGGROE AI
 
+## [v11.0.1] - 2026-01-06 (SEQUOIA GLASS EDITION)
+### Fixed
+- **System Sync**: Finalized AutoSwitch API Engine integration and synchronized versioning across all core files (App.tsx, package.json, metadata.json).
+- **Documentation**: Updated `penjelasan.txt` and `SYSTEM_AUDIT_LOG.md` to reflect the stable v11.0.1 state.
+
 ## [v11.0.0] - 2026-01-06 (SEQUOIA GLASS EDITION)
 ### Added
 - **AutoSwitch API Engine**: Implemented a generic failover and retry mechanism for all external API calls (LLM, Market Data, etc.).
