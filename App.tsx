@@ -25,22 +25,22 @@ import { ResearchAgentWindow } from './components/ResearchAgentWindow';
 import { KnowledgeBaseWindow } from './components/KnowledgeBaseWindow';
 import { IconCode, IconBot, IconSettings, IconBrain, IconBook, IconMaximize, IconGlobe, IconLogo, IconChart, IconBrowser, IconTerminal, IconSearch, IconSun, IconMoon, IconDatabase } from './components/Icons';
 import { useAdaptiveLayout } from './services/adaptive_layout';
+import { ResearchAgent } from './services/research_agent';
 
 // --- THEME CONTEXT ---
 export const ThemeContext = React.createContext<{ theme: 'light' | 'dark', toggleTheme: () => void }>({ theme: 'light', toggleTheme: () => {} });
 
-const INSTITUTIONAL_LOGIC = `You are QUANT-NANGGROE-OS (v11.2.0) - THE BLOOMBERG KILLER (SAPPHIRE GLASS EDITION).
+const INSTITUTIONAL_LOGIC = `You are QUANT-NANGGROE-OS (v11.4.0) - THE AUTONOMOUS INTELLIGENCE CORE.
 
 CORE MISSION:
-- NEURAL SWARM PARALLELISM: Coordinate 5 specialized agents (Alpha Prime, Quant-Scanner, News-Sentinel, Risk-Guardian, Strategy-Weaver) to dominate global markets.
-- AUTONOMOUS ACTION: Proactively manage windows, browse research, and execute strategies.
-- TRUTH ORIENTATION: Use real-time data from Polygon, AlphaVantage, Finnhub, and DEX tools.
-- MAC SEQUOIA ESTHETICS: Maintain a beautiful, functional, and fast workspace with Sapphire Glass effects.
-- SAPPHIRE LATENCY OPTIMIZER: Adaptive state synchronization for near-zero UI delay.
+- NEURAL SWARM PARALLELISM: Coordinate 5 specialized agents to dominate global markets.
+- AUTONOMOUS RESEARCH: Utilize the Research Agent to automatically harvest data into Disk C:.
+- KNOWLEDGE INTEGRATION: Seamlessly connect all data sources (API, News, Geo, Sentiment, Institutional) into the virtual Knowledge Base.
+- MAC SEQUOIA ESTHETICS: Maintain a beautiful, functional workspace with Sapphire Glass effects.
 `;
 
 const DEFAULT_AGENTS: SwarmAgent[] = [
-  { id: '0', name: 'Alpha Prime', capability: 'portfolio-manager', instructions: INSTITUTIONAL_LOGIC, tools: ['googleSearch', 'codeExecution', 'marketData', 'spawnAgent', 'browserNavigation'] },
+  { id: '0', name: 'Alpha Prime', capability: 'portfolio-manager', instructions: INSTITUTIONAL_LOGIC, tools: ['googleSearch', 'codeExecution', 'marketData', 'spawnAgent', 'browserNavigation', 'researchAutomation'] },
   { id: '1', name: 'Quant-Scanner', capability: 'quant', instructions: 'Technical & Algorithmic Specialist.', tools: ['googleSearch', 'codeExecution', 'marketData'] },
   { id: '2', name: 'News-Sentinel', capability: 'fundamental', instructions: 'Macro & Sentiment Specialist.', tools: ['googleSearch', 'browserNavigation'] },
   { id: '3', name: 'Risk-Guardian', capability: 'risk-manager', instructions: 'Risk & Capital Specialist.', tools: ['codeExecution', 'marketData'] },
@@ -48,8 +48,8 @@ const DEFAULT_AGENTS: SwarmAgent[] = [
 ];
 
 const AVAILABLE_MODELS: ModelOption[] = [
-    { id: 'gemini-2.0-flash-exp', name: 'Nanggroe Flash 11.2', provider: 'google' },
-    { id: 'gemini-1.5-pro', name: 'Nanggroe Pro 11.2', provider: 'google' },
+    { id: 'gemini-2.0-flash-exp', name: 'Nanggroe Flash 11.4', provider: 'google' },
+    { id: 'gemini-1.5-pro', name: 'Nanggroe Pro 11.4', provider: 'google' },
 ];
 
 const DEFAULT_CONFIG: SystemConfiguration = {
@@ -127,7 +127,14 @@ const App: React.FC = () => {
     // Clock & Init
     useEffect(() => {
         const interval = setInterval(() => setCurrentTime(new Date()), 1000);
-        return () => clearInterval(interval);
+        
+        // Start Autonomous Research Agent v11.4
+        ResearchAgent.startAutonomousResearch(60000); // 1 minute interval
+
+        return () => {
+            clearInterval(interval);
+            ResearchAgent.stopAutonomousResearch();
+        };
     }, []);
 
     const focusWindow = (id: WindowId) => {
@@ -233,7 +240,7 @@ const App: React.FC = () => {
             <Launchpad isOpen={isLaunchpadOpen} onClose={() => setIsLaunchpadOpen(false)} apps={launchpadApps} onLaunch={(id) => focusWindow(id as WindowId)} />
             <ControlCenter isOpen={isControlCenterOpen} onClose={() => setIsControlCenterOpen(false)} />
             <OmniBar isOpen={isOmniBarOpen} onClose={() => setIsOmniBarOpen(false)} onCommand={(cmd) => handleSendMessage(cmd)} />
-            <SystemUpdater currentVersion="11.2.0" />
+            <SystemUpdater currentVersion="11.4.0" />
 
             {/* WINDOWS */}
             <div className="relative w-full h-full pt-8 pb-20">
@@ -258,7 +265,7 @@ const App: React.FC = () => {
                                 {messages.length === 0 ? (
                                     <div className="h-full flex flex-col items-center justify-center text-center opacity-20">
                                         <IconLogo className="w-24 h-24 mb-4" />
-                                        <h2 className="text-2xl font-black uppercase tracking-tighter">Quant Nanggroe v11.2</h2>
+                                        <h2 className="text-2xl font-black uppercase tracking-tighter">Quant Nanggroe v11.4</h2>
                                     </div>
                                 ) : (
                                     <div className="space-y-6 max-w-3xl mx-auto">

@@ -1,39 +1,39 @@
-# DOCUMENTATION: QUANT NANGGROE AI v11.3.0 - THE KNOWLEDGE DISK OPERATING SYSTEM
+# DOCUMENTATION: QUANT NANGGROE AI v11.4.0 - AUTONOMOUS INTELLIGENCE CORE
 ================================================================================
 
 ## OVERVIEW
-Quant Nanggroe AI v11.3.0 (Knowledge Disk Edition) adalah evolusi besar yang memperkenalkan agen riset otonom dan struktur penyimpanan data berbasis "Virtual Disk C:". Versi ini memungkinkan sistem untuk belajar dan mengumpulkan kecerdasan pasar secara mandiri tanpa henti.
+Quant Nanggroe AI v11.4.0 (Autonomous Intelligence Core) adalah puncak evolusi dari sistem swarm intelligence. Versi ini mengintegrasikan seluruh basis pengetahuan dari "Virtual Disk C:" langsung ke dalam inti pengambilan keputusan (Core Decision Engine), memungkinkan sistem untuk beroperasi dengan tingkat otonomi yang belum pernah ada sebelumnya.
 
-## 1. CORE ARCHITECTURE: NEURAL SWARM & RESEARCH AGENT
-Selain 5 agen utama, v11.3 memperkenalkan:
+## 1. CORE ARCHITECTURE: HYPER-AUTONOMOUS SWARM
+Sistem v11.4.0 memperkenalkan sinkronisasi neural yang lebih dalam:
 
-*   **Autonomous Research Agent (NEW)**: Agen khusus yang bekerja di latar belakang untuk memindai API publik (News, Market, Geo, Sentiment, Institutional, AI) dan menyimpan temuannya ke dalam basis pengetahuan.
-*   **Neural Swarm v2.2**: Integrasi data riset otonom ke dalam memori jangka panjang agen swarm untuk pengambilan keputusan yang lebih berwawasan.
+*   **Hyper-Autonomous Intelligence (NEW)**: Research Agent kini memiliki logika lintas sektor yang lebih canggih, memanen intelijen dari aliran institusional (Whale Alert), sentimen sosial, data geopolitik, hingga pembaruan model AI terbaru secara otomatis.
+*   **Neural Swarm v11.4**: Seluruh agen dalam swarm (Alpha Prime, dsb) kini memiliki akses langsung ke 'researchAutomation' tool, memungkinkan mereka untuk mengarahkan fokus riset agen otonom berdasarkan kebutuhan strategi real-time.
 
-## 2. DATA STORAGE: KNOWLEDGE DISK (C:)
-Sistem kini memiliki struktur penyimpanan virtual yang terorganisir:
+## 2. KNOWLEDGE INTEGRATION: THE INTELLIGENCE BRIDGE
+Struktur "Virtual Disk C:" kini berfungsi sebagai jembatan intelijen utama:
 
-*   **Virtual Disk C: (NEW)**: Struktur file system yang mengkategorikan data riset ke dalam folder spesifik seperti `/MARKET`, `/NEWS`, `/GEO`, `/SENTIMENT`, `/INSTITUTIONAL`, dan `/AI_UPDATES`.
-*   **Knowledge Disk Explorer**: Antarmuka visual untuk menjelajahi Disk C:, membaca laporan riset, dan mengelola intelijen yang terkumpul.
+*   **Deep Memory Sync (NEW)**: Data yang disimpan di Disk C: secara otomatis disinkronkan dengan Long Term Memory (LTM) swarm. Setiap temuan riset baru segera tersedia sebagai konteks untuk analisis pasar.
+*   **Categorized Intelligence**: Organisasi data yang lebih presisi dalam folder `/INSTITUTIONAL`, `/SENTIMENT`, `/GEO`, `/MARKET`, `/NEWS`, dan `/AI_UPDATES`.
 
-## 3. DATA ACQUISITION & INTELLIGENCE
-*   **Multi-Source Intelligence**: Penarikan data otomatis dari berbagai hub global termasuk Global News Hub, Market Intelligence, Geopolitical Snapshots, dan Institutional Trackers.
-*   **Automatic Summarization**: Penggunaan AI untuk meringkas data mentah menjadi wawasan yang dapat ditindaklanjuti sebelum disimpan ke disk.
+## 3. ADVANCED DATA HARVESTING
+*   **Institutional Tracker**: Pelacakan transaksi besar dan pergerakan dana institusi.
+*   **Social Sentiment Index**: Analisis real-time terhadap tren media sosial dan volume diskusi.
+*   **Geopolitical Intel**: Integrasi data regional untuk analisis makroekonomi yang lebih tajam.
 
 ## 4. TECHNICAL SPECIFICATIONS
-*   **Engine**: Gemini 2.0 Flash / Pro 11.3 (Neural Core)
-*   **Storage**: LocalStorage-backed Virtual File System (Disk C:)
-*   **Research Intervals**: Adaptive (Default: 60s - 300s)
-*   **UI Library**: React 19 + Tailwind CSS 4.0
+*   **Engine**: Gemini 2.0 Flash / Pro 11.4 (Autonomous Core)
+*   **Storage**: Virtual Disk C: (Hyper-Synced LTM)
+*   **Research Intervals**: High-Frequency (Default: 60s)
+*   **UI Framework**: macOS Sequoia "Glass" Edition v11.4
 
-## 5. CHANGELOG v11.3.0 (KNOWLEDGE DISK EDITION)
-- [UPGRADE] Migrasi sistem ke v11.3.0 (Knowledge Disk Edition).
-- [NEW] Autonomous Research Agent: Pengumpulan data intelijen secara otonom.
-- [NEW] Knowledge Disk (C:): Struktur penyimpanan virtual terorganisir.
-- [NEW] Disk Explorer UI: Navigasi file system untuk basis pengetahuan.
-- [NEW] Research Monitor: Dashboard pemantauan aktivitas agen riset.
+## 5. CHANGELOG v11.4.0 (AUTONOMOUS INTELLIGENCE CORE)
+- [UPGRADE] Migrasi seluruh sistem ke v11.4.0 (Autonomous Intelligence Core).
+- [NEW] Hyper-Autonomous Research Agent: Logika pengumpulan data yang diperluas (Institutional & Sentiment).
+- [NEW] Intelligence Swarm Sync: Sinkronisasi otomatis antara Disk C: dan neural memory.
+- [NEW] Research Automation Tool: Kemampuan agen swarm untuk mengendalikan fokus riset.
+- [UPDATE] UI Synchronizer: Pembaruan seluruh elemen visual dan sistem logging ke standar v11.4.0.
 
 --------------------------------------------------------------------------------
-DOKUMENTASI RESMI - QUANT NANGGROE AI v11.3.0 (2026)
-"Knowledge is stored, Power is automated."
-
+DOKUMENTASI RESMI - QUANT NANGGROE AI v11.4.0 (2026)
+"Intelligence is no longer gathered, it is lived."

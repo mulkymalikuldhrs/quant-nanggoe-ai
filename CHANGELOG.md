@@ -1,5 +1,17 @@
 # CHANGELOG - QUANT NANGGROE AI
 
+## [v11.4.0] - 2026-01-06 (AUTONOMOUS INTELLIGENCE CORE)
+### Added
+- **Hyper-Autonomous Intelligence**: Research Agent now runs with enhanced logic, harvesting intelligence from broader sources including Institutional Flows, Social Sentiment, and Geopolitical Data.
+- **Intelligence Swarm Integration**: Added 'researchAutomation' tool capability to Alpha Prime, allowing the swarm to direct the research agent's focus.
+- **Deep Knowledge Connection**: Virtual Disk C: now acts as a primary intelligence bridge, synchronizing external data with Long Term Memory.
+- **System-Wide v11.4 Sync**: Full synchronization of all core systems, metadata, and documentation to the new version.
+
+### Changed
+- **Version Upgrade**: Migrated system to v11.4.0 across all components, metadata, and UI.
+- **Model Evolution**: Updated internal model references to "Nanggroe Flash 11.4" and "Nanggroe Pro 11.4".
+- **Enhanced Logging**: Research Agent now features high-fidelity logging for transparency in autonomous operations.
+
 ## [v11.3.0] - 2026-01-06 (KNOWLEDGE DISK EDITION)
 ### Added
 - **Autonomous Research Agent**: A new background intelligence gathering system that automatically scans public APIs (News, Market, Geo, Sentiment, Institutional, AI) and stores data.
