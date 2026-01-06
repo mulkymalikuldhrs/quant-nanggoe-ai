@@ -1,4 +1,3 @@
-
 import { MarketTicker, NewsItem, ChartPoint, CandleData, SystemConfiguration } from "../types";
 import { BrowserFS } from "./file_system";
 import { MathEngine } from "./math_engine";
@@ -216,7 +215,8 @@ export const MarketService = {
 
     getCryptoPrice: async (id: string): Promise<MarketTicker | null> => {
         try {
-            const res = await fetch(`${CG_BASE_URL}/coins/markets?vs_currency=usd&ids=${id}&order=market_cap_desc&per_page=1&page=1&sparkline=false`);
+            const url = `https://corsproxy.io/?${encodeURIComponent(`${CG_BASE_URL}/coins/markets?vs_currency=usd&ids=${id}&order=market_cap_desc&per_page=1&page=1&sparkline=false`)}`;
+            const res = await fetch(url);
             const data = await res.json();
             if (data && data.length > 0) {
                 const item = data[0];
@@ -229,7 +229,9 @@ export const MarketService = {
                     type: 'crypto', source: 'CoinGecko'
                 };
             }
-        } catch (e) {}
+        } catch (e) {
+            console.error("CoinGecko Fetch Error:", e);
+        }
         return null;
     },
 
@@ -334,7 +336,9 @@ export const MarketService = {
         if (type === 'crypto' || (type === 'commodity' && (id === 'PAXG' || id === 'KAG'))) {
             const cgId = id === 'PAXG' ? 'pax-gold' : id === 'KAG' ? 'kinesis-silver' : id;
             try {
-                const response = await fetch(`${CG_BASE_URL}/coins/${cgId}/market_chart?vs_currency=usd&days=${days}`);
+                const baseUrl = `${CG_BASE_URL}/coins/${cgId}/market_chart?vs_currency=usd&days=${days}`;
+                const url = `https://corsproxy.io/?${encodeURIComponent(baseUrl)}`;
+                const response = await fetch(url);
                 const data = await response.json();
                 
                 return data.prices.map((p: any[], i: number) => ({ 
@@ -344,7 +348,10 @@ export const MarketService = {
                     open: p[1], high: p[1], low: p[1], close: p[1],
                     volume: data.total_volumes[i] ? data.total_volumes[i][1] : 0
                 }));
-            } catch (e) { return []; }
+            } catch (e) { 
+                console.error("CoinGecko Chart Error:", e);
+                return []; 
+            }
         }
 
         // 3. Simulated Fallback
