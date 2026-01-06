@@ -5,8 +5,8 @@ import { BrowserFS } from "./file_system";
 import { LLMRouter } from "./llm_router";
 import { MarketService } from "./market";
 import { MLEngine } from "./ml_engine";
-import { BrowserCore } from "./browser_core"; // Import Browser Core
-import { QUANT_ANALYST_ROLE } from "../constants/agent_prompts";
+import { BrowserCore } from "./browser_core";
+import { QUANT_ANALYST_ROLE } from "@/constants/agent_prompts";
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
