@@ -40,7 +40,7 @@ const OmniBar: React.FC<Props> = ({ isOpen, onClose, onCommand }) => {
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         onKeyDown={handleKeyDown}
-                        placeholder="Ask Analis Quant Nanggroe or type a command (/scan, /mt5, /quant)..."
+                        placeholder="Ask Alpha Prime or type a command..."
                         className="flex-1 text-lg font-medium text-gray-800 focus:outline-none placeholder-gray-400"
                     />
                     <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-1 rounded font-mono">ESC</span>
