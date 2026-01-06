@@ -39,11 +39,13 @@
 7.  **System Config (`SwarmConfigModal.tsx`)**:
     -   *Feature*: Central API and Swarm logic management.
 
-### D. Services (The Brain)
--   **Gemini Service (`gemini.ts`)**: Neural core supporting Nanggroe Flash 11.0 & Pro 11.0.
--   **File System (`file_system.ts`)**: BrowserFS persistence for all system state.
--   **Market Service (`market.ts`)**: Unified multi-proxy data pipeline (CORS-resistant).
--   **Math Engine (`math_engine.ts`)**: High-precision quantitative indicators.
+  ### D. Services (The Brain)
+  -   **AutoSwitch API (`autoswitch.ts`)**: Generic failover & retry engine for all external requests.
+  -   **Gemini Service (`gemini.ts`)**: Neural core supporting Nanggroe Flash 11.0 & Pro 11.0.
+  -   **LLM Router (`llm_router.ts`)**: Intelligent failover between LLM7, Groq, and Google.
+  -   **Market Service (`market.ts`)**: Unified multi-proxy data pipeline with AutoSwitch failover.
+  -   **File System (`file_system.ts`)**: BrowserFS persistence for all system state.
+  -   **Math Engine (`math_engine.ts`)**: High-precision quantitative indicators.
 
 ---
 

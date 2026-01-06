@@ -35,6 +35,7 @@ Estetika dan fungsionalitas ("Better Features") adalah prioritas utama v11.0:
 ## 3. DATA RECOVERY & ROBUSTNESS
 Sistem ini dibangun dengan tingkat toleransi kesalahan yang tinggi:
 
+*   **AutoSwitch API Engine**: Failover otomatis dan mekanisme retry cerdas yang menjamin koneksi tak terputus ke provider LLM dan Market Data jika salah satu endpoint gagal.
 *   **Multi-Proxy Fallback**: Menjamin 99.9% uptime data market dengan menggunakan rotasi proxy otomatis (AllOrigins, CodeTabs, CorsProxy) untuk melewati batasan CORS browser.
 *   **Self-Healing Logic**: Jika satu agen gagal memproses data, Alpha Prime akan secara otomatis mengalihkan tugas tersebut ke agen cadangan atau mencoba metode pengambilan data alternatif.
 *   **Local State Persistence**: Semua konfigurasi, pesan, dan histori tersimpan secara aman di penyimpanan lokal (BrowserFS) untuk sesi yang berkelanjutan.
@@ -46,6 +47,7 @@ Sistem ini dibangun dengan tingkat toleransi kesalahan yang tinggi:
 *   **Market Coverage**: Crypto (Binance), Stocks (Polygon), Forex (Frankfurter), DEX (DexScreener)
 
 ## 5. CHANGELOG v11.0 (SEQUOIA GLASS EDITION)
+- [NEW] AutoSwitch API Engine: Mekanisme failover & retry otomatis untuk LLM dan Data Market.
 - [UPGRADE] Migrasi penuh ke Estetika macOS Sequoia dengan "Sequoia Glass" effects.
 - [NEW] Implementasi Launchpad (Full-screen App Launcher).
 - [NEW] Implementasi Control Center (System Toggles Hub).

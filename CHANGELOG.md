@@ -2,6 +2,7 @@
 
 ## [v11.0.0] - 2026-01-06 (SEQUOIA GLASS EDITION)
 ### Added
+- **AutoSwitch API Engine**: Implemented a generic failover and retry mechanism for all external API calls (LLM, Market Data, etc.).
 - **macOS Sequoia Aesthetic**: Upgraded the entire UI to match macOS Sequoia's "Glass" design language.
 - **Launchpad**: Implemented a full-screen application launcher for quick access to all modules.
 - **Control Center**: Added a unified system controls hub for theme, network, and system toggles.
