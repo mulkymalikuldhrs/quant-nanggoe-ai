@@ -1,55 +1,40 @@
-================================================================================
-ANALISIS ARSITEKTUR & STRUKTUR: QUANT NANGGROE AI VS DHAHER QUANT 01
-================================================================================
+# ANALISIS ARSITEKTUR & STRUKTUR: QUANT NANGGROE AI VS DHAHER QUANT 01
 
-1. ARSITEKTUR & STRUKTUR UTAMA
---------------------------------------------------------------------------------
-Quant Nanggroe AI (Project Root):
-- Arsitektur: "Neural Living OS" (Operating System Paradigm).
-- Struktur: Window-based Manager. Menggunakan WindowFrame untuk mengelola aplikasi internal (Terminal, Browser, Market, Portfolio).
-- Sistem Agent: "Parallel Swarm Architecture" (Alpha Prime, Quant OS, Sentinel, Risk Daemon, Algo Weaver).
-- Teknologi Kunci: browser_core.ts (Navigasi web real-time), llm_router.ts (Otomatisasi pemilihan model AI), drive.ts (Virtual File System).
+## 1. STRUKTUR & DATA TAMBAHAN (QUANT NANGGROE AI)
+- **Arsitektur:** Autonomous Swarm Intelligence / Web-Based OS.
+- **Struktur Folder:**
+    - `components/`: Window-based UI (Artifact, Browser, Market, Trading Terminal).
+    - `services/`: AI Orchestration & Virtual System logic.
+- **Fitur Utama:** Neural Shell (CLI), Neural Browser (Agent Vision via Neural Proxy), BrowserFS (Virtual File System).
+- **Sumber Data:** CoinGecko, DexScreener, AlphaVantage.
+- **Implementasi:** OS-centric, di mana AI bertindak sebagai operator sistem (Nanggroe OS).
 
-Dhaher Quant 01 (Sub-Project):
-- Arsitektur: "Institutional Trading Terminal" (Dashboard Paradigm).
-- Struktur: Grid-based Layout (12x12). Fokus pada kepadatan informasi tinggi (High-Density Information Display).
-- Sistem Agent: AI Command Interface yang terintegrasi langsung dengan widget visual.
-- Teknologi Kunci: signalParser.ts (Ekstraksi data terstruktur dari AI), tradingEconomicsService.ts (Macro data), MiSiScreener.tsx (Multi-Indicator Signal).
+## 2. STRUKTUR & DATA TAMBAHAN (DHAHER QUANT 01)
+- **Arsitektur:** Central Intelligence Engine (Institutional Grade).
+- **Struktur Folder:** Modular Terminal Components (fokus pada data-driven widgets).
+- **Fitur Utama:** Dhaher Command Language (DCL: /scan, /quant, /cot), Institutional Analysis Stack (SMC/ICT, COT Reports, Macro Yields).
+- **Sumber Data:** Binance Public API, TwelveData, Stooq, FRED, ForexFactory (Real Public Data Only).
+- **Implementasi:** Decision-centric, fokus pada akurasi data tanpa simulasi (No Fake Data Policy).
 
-2. FITUR & SUMBER DATA (UNTUK DIGABUNGKAN KE QUANT NANGGROE AI)
---------------------------------------------------------------------------------
-Fitur Tambahan dari Dhaher Quant 01 yang akan diambil:
-- OrderFlowWidget: Visualisasi mikrostruktur pasar dan likuiditas.
-- CorrelationMatrix: Analisis korelasi antar aset (Forex/Crypto/Indices).
-- MiSi Screener: Sistem screening aset berdasarkan banyak indikator secara real-time.
-- Fundamental Analysis Widget: Integrasi data ekonomi makro dari AI & News.
-- Signal Log System: Logging sinyal trading yang lebih detail dan historis.
+## 3. PERBEDAAN UTAMA
+| Fitur | Quant Nanggroe AI | Dhaher Quant 01 |
+| :--- | :--- | :--- |
+| **Fokus Utama** | Horizontal (Platform/OS) | Vertical (Deep Intelligence) |
+| **Interaksi** | OS Interface (Windows/CLI) | Terminal Command (DCL) |
+| **Filosofi** | Autonomous Swarm Agent | Institutional Decision Engine |
+| **Data Policy** | Real-time Market Data | No Simulation (Strictly Public Real) |
 
-Sumber Data:
-- Trading Economics API (via service).
-- AI News Feed (Sourced from LLM synthesis).
-- Real-time Tick Data integration dari marketDataService.
+## 4. KELENGKAPAN & PERBANDINGAN
+- **Quant Nanggroe AI** lebih unggul dalam UI/UX (OS Environment) dan otonomi agent (Neural Browser).
+- **Dhaher Quant 01** lebih unggul dalam rigiditas logika finansial (SMC/ICT) dan integrasi data makro (COT/FRED).
 
-3. PERBEDAAN & PERBANDINGAN
---------------------------------------------------------------------------------
-| Aspek | Quant Nanggroe AI (QNAI) | Dhaher Quant 01 (DQ01) |
-|-------|--------------------------|------------------------|
-| Konsep | Sistem Operasi AI Otonom | Terminal Trading Kuantitatif |
-| UI/UX | Glassmorphism, Windowed | Terminal Black, Grid-based |
-| Agensi | Swarm (Banyak Agent Kerja) | Single Brain (Command Center) |
-| Fokus | Riset, Otonomi, Navigasi | Eksekusi, Visualisasi Data |
-| Skalabilitas | Sangat Tinggi (Bisa tambah App) | Medium (Fokus pada satu layar) |
+## 5. RENCANA PENGGABUNGAN (Quant Nanggroe AI + Dhaher Engine)
+Untuk menciptakan Quant Nanggroe AI yang definitif, elemen berikut akan diambil dari Dhaher Quant 01:
+- **Analytic Engine:** Memasukkan stack SMC/ICT ke dalam agent `Quant OS`.
+- **Command Set:** Mengintegrasikan DCL (`/scan`, `/quant`) ke dalam `Neural Shell`.
+- **Macro Source:** Menambahkan feed FRED dan COT Positioning ke dalam `MarketWindow`.
+- **Identity:** Mengadopsi "No Simulation Policy" untuk memastikan semua sinyal yang dihasilkan oleh Swarm bersifat faktual.
 
-4. KELENGKAPAN & EVALUASI
---------------------------------------------------------------------------------
-- Kelengkapan QNAI: Unggul di infrastruktur (Browser, File System, Swarm Monitor).
-- Kelengkapan DQ01: Unggul di instrumen trading spesifik (Order Flow, Screener, Matrix).
-
-REKOMENDASI IMPLEMENTASI:
-Gabungkan widget DQ01 ke dalam 'TradingTerminalWindow' di QNAI. Jadikan DQ01 sebagai "Hati" dari eksekusi trading di dalam ekosistem OS Quant Nanggroe AI. Sentinel Agent di QNAI akan menyuplai data ke FundamentalAnalysisWidget milik DQ01.
-
-Keterangan: Semua data arsitektur telah diinspeksi dan siap untuk proses penggabungan fitur (Merge).
-================================================================================
-Oleh: Orchids AI Assistant (Based on Mulky Malikul Dhaher's Core Logic)
-Tanggal: 2026-01-06
-================================================================================
+**Status:** Siap Digabungkan ke Quant Nanggroe AI.
+**Penulis:** Orchids AI
+**Tanggal:** 2026-01-06
