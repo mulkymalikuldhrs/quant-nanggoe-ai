@@ -1,47 +1,39 @@
-# DOCUMENTATION: QUANT NANGGROE AI v11.2.0 - THE SAPPHIRE GLASS OPERATING SYSTEM
+# DOCUMENTATION: QUANT NANGGROE AI v11.3.0 - THE KNOWLEDGE DISK OPERATING SYSTEM
 ================================================================================
 
 ## OVERVIEW
-Quant Nanggroe AI v11.2.0 (Sapphire Glass Edition) adalah platform komando trading otonom tercanggih yang mengintegrasikan kecerdasan buatan tingkat lanjut dengan estetika desain "Sapphire Glass". Versi ini memperkenalkan Sapphire Latency Optimizer untuk responsivitas UI yang mendekati instan.
+Quant Nanggroe AI v11.3.0 (Knowledge Disk Edition) adalah evolusi besar yang memperkenalkan agen riset otonom dan struktur penyimpanan data berbasis "Virtual Disk C:". Versi ini memungkinkan sistem untuk belajar dan mengumpulkan kecerdasan pasar secara mandiri tanpa henti.
 
-## 1. CORE ARCHITECTURE: NEURAL SWARM PARALLELISM
-Sistem beroperasi menggunakan 5 agen otonom yang bekerja secara paralel, dikoordinasikan oleh Alpha Prime:
+## 1. CORE ARCHITECTURE: NEURAL SWARM & RESEARCH AGENT
+Selain 5 agen utama, v11.3 memperkenalkan:
 
-*   **Alpha Prime (The Architect)**: Koordinator pusat & Pengambil keputusan akhir.
-*   **Quant-Scanner (The Math Engine)**: Analisis Teknikal & Algoritmik.
-*   **News-Sentinel (The Macro Watcher)**: Analisis Fundamental & Sentimen.
-*   **Risk-Guardian (The Protector)**: Manajemen Modal & Risiko.
-*   **Strategy-Weaver (The Algo Developer)**: Backtesting & Implementasi Strategi.
+*   **Autonomous Research Agent (NEW)**: Agen khusus yang bekerja di latar belakang untuk memindai API publik (News, Market, Geo, Sentiment, Institutional, AI) dan menyimpan temuannya ke dalam basis pengetahuan.
+*   **Neural Swarm v2.2**: Integrasi data riset otonom ke dalam memori jangka panjang agen swarm untuk pengambilan keputusan yang lebih berwawasan.
 
-## 2. USER EXPERIENCE: SAPPHIRE GLASS DESIGN LANGUAGE
-Estetika v11.2 meningkatkan standar "Glassmorphism":
+## 2. DATA STORAGE: KNOWLEDGE DISK (C:)
+Sistem kini memiliki struktur penyimpanan virtual yang terorganisir:
 
-*   **Sapphire Glass Effects**: Pengenalan nuansa biru kristal "Sapphire" dengan micro-shadows yang lebih dalam untuk dimensi visual yang lebih tajam.
-*   **Sapphire Latency Optimizer (NEW)**: Sistem sinkronisasi state adaptif yang mengurangi delay UI saat operasi swarm intensitas tinggi.
-*   **Authentic Launchpad**: Antarmuka peluncur aplikasi layar penuh untuk akses cepat ke semua modul sistem.
-*   **Integrated Control Center**: Panel pengaturan sistem terpadu untuk kendali cepat atas tema, jaringan, dan performa.
+*   **Virtual Disk C: (NEW)**: Struktur file system yang mengkategorikan data riset ke dalam folder spesifik seperti `/MARKET`, `/NEWS`, `/GEO`, `/SENTIMENT`, `/INSTITUTIONAL`, dan `/AI_UPDATES`.
+*   **Knowledge Disk Explorer**: Antarmuka visual untuk menjelajahi Disk C:, membaca laporan riset, dan mengelola intelijen yang terkumpul.
 
-## 3. DATA RECOVERY & ROBUSTNESS: AUTOSWITCH v2
-Sistem ini dibangun dengan tingkat toleransi kesalahan tingkat institusional:
-
-*   **Global API Health Monitor**: Sistem pelacakan kesehatan API terpusat yang memantau tingkat keberhasilan/kegagalan setiap provider secara real-time.
-*   **Proactive Failover**: AutoSwitch secara cerdas mengurutkan provider berdasarkan reliabilitas historis sebelum melakukan eksekusi.
-*   **Decay-based Recovery**: Mekanisme cooldown otomatis yang memulihkan provider yang sempat gagal secara bertahap.
+## 3. DATA ACQUISITION & INTELLIGENCE
+*   **Multi-Source Intelligence**: Penarikan data otomatis dari berbagai hub global termasuk Global News Hub, Market Intelligence, Geopolitical Snapshots, dan Institutional Trackers.
+*   **Automatic Summarization**: Penggunaan AI untuk meringkas data mentah menjadi wawasan yang dapat ditindaklanjuti sebelum disimpan ke disk.
 
 ## 4. TECHNICAL SPECIFICATIONS
-*   **Engine**: Gemini 2.0 Flash / Pro 11.2 (Neural Core)
+*   **Engine**: Gemini 2.0 Flash / Pro 11.3 (Neural Core)
+*   **Storage**: LocalStorage-backed Virtual File System (Disk C:)
+*   **Research Intervals**: Adaptive (Default: 60s - 300s)
 *   **UI Library**: React 19 + Tailwind CSS 4.0
-*   **Latency Optimizer**: version 1.0 (Sapphire Sync)
-*   **Market Coverage**: Crypto (Binance), Stocks (Polygon), Forex (Frankfurter), DEX (DexScreener)
 
-## 5. CHANGELOG v11.2.0 (SAPPHIRE GLASS EDITION)
-- [UPGRADE] Migrasi sistem ke v11.2.0 (Sapphire Glass Edition).
-- [NEW] Sapphire Latency Optimizer: Optimasi sinkronisasi state untuk near-zero delay.
-- [NEW] Sapphire Glass Visuals: Estetika biru kristal dengan kedalaman bayangan mikro.
-- [NEW] Neural Swarm v2.1: Pengurangan overhead komunikasi antar-agen.
-- [SYNC] Sinkronisasi metadata dan dokumentasi sistem secara menyeluruh.
+## 5. CHANGELOG v11.3.0 (KNOWLEDGE DISK EDITION)
+- [UPGRADE] Migrasi sistem ke v11.3.0 (Knowledge Disk Edition).
+- [NEW] Autonomous Research Agent: Pengumpulan data intelijen secara otonom.
+- [NEW] Knowledge Disk (C:): Struktur penyimpanan virtual terorganisir.
+- [NEW] Disk Explorer UI: Navigasi file system untuk basis pengetahuan.
+- [NEW] Research Monitor: Dashboard pemantauan aktivitas agen riset.
 
 --------------------------------------------------------------------------------
-DOKUMENTASI RESMI - QUANT NANGGROE AI v11.2.0 (2026)
-"Clarity in data, Sapphire in speed."
+DOKUMENTASI RESMI - QUANT NANGGROE AI v11.3.0 (2026)
+"Knowledge is stored, Power is automated."
 

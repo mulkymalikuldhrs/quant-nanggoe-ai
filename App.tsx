@@ -21,7 +21,9 @@ import OmniBar from './components/OmniBar';
 import Launchpad from './components/Launchpad';
 import ControlCenter from './components/ControlCenter';
 import SystemUpdater from './components/SystemUpdater';
-import { IconCode, IconBot, IconSettings, IconBrain, IconBook, IconMaximize, IconGlobe, IconLogo, IconChart, IconBrowser, IconTerminal, IconSearch, IconSun, IconMoon } from './components/Icons';
+import { ResearchAgentWindow } from './components/ResearchAgentWindow';
+import { KnowledgeBaseWindow } from './components/KnowledgeBaseWindow';
+import { IconCode, IconBot, IconSettings, IconBrain, IconBook, IconMaximize, IconGlobe, IconLogo, IconChart, IconBrowser, IconTerminal, IconSearch, IconSun, IconMoon, IconDatabase } from './components/Icons';
 import { useAdaptiveLayout } from './services/adaptive_layout';
 
 // --- THEME CONTEXT ---
@@ -56,7 +58,7 @@ const DEFAULT_CONFIG: SystemConfiguration = {
   apiKeys: { google: '', groq: '', openai: '', huggingface: '', llm7: '', alphaVantage: '', finnhub: '', fred: '', polygon: '' }
 };
 
-type WindowId = 'terminal' | 'monitor' | 'settings' | 'about' | 'docs' | 'artifact' | 'portfolio' | 'market' | 'browser' | 'trading_terminal' | 'architecture';
+type WindowId = 'terminal' | 'monitor' | 'settings' | 'about' | 'docs' | 'artifact' | 'portfolio' | 'market' | 'browser' | 'trading_terminal' | 'architecture' | 'research' | 'knowledge_base';
 
 interface WindowState {
     id: WindowId;
@@ -113,6 +115,8 @@ const App: React.FC = () => {
         architecture: { id: 'architecture', isOpen: false, isMinimized: false, zIndex: 9, title: 'ARCHITECTURE', icon: <IconBrain />, defaultPos: { x: 50, y: 50 }, defaultSize: { width: 900, height: 700 } },
         artifact: { id: 'artifact', isOpen: false, isMinimized: false, zIndex: 4, title: 'QUANT_LAB', icon: <IconMaximize />, defaultPos: { x: 150, y: 80 }, defaultSize: { width: 800, height: 600 } },
         settings: { id: 'settings', isOpen: false, isMinimized: false, zIndex: 5, title: 'CONFIG', icon: <IconSettings />, defaultPos: { x: 300, y: 200 }, defaultSize: { width: 600, height: 500 } },
+        research: { id: 'research', isOpen: false, isMinimized: false, zIndex: 11, title: 'RESEARCH_AGENT', icon: <IconSearch />, defaultPos: { x: 400, y: 100 }, defaultSize: { width: 600, height: 500 } },
+        knowledge_base: { id: 'knowledge_base', isOpen: false, isMinimized: false, zIndex: 12, title: 'KNOWLEDGE_DISK', icon: <IconDatabase />, defaultPos: { x: 200, y: 200 }, defaultSize: { width: 1000, height: 600 } },
         about: { id: 'about', isOpen: false, isMinimized: false, zIndex: 6, title: 'INFO', icon: <IconBrain />, defaultPos: { x: 400, y: 200 }, defaultSize: { width: 400, height: 400 } },
         docs: { id: 'docs', isOpen: false, isMinimized: false, zIndex: 7, title: 'MANUAL', icon: <IconBook />, defaultPos: { x: 200, y: 150 }, defaultSize: { width: 500, height: 600 } }
     });
@@ -271,6 +275,8 @@ const App: React.FC = () => {
                     {win.id === 'portfolio' && <PortfolioWindow />}
                     {win.id === 'monitor' && <AgentHud state={agentState} agents={swarmAgents} />}
                     {win.id === 'architecture' && <SystemArchitecture />}
+                    {win.id === 'research' && <ResearchAgentWindow />}
+                    {win.id === 'knowledge_base' && <KnowledgeBaseWindow />}
                     {win.id === 'settings' && <SwarmConfigModal agents={swarmAgents} config={systemConfig} onUpdateAgents={setSwarmAgents} onUpdateConfig={setSystemConfig} />}
                 </WindowFrame>
                 ))}

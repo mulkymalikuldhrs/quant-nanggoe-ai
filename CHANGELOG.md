@@ -1,5 +1,16 @@
 # CHANGELOG - QUANT NANGGROE AI
 
+## [v11.3.0] - 2026-01-06 (KNOWLEDGE DISK EDITION)
+### Added
+- **Autonomous Research Agent**: A new background intelligence gathering system that automatically scans public APIs (News, Market, Geo, Sentiment, Institutional, AI) and stores data.
+- **Knowledge Disk (C:)**: Implemented a virtual file system structure for organizing research data into folders like `/MARKET`, `/NEWS`, `/GEO`, etc.
+- **Disk Explorer UI**: A new window for browsing the Knowledge Base, reading research reports, and managing saved intelligence.
+- **Research Monitor**: Dedicated UI for real-time monitoring of the Research Agent's logs and data acquisition activities.
+
+### Changed
+- **Version Upgrade**: Migrated system to v11.3.0 across all components.
+- **Knowledge Integration**: Seamlessly connected the Research Agent to the existing Long Term Memory system via the Virtual Disk.
+
 ## [v11.2.0] - 2026-01-06 (SAPPHIRE GLASS EDITION)
 ### Added
 - **Sapphire Latency Optimizer**: Implemented an adaptive state synchronization layer that reduces UI response latency by pre-fetching window states and batching state updates.
