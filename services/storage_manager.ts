@@ -1,17 +1,35 @@
 
-import { StorageAdapter, LocalStorageAdapter } from "./storage_adapter";
+import { StorageAdapter, LocalStorageAdapter, IndexedDBAdapter } from "./storage_adapter";
 
 export type StorageMode = 'local' | 'cloud' | 'hybrid';
+
+/**
+ * Cloud Adapter Template (to be implemented with Supabase/Firebase/S3)
+ */
+class CloudAdapterPlaceholder implements StorageAdapter {
+    name = "Cloud Storage (Placeholder)";
+    async isAvailable() { return false; }
+    async getItem() { return null; }
+    async setItem() { }
+    async removeItem() { }
+    async clear() { }
+    async keys() { return []; }
+}
 
 export class StorageManager {
     private static instance: StorageManager;
     private adapters: Map<string, StorageAdapter> = new Map();
     private currentMode: StorageMode = 'local';
-    private primaryAdapterName: string = 'local-storage';
+    private primaryAdapterName: string = 'indexed-db';
 
     private constructor() {
-        // Register default adapter
+        // Register adapters
         this.registerAdapter('local-storage', new LocalStorageAdapter());
+        this.registerAdapter('indexed-db', new IndexedDBAdapter());
+        this.registerAdapter('cloud-storage', new CloudAdapterPlaceholder());
+        
+        // Default to IndexedDB for larger capacity "Local File Storage" feel
+        this.primaryAdapterName = 'indexed-db';
     }
 
     static getInstance(): StorageManager {
