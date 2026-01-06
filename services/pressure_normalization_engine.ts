@@ -6,6 +6,7 @@ import {
     PressureState,
     MarketState
 } from "../types";
+import { AuditLogger } from "./audit_logger";
 
 export const PressureNormalizationEngine = {
     /**
@@ -19,6 +20,7 @@ export const PressureNormalizationEngine = {
         news: NewsSentinelOutput,
         flow: FlowWhaleOutput
     ): PressureState => {
+        AuditLogger.log('PRESSURE', 'Starting Pressure Normalization', { market, quant, smc, news, flow });
         let buyPressure = 0;
         let sellPressure = 0;
         
@@ -54,12 +56,15 @@ export const PressureNormalizationEngine = {
         // Confidence Score based on confluence of directions
         const confidenceScore = Math.max(buyPressure, sellPressure);
 
-        return {
+        const state: PressureState = {
             buyPressure,
             sellPressure,
             volatilityRisk: market.volatility,
             liquidityCondition: market.liquidity,
             confidenceScore
         };
+
+        AuditLogger.log('PRESSURE', 'Normalization Result', state);
+        return state;
     }
 };

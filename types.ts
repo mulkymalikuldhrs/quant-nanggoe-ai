@@ -220,10 +220,12 @@ export interface TechnicalIndicators {
 export interface MarketTicker {
     id: string;
     symbol: string;
+    name?: string;
     currentPrice: number;
     priceChange24h: number;
     volume?: number;
     technicals?: TechnicalIndicators;
+    metadata: DataMetadata; // Required by Blueprint Final
 }
 
 export interface CandleData {

@@ -1,4 +1,5 @@
 import { NewsItem, NewsSentinelOutput } from "../types";
+import { AuditLogger } from "./audit_logger";
 
 export const NewsSentinel = {
     /**
@@ -6,13 +7,16 @@ export const NewsSentinel = {
      * Output must be state & score based. Time decay is mandatory.
      */
     analyze: (news: NewsItem[]): NewsSentinelOutput => {
+        AuditLogger.log('SENSOR', 'NewsSentinel: Analyzing Market News', { newsCount: news?.length });
         if (!news || news.length === 0) {
-            return {
+            const output: NewsSentinelOutput = {
                 eventType: 'NOISE',
                 impactScore: 0.1,
                 directionalUncertainty: 0.5,
                 timeDecay: 0
             };
+            AuditLogger.log('SENSOR', 'NewsSentinel: No News Data', output, 'WARNING');
+            return output;
         }
         
         const headlines = news.map(n => n.headline.toLowerCase());
@@ -41,11 +45,14 @@ export const NewsSentinel = {
         const directionalUncertainty = eventType === 'SHOCK' ? 0.9 : eventType === 'MACRO' ? 0.5 : 0.2;
         const timeDecay = Math.floor((Date.now() - news[0].timestamp) / 1000);
 
-        return {
+        const output: NewsSentinelOutput = {
             eventType,
             impactScore,
             directionalUncertainty,
             timeDecay
         };
+
+        AuditLogger.log('SENSOR', 'NewsSentinel: Analysis Complete', output);
+        return output;
     }
 };

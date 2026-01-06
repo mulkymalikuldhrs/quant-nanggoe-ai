@@ -4,6 +4,7 @@ import { BrowserFS } from "./file_system";
 import { MathEngine } from "./math_engine";
 import { StrategyEngine } from "./strategy_engine";
 import { AutoSwitch, AutoSwitchProvider } from "./autoswitch";
+import { AuditLogger } from "./audit_logger";
 
 // --- API ENDPOINTS ---
 const AV_BASE_URL = "https://www.alphavantage.co/query";
@@ -79,12 +80,24 @@ export const MarketService = {
         return { type: 'stock', id: clean };
     },
 
+    // --- HELPERS ---
+    createMetadata: (source: string, domainType: string, latency: number = 100): DataMetadata => ({
+        source,
+        trustScore: source === 'Binance' || source === 'AlphaVantage' ? 0.9 : 0.7,
+        latencyEstimate: latency,
+        updateFrequency: 'Real-time',
+        domainType
+    }),
+
     getPrice: async (ticker: string): Promise<MarketTicker | null> => {
         const info = MarketService.resolveId(ticker);
         const { type, id } = info;
         const cacheKey = `${type}_${id}`;
         
+        AuditLogger.log('MARKET', 'Fetching Price', { ticker, type, id });
+
         if (priceCache[cacheKey] && Date.now() - priceCache[cacheKey].timestamp < CACHE_DURATION) {
+            AuditLogger.log('MARKET', 'Cache Hit', { ticker });
             return priceCache[cacheKey].data;
         }
 
@@ -143,7 +156,6 @@ export const MarketService = {
                         const cryptoId = id === 'PAXG' ? 'pax-gold' : 'kinesis-silver';
                         result = await MarketService.getBinancePrice(cryptoId);
                         if (result) {
-                            result.type = type; 
                             result.name = info.name || result.name;
                         }
                     }
@@ -166,9 +178,6 @@ export const MarketService = {
                      });
                      const technicals = MathEngine.analyzeSequence(candles);
                      result.technicals = technicals;
-                     const allSignals = StrategyEngine.evaluate(candles, technicals);
-                     result.activeSignals = allSignals;
-                     result.consensus = StrategyEngine.generateConsensus(allSignals);
                 }
             } catch (e) {
                 console.warn("Strategy analysis failed for", ticker, e);
@@ -184,10 +193,11 @@ export const MarketService = {
         if (data.pairs && data.pairs.length > 0) {
             const pair = data.pairs[0];
             return {
-                id: pair.baseToken.address, symbol: pair.baseToken.symbol, name: `${pair.baseToken.name} (${pair.dexId})`,
-                current_price: parseFloat(pair.priceUsd), market_cap: pair.fdv,
-                price_change_percentage_24h: pair.priceChange.h24, high_24h: 0, low_24h: 0,
-                volume: pair.volume.h24, type: 'dex', source: 'DexScreener'
+                id: pair.baseToken.address, symbol: pair.baseToken.symbol,
+                currentPrice: parseFloat(pair.priceUsd),
+                priceChange24h: pair.priceChange.h24,
+                volume: pair.volume.h24,
+                metadata: MarketService.createMetadata('DexScreener', 'dex')
             };
         }
         return null;
@@ -199,9 +209,10 @@ export const MarketService = {
         const data = await fetchWithProxy(`${FRANKFURTER_BASE_URL}/latest?from=${from}&to=${to}`);
         if (data.rates && data.rates[to]) {
              return {
-                id: pair, symbol: pair, name: `${from}/${to} FX`, current_price: data.rates[to],
-                market_cap: 0, price_change_percentage_24h: 0, high_24h: 0, low_24h: 0,
-                type: 'forex', source: 'Frankfurter (ECB)'
+                id: pair, symbol: pair, 
+                currentPrice: data.rates[to],
+                priceChange24h: 0,
+                metadata: MarketService.createMetadata('Frankfurter (ECB)', 'forex')
              };
         }
         return null;
@@ -214,10 +225,10 @@ export const MarketService = {
         const rate = data['Realtime Currency Exchange Rate'];
         if (rate) {
             return {
-                id: pair, symbol: pair, name: `${from}/${to} FX`,
-                current_price: parseFloat(rate['5. Exchange Rate']), market_cap: 0,
-                price_change_percentage_24h: 0, high_24h: 0, low_24h: 0,
-                type: 'forex', source: 'AlphaVantage'
+                id: pair, symbol: pair,
+                currentPrice: parseFloat(rate['5. Exchange Rate']),
+                priceChange24h: 0,
+                metadata: MarketService.createMetadata('AlphaVantage', 'forex')
             };
         }
         return null;
@@ -237,11 +248,11 @@ export const MarketService = {
             const data = await fetchWithProxy(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`);
             if (data && data.lastPrice) {
                 return {
-                    id: id, symbol: symbol.replace('USDT', ''), name: id.charAt(0).toUpperCase() + id.slice(1),
-                    current_price: parseFloat(data.lastPrice), market_cap: 0,
-                    price_change_percentage_24h: parseFloat(data.priceChangePercent),
-                    high_24h: parseFloat(data.highPrice), low_24h: parseFloat(data.lowPrice),
-                    volume: parseFloat(data.volume), type: 'crypto', source: 'Binance'
+                    id: id, symbol: symbol.replace('USDT', ''), 
+                    currentPrice: parseFloat(data.lastPrice),
+                    priceChange24h: parseFloat(data.priceChangePercent),
+                    volume: parseFloat(data.volume),
+                    metadata: MarketService.createMetadata('Binance', 'crypto')
                 };
             }
         } catch (e) { }
@@ -253,9 +264,10 @@ export const MarketService = {
         const data = json.data;
         if (data) {
             return {
-                id: data.id, symbol: data.symbol, name: data.name, current_price: parseFloat(data.priceUsd),
-                market_cap: parseFloat(data.marketCapUsd), price_change_percentage_24h: parseFloat(data.changePercent24Hr),
-                high_24h: 0, low_24h: 0, type: 'crypto', source: 'CoinCap'
+                id: data.id, symbol: data.symbol, name: data.name, 
+                currentPrice: parseFloat(data.priceUsd),
+                priceChange24h: parseFloat(data.changePercent24Hr),
+                metadata: MarketService.createMetadata('CoinCap', 'crypto')
             };
         }
         return null;
@@ -266,10 +278,10 @@ export const MarketService = {
         const quote = data['Global Quote'];
         if (quote && quote['05. price']) {
             return {
-                id: ticker, symbol: ticker, name: ticker, current_price: parseFloat(quote['05. price']),
-                market_cap: 0, price_change_percentage_24h: parseFloat(quote['10. change percent'].replace('%', '')),
-                high_24h: parseFloat(quote['03. high']), low_24h: parseFloat(quote['04. low']),
-                type: 'stock', source: 'AlphaVantage'
+                id: ticker, symbol: ticker, name: ticker, 
+                currentPrice: parseFloat(quote['05. price']),
+                priceChange24h: parseFloat(quote['10. change percent'].replace('%', '')),
+                metadata: MarketService.createMetadata('AlphaVantage', 'stock')
             };
         }
         return null;
@@ -279,9 +291,10 @@ export const MarketService = {
         const data = await fetchWithProxy(`${FH_BASE_URL}/quote?symbol=${ticker}&token=${apiKey}`);
         if (data.c) {
             return {
-                id: ticker, symbol: ticker, name: ticker, current_price: data.c,
-                market_cap: 0, price_change_percentage_24h: data.dp,
-                high_24h: data.h, low_24h: data.l, type: 'stock', source: 'Finnhub'
+                id: ticker, symbol: ticker, name: ticker, 
+                currentPrice: data.c,
+                priceChange24h: data.dp,
+                metadata: MarketService.createMetadata('Finnhub', 'stock')
             };
         }
         return null;
@@ -292,9 +305,10 @@ export const MarketService = {
         if (data.results && data.results.length > 0) {
             const r = data.results[0];
             return {
-                id: ticker, symbol: ticker, name: ticker, current_price: r.c, market_cap: 0,
-                price_change_percentage_24h: ((r.c - r.o) / r.o) * 100,
-                high_24h: r.h, low_24h: r.l, type: 'stock', source: 'Polygon'
+                id: ticker, symbol: ticker, name: ticker, 
+                currentPrice: r.c,
+                priceChange24h: ((r.c - r.o) / r.o) * 100,
+                metadata: MarketService.createMetadata('Polygon', 'stock')
             };
         }
         return null;

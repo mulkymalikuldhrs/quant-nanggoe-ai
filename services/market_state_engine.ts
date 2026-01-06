@@ -1,5 +1,6 @@
 import { CandleData, MarketState, MarketRegime } from "../types";
 import { MathEngine } from "./math_engine";
+import { AuditLogger } from "./audit_logger";
 
 export const MarketStateEngine = {
     /**
@@ -7,13 +8,16 @@ export const MarketStateEngine = {
      * Located above all agents. If output is NO_TRADE, all agents must remain idle.
      */
     analyze: (candles: CandleData[]): MarketState => {
+        AuditLogger.log('MARKET', 'Analyzing Market State', { candleCount: candles?.length });
         if (!candles || candles.length < 50) {
-            return {
+            const state: MarketState = {
                 regime: 'NO_TRADE',
                 volatility: 'NORMAL',
                 liquidity: 'NORMAL',
                 timestamp: Date.now()
             };
+            AuditLogger.log('MARKET', 'Market State Result', state, 'WARNING');
+            return state;
         }
 
         const closes = candles.map(c => c.close);
@@ -57,17 +61,14 @@ export const MarketStateEngine = {
         if (lastVol < avgVol * 0.4) liquidity = 'THIN';
         else if (lastVol > avgVol * 1.8) liquidity = 'DEEP';
 
-        // 4. Force NO_TRADE in extreme conditions
-        if (regime === 'PANIC' || (volatility === 'HIGH' && liquidity === 'THIN')) {
-            // High danger zone
-            // We keep regime as PANIC but decision synthesis should handle it
-        }
-
-        return {
+        const state: MarketState = {
             regime,
             volatility,
             liquidity,
             timestamp: Date.now()
         };
+
+        AuditLogger.log('MARKET', 'Market State Result', state);
+        return state;
     }
 };

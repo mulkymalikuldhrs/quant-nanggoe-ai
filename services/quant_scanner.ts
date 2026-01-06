@@ -1,5 +1,6 @@
 import { CandleData, QuantScannerOutput } from "../types";
 import { MathEngine } from "./math_engine";
+import { AuditLogger } from "./audit_logger";
 
 export const QuantScanner = {
     /**
@@ -7,12 +8,15 @@ export const QuantScanner = {
      * Output: Numeric & State-based only. No "Buy/Sell" opinions.
      */
     analyze: (candles: CandleData[]): QuantScannerOutput => {
+        AuditLogger.log('SENSOR', 'QuantScanner: Starting Technical Analysis', { candleCount: candles?.length });
         if (!candles || candles.length < 50) {
-            return {
+            const output: QuantScannerOutput = {
                 trendStrength: 0,
                 structureState: 'NEUTRAL',
                 volatilityExpansion: false
             };
+            AuditLogger.log('SENSOR', 'QuantScanner: Insufficient Data', output, 'WARNING');
+            return output;
         }
 
         const closes = candles.map(c => c.close);
@@ -30,10 +34,13 @@ export const QuantScanner = {
         const bb = MathEngine.calculateBollingerBands(closes);
         const volatilityExpansion = (bb.upper - bb.lower) > (MathEngine.calculateSMA(closes, 20) * 0.05);
 
-        return {
+        const output: QuantScannerOutput = {
             trendStrength,
             structureState,
             volatilityExpansion
         };
+
+        AuditLogger.log('SENSOR', 'QuantScanner: Analysis Complete', output);
+        return output;
     }
 };

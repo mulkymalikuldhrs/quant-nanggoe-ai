@@ -1,4 +1,5 @@
 import { CandleData, SMCOutput } from "../types";
+import { AuditLogger } from "./audit_logger";
 
 export const SMCAgent = {
     /**
@@ -6,12 +7,15 @@ export const SMCAgent = {
      * Treats SMC concepts as data points. No execution logic here.
      */
     analyze: (candles: CandleData[]): SMCOutput => {
+        AuditLogger.log('SENSOR', 'SMCAgent: Analyzing Price Action', { candleCount: candles?.length });
         if (candles.length < 20) {
-            return {
+            const output: SMCOutput = {
                 liquiditySweep: false,
                 displacementStrength: 0,
                 poiValidity: 0
             };
+            AuditLogger.log('SENSOR', 'SMCAgent: Insufficient Data', output, 'WARNING');
+            return output;
         }
         
         const lastCandle = candles[candles.length - 1];
@@ -32,10 +36,13 @@ export const SMCAgent = {
         // POI Validity: Simplified POI near extremes
         const poiValidity = (lastCandle.close > highestHigh * 0.98 || lastCandle.close < lowestLow * 1.02) ? 0.8 : 0.2;
 
-        return {
+        const output: SMCOutput = {
             liquiditySweep,
             displacementStrength,
             poiValidity
         };
+
+        AuditLogger.log('SENSOR', 'SMCAgent: SMC Analysis Complete', output);
+        return output;
     }
 };

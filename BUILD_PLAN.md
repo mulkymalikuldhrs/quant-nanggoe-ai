@@ -7,8 +7,8 @@ Rencana pembangunan bertahap untuk mengubah rangka mesin menjadi sistem operasio
 ### **Minggu 1: Foundation & Data Metadata**
 - **Goal**: Memastikan integritas data dan state engine.
 - [x] Implementasi `MarketStateEngine` (Regime/Volatility/Liquidity).
-- [ ] Integrasi Metadata Enforcement di semua data ingestion.
-- [ ] Setup Logging untuk audit trail setiap layer.
+- [x] Integrasi Metadata Enforcement di semua data ingestion.
+- [x] Setup Logging for audit trail setiap layer.
 
 ### **Minggu 2: Multi-Agent Sensor Refinement**
 - **Goal**: Kalibrasi output numerik dari setiap agen.

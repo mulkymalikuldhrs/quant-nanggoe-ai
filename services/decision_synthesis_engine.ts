@@ -11,6 +11,7 @@ import {
 } from "../types";
 import { RiskManagement } from "./risk_management";
 import { EntryRiskEngine } from "./entry_risk_engine";
+import { AuditLogger } from "./audit_logger";
 
 export const DecisionSynthesisEngine = {
     /**
@@ -48,9 +49,13 @@ export const DecisionSynthesisEngine = {
         quant: QuantScannerOutput,
         dailyPnL: number
     ): DecisionSynthesis => {
+        AuditLogger.log('DECISION', 'Starting Decision Synthesis', { market, pressures, dailyPnL });
+        
         // 1. Regime Guard (Top Level)
         if (market.regime === 'NO_TRADE') {
-            return { regime: market.regime, pressures, confluence: { isAllowed: false, reason: 'REGIME_NO_TRADE', score: 0 }, riskClearance: 'CLEAR', action: 'WAIT' };
+            const result: DecisionSynthesis = { regime: market.regime, pressures, confluence: { isAllowed: false, reason: 'REGIME_NO_TRADE', score: 0 }, riskClearance: 'CLEAR', action: 'WAIT' };
+            AuditLogger.log('DECISION', 'Regime Guard Blocked', result, 'WARNING');
+            return result;
         }
 
         // 2. Confluence Evaluation (Decision Table)
@@ -66,9 +71,12 @@ export const DecisionSynthesisEngine = {
                 confluence.reason = 'CONFLUENCE_MET';
             }
         }
+        
+        AuditLogger.log('DECISION', 'Confluence Status', confluence);
 
         // 3. Risk Clearance (The "Law")
         const riskClearance = RiskManagement.validateTrade(dailyPnL, 0.5, false); // Correlation/Macro mock for now
+        AuditLogger.log('RISK', 'Risk Clearance Result', { riskClearance });
 
         // 4. Action Determination
         let action: 'BUY' | 'SELL' | 'HOLD' | 'WAIT' = 'WAIT';
@@ -90,7 +98,7 @@ export const DecisionSynthesisEngine = {
             };
         }
 
-        return {
+        const finalDecision: DecisionSynthesis = {
             regime: market.regime,
             pressures,
             confluence,
@@ -98,5 +106,8 @@ export const DecisionSynthesisEngine = {
             riskClearance: riskClearance === 'CLEAR' ? 'CLEAR' : 'BLOCKED',
             action
         };
+
+        AuditLogger.log('DECISION', 'Final Decision Object', finalDecision);
+        return finalDecision;
     }
 };
