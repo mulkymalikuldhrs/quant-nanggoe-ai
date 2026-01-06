@@ -148,7 +148,7 @@ const WindowFrame: React.FC<WindowFrameProps> = ({
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-hidden relative bg-[#09090b]/95 backdrop-blur-xl">
+        <div className="flex-1 overflow-hidden relative bg-transparent backdrop-blur-sm">
             {children}
         </div>
 

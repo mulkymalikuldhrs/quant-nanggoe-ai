@@ -48,27 +48,56 @@
         background: var(--accent-primary); 
       }
       
-      /* Terminal Utilities */
-      .glass-panel {
-        background: var(--panel-bg);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid var(--panel-border);
-        box-shadow: var(--window-shadow);
-      }
-      
-      .dock-glass {
-        background: rgba(9, 9, 11, 0.8);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        border: 1px solid var(--panel-border);
-      }
+        /* Terminal Utilities */
+        .glass-panel {
+          background: rgba(18, 18, 21, 0.35);
+          backdrop-filter: blur(40px) saturate(180%);
+          -webkit-backdrop-filter: blur(40px) saturate(180%);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+          position: relative;
+        }
 
-      .menu-bar-glass {
-        background: rgba(9, 9, 11, 0.95);
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid var(--panel-border);
-      }
+        .glass-panel::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          padding: 1px;
+          background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.1) 100%);
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          mask-composite: exclude;
+          -webkit-mask-composite: xor;
+          pointer-events: none;
+        }
+        
+        .dock-glass {
+          background: rgba(9, 9, 11, 0.4);
+          backdrop-filter: blur(25px) saturate(150%);
+          -webkit-backdrop-filter: blur(25px) saturate(150%);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .menu-bar-glass {
+          background: rgba(9, 9, 11, 0.4);
+          backdrop-filter: blur(20px);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Glass Text */
+        .glass-text {
+          color: rgba(255, 255, 255, 0.8);
+          text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .glass-card {
+          background: rgba(255, 255, 255, 0.03);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: 12px;
+        }
 
       /* Animations */
       @keyframes scanline {

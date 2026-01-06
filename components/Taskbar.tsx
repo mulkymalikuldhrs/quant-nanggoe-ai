@@ -11,14 +11,14 @@ interface Props {
 const Taskbar: React.FC<Props> = ({ windows, onToggleWindow, onStartClick }) => {
   
     const dockItems = [
-      { id: 'terminal', icon: <IconCode className="w-5 h-5 md:w-6 md:h-6 text-[var(--accent-primary)]" />, label: 'Neural Terminal', bg: 'bg-[#18181b]' },
-      { id: 'browser', icon: <IconBrowser className="w-5 h-5 md:w-6 md:h-6 text-[var(--accent-secondary)]" />, label: 'Neural Browser', bg: 'bg-[#18181b]' },
-      { id: 'trading_terminal', icon: <IconTerminal className="w-5 h-5 md:w-6 md:h-6 text-zinc-400" />, label: 'MT5 Terminal', bg: 'bg-[#18181b]' },
-      { id: 'market', icon: <IconChart className="w-5 h-5 md:w-6 md:h-6 text-[var(--accent-warning)]" />, label: 'Market Feed', bg: 'bg-[#18181b]' },
-      { id: 'portfolio', icon: <IconBook className="w-5 h-5 md:w-6 md:h-6 text-emerald-400" />, label: 'Portfolio', bg: 'bg-[#18181b]' },
-      { id: 'monitor', icon: <IconBot className="w-5 h-5 md:w-6 md:h-6 text-indigo-400" />, label: 'Swarm Monitor', bg: 'bg-[#18181b]' },
-      { id: 'artifact', icon: <IconSearch className="w-5 h-5 md:w-6 md:h-6 text-purple-400" />, label: 'Research Lab', bg: 'bg-[#18181b]' },
-      { id: 'settings', icon: <IconSettings className="w-5 h-5 md:w-6 md:h-6 text-zinc-400" />, label: 'Sys Config', bg: 'bg-[#18181b]' },
+      { id: 'terminal', icon: <IconCode className="w-5 h-5 md:w-6 md:h-6 text-[var(--accent-primary)]" />, label: 'Neural Terminal', bg: 'bg-white/5' },
+      { id: 'browser', icon: <IconBrowser className="w-5 h-5 md:w-6 md:h-6 text-[var(--accent-secondary)]" />, label: 'Neural Browser', bg: 'bg-white/5' },
+      { id: 'trading_terminal', icon: <IconTerminal className="w-5 h-5 md:w-6 md:h-6 text-zinc-400" />, label: 'MT5 Terminal', bg: 'bg-white/5' },
+      { id: 'market', icon: <IconChart className="w-5 h-5 md:w-6 md:h-6 text-[var(--accent-warning)]" />, label: 'Market Feed', bg: 'bg-white/5' },
+      { id: 'portfolio', icon: <IconBook className="w-5 h-5 md:w-6 md:h-6 text-emerald-400" />, label: 'Portfolio', bg: 'bg-white/5' },
+      { id: 'monitor', icon: <IconBot className="w-5 h-5 md:w-6 md:h-6 text-indigo-400" />, label: 'Swarm Monitor', bg: 'bg-white/5' },
+      { id: 'artifact', icon: <IconSearch className="w-5 h-5 md:w-6 md:h-6 text-purple-400" />, label: 'Research Lab', bg: 'bg-white/5' },
+      { id: 'settings', icon: <IconSettings className="w-5 h-5 md:w-6 md:h-6 text-zinc-400" />, label: 'Sys Config', bg: 'bg-white/5' },
     ];
 
     return (

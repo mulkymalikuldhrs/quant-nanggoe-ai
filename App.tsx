@@ -265,28 +265,33 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="h-screen w-screen relative overflow-hidden bg-[#09090b]">
-      
-      {/* BACKGROUND EFFECTS */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-emerald-500/5 via-transparent to-transparent opacity-50"></div>
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+      <div className="h-screen w-screen relative overflow-hidden bg-[#020205]">
+        
+        {/* BACKGROUND EFFECTS - MESH GRADIENT */}
+        <div className="absolute inset-0 z-0">
+            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-emerald-500/10 blur-[120px] animate-pulse"></div>
+            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-blue-500/10 blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
+            <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] rounded-full bg-purple-500/5 blur-[100px] animate-pulse" style={{ animationDelay: '4s' }}></div>
+        </div>
+        
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] opacity-20"></div>
 
-      {/* SYSTEM LAYERS */}
-      <SystemUpdater currentVersion="9.0.0" />
-      <OmniBar isOpen={isOmniBarOpen} onClose={() => setIsOmniBarOpen(false)} onCommand={(cmd) => handleSendMessage(cmd)} />
+        {/* SYSTEM LAYERS */}
+        <SystemUpdater currentVersion="9.0.0" />
+        <OmniBar isOpen={isOmniBarOpen} onClose={() => setIsOmniBarOpen(false)} onCommand={(cmd) => handleSendMessage(cmd)} />
 
-      {/* Notifications Toast Container */}
-      <div className="fixed top-12 right-4 z-[100] flex flex-col gap-2 pointer-events-none">
-          {notifications.map(notif => (
-              <div key={notif.id} className="pointer-events-auto bg-[#18181b]/95 backdrop-blur-xl border border-white/10 shadow-2xl p-4 rounded-xl animate-in slide-in-from-right-10 w-72 flex flex-col gap-1">
-                  <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${notif.type === 'success' ? 'bg-emerald-500' : notif.type === 'warning' ? 'bg-amber-500' : 'bg-blue-500'}`} />
-                    <h4 className="text-[10px] font-bold text-zinc-100 uppercase tracking-widest">{notif.title}</h4>
-                  </div>
-                  <p className="text-[11px] text-zinc-400 font-medium leading-relaxed">{notif.message}</p>
-              </div>
-          ))}
-      </div>
+        {/* Notifications Toast Container */}
+        <div className="fixed top-12 right-4 z-[100] flex flex-col gap-2 pointer-events-none">
+            {notifications.map(notif => (
+                <div key={notif.id} className="pointer-events-auto glass-panel p-4 rounded-2xl animate-in slide-in-from-right-10 w-72 flex flex-col gap-1 overflow-hidden">
+                    <div className="flex items-center gap-2 relative z-10">
+                      <div className={`w-2 h-2 rounded-full ${notif.type === 'success' ? 'bg-emerald-500' : notif.type === 'warning' ? 'bg-amber-500' : 'bg-blue-500'}`} />
+                      <h4 className="text-[10px] font-bold text-zinc-100 uppercase tracking-widest">{notif.title}</h4>
+                    </div>
+                    <p className="text-[11px] text-zinc-400 font-medium leading-relaxed relative z-10">{notif.message}</p>
+                </div>
+            ))}
+        </div>
 
       {/* Top Menu Bar (Global Header) */}
       <div className="fixed top-0 left-0 w-full h-10 menu-bar-glass flex items-center justify-between px-6 z-[9999] select-none text-[11px] font-bold text-zinc-400 tracking-tight">
