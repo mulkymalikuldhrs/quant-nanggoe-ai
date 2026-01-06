@@ -1,6 +1,5 @@
 # 🦅 QUANT NANGGROE AI
 ### **Multi-Agent Quant Research & Decision Intelligence OS**
-*(Powered by ORCHID AI – Deterministic Agent Executor)*
 
 ![Version](https://img.shields.io/badge/Version-15.2.0-gold?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Operational_Full-green?style=for-the-badge)
@@ -42,4 +41,7 @@ Explore the deep technical and operational guides:
 3. **Launch**: `npm run dev`
 
 ---
-**© 2026 Quant Nanggroe AI | Technical Documentation Hub v15.2.0**
+**© 2026 Quant Nanggroe AI | Technical Documentation Hub v15.2.0** 
+Solo Dev | Mulky Malikul Dhaher ✉️ mulkymalikuldhr@mail.com 
+
+Waiting for Contributor from around the world 🌎 
