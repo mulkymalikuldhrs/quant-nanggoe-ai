@@ -132,7 +132,8 @@ Struktur proyek diatur untuk mendukung lingkungan OS berbasis web dengan kompone
     ```
 2.  **Jalankan Sistem:**
     ```bash
-    npm start
+    npm run dev
+
     ```
 3.  **Urutan Boot:**
     *   Buka **Neural Terminal**.
