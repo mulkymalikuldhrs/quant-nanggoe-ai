@@ -2,8 +2,8 @@
 ### **Multi-Agent Quant Research & Decision Intelligence OS**
 *(Powered by ORCHID AI – Deterministic Agent Executor)*
 
-![Status](https://img.shields.io/badge/Status-Research_&_Simulation-orange?style=for-the-badge)
-![Mode](https://img.shields.io/badge/Mode-Not_for_Live_Trading-red?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Completed_/_Operational-green?style=for-the-badge)
+![Mode](https://img.shields.io/badge/Mode-Research_&_Simulation-blue?style=for-the-badge)
 
 ---
 
