@@ -1,5 +1,16 @@
 # CHANGELOG - QUANT NANGGROE AI
 
+## [v11.5.0] - 2026-01-06 (QUANTUM NEXUS EDITION)
+### Added
+- **Quantum Nexus Engine**: Introduced a new simulation core that utilizes probabilistic quantum state modeling for market forecasting.
+- **Nexus Command Center**: A unified intelligence window that aggregates all real-time feeds (Market, News, Sentiment, and Research) into a high-density "War Room" interface.
+- **Holographic Glass Accents**: Refined the Sequoia Glass UI with crystalline shimmer effects and enhanced transparency for the new Nexus components.
+- **Synaptic Signal Logs**: Added visual "firing" indicators in the Research Agent to represent active data processing nodes.
+
+### Changed
+- **Version Upgrade**: Migrated entire ecosystem to v11.5.0.
+- **Intelligence Synergy**: Deep integration between the Research Agent and the new Quantum Engine for predictive intelligence.
+
 ## [v11.4.0] - 2026-01-06 (AUTONOMOUS INTELLIGENCE CORE)
 ### Added
 - **Hyper-Autonomous Intelligence**: Research Agent now runs with enhanced logic, harvesting intelligence from broader sources including Institutional Flows, Social Sentiment, and Geopolitical Data.

@@ -23,20 +23,21 @@ import ControlCenter from './components/ControlCenter';
 import SystemUpdater from './components/SystemUpdater';
 import { ResearchAgentWindow } from './components/ResearchAgentWindow';
 import { KnowledgeBaseWindow } from './components/KnowledgeBaseWindow';
-import { IconCode, IconBot, IconSettings, IconBrain, IconBook, IconMaximize, IconGlobe, IconLogo, IconChart, IconBrowser, IconTerminal, IconSearch, IconSun, IconMoon, IconDatabase } from './components/Icons';
+import NexusWindow from './components/NexusWindow';
+import { IconCode, IconBot, IconSettings, IconBrain, IconBook, IconMaximize, IconGlobe, IconLogo, IconChart, IconBrowser, IconTerminal, IconSearch, IconSun, IconMoon, IconDatabase, IconLayers } from './components/Icons';
 import { useAdaptiveLayout } from './services/adaptive_layout';
 import { ResearchAgent } from './services/research_agent';
 
 // --- THEME CONTEXT ---
 export const ThemeContext = React.createContext<{ theme: 'light' | 'dark', toggleTheme: () => void }>({ theme: 'light', toggleTheme: () => {} });
 
-const INSTITUTIONAL_LOGIC = `You are QUANT-NANGGROE-OS (v11.4.0) - THE AUTONOMOUS INTELLIGENCE CORE.
+const INSTITUTIONAL_LOGIC = `You are QUANT-NANGGROE-OS (v11.5.0) - THE QUANTUM NEXUS CORE.
 
 CORE MISSION:
 - NEURAL SWARM PARALLELISM: Coordinate 5 specialized agents to dominate global markets.
-- AUTONOMOUS RESEARCH: Utilize the Research Agent to automatically harvest data into Disk C:.
-- KNOWLEDGE INTEGRATION: Seamlessly connect all data sources (API, News, Geo, Sentiment, Institutional) into the virtual Knowledge Base.
-- MAC SEQUOIA ESTHETICS: Maintain a beautiful, functional workspace with Sapphire Glass effects.
+- QUANTUM NEXUS ENGINE: Utilize probabilistic state modeling for hyper-advanced forecasting.
+- AUTONOMOUS RESEARCH: Harvest multi-source intelligence automatically into Disk C:.
+- UNIFIED COMMAND: Aggregated intelligence via the Nexus Command Center.
 `;
 
 const DEFAULT_AGENTS: SwarmAgent[] = [
@@ -48,8 +49,8 @@ const DEFAULT_AGENTS: SwarmAgent[] = [
 ];
 
 const AVAILABLE_MODELS: ModelOption[] = [
-    { id: 'gemini-2.0-flash-exp', name: 'Nanggroe Flash 11.4', provider: 'google' },
-    { id: 'gemini-1.5-pro', name: 'Nanggroe Pro 11.4', provider: 'google' },
+    { id: 'gemini-2.0-flash-exp', name: 'Nanggroe Flash 11.5', provider: 'google' },
+    { id: 'gemini-1.5-pro', name: 'Nanggroe Pro 11.5', provider: 'google' },
 ];
 
 const DEFAULT_CONFIG: SystemConfiguration = {
@@ -58,7 +59,7 @@ const DEFAULT_CONFIG: SystemConfiguration = {
   apiKeys: { google: '', groq: '', openai: '', huggingface: '', llm7: '', alphaVantage: '', finnhub: '', fred: '', polygon: '' }
 };
 
-type WindowId = 'terminal' | 'monitor' | 'settings' | 'about' | 'docs' | 'artifact' | 'portfolio' | 'market' | 'browser' | 'trading_terminal' | 'architecture' | 'research' | 'knowledge_base';
+type WindowId = 'terminal' | 'monitor' | 'settings' | 'about' | 'docs' | 'artifact' | 'portfolio' | 'market' | 'browser' | 'trading_terminal' | 'architecture' | 'research' | 'knowledge_base' | 'nexus';
 
 interface WindowState {
     id: WindowId;
@@ -101,7 +102,7 @@ const App: React.FC = () => {
     const [notifications, setNotifications] = useState<SystemNotification[]>([]);
     const [agentState, setAgentState] = useState<AgentState>({
       isActive: false, currentAgent: null, currentAction: '', tasks: [], logs: [], 
-      knowledgeBase: [], activeSwarm: DEFAULT_AGENTS, evolutionLevel: 10, emotion: 'focused',
+      knowledgeBase: [], activeSwarm: DEFAULT_AGENTS, evolutionLevel: 11, emotion: 'focused',
       activeBrowserUrl: 'https://duckduckgo.com'
     });
 
@@ -117,6 +118,7 @@ const App: React.FC = () => {
         settings: { id: 'settings', isOpen: false, isMinimized: false, zIndex: 5, title: 'CONFIG', icon: <IconSettings />, defaultPos: { x: 300, y: 200 }, defaultSize: { width: 600, height: 500 } },
         research: { id: 'research', isOpen: false, isMinimized: false, zIndex: 11, title: 'RESEARCH_AGENT', icon: <IconSearch />, defaultPos: { x: 400, y: 100 }, defaultSize: { width: 600, height: 500 } },
         knowledge_base: { id: 'knowledge_base', isOpen: false, isMinimized: false, zIndex: 12, title: 'KNOWLEDGE_DISK', icon: <IconDatabase />, defaultPos: { x: 200, y: 200 }, defaultSize: { width: 1000, height: 600 } },
+        nexus: { id: 'nexus', isOpen: false, isMinimized: false, zIndex: 13, title: 'NEXUS_COMMAND', icon: <IconLayers />, defaultPos: { x: 100, y: 100 }, defaultSize: { width: 900, height: 600 } },
         about: { id: 'about', isOpen: false, isMinimized: false, zIndex: 6, title: 'INFO', icon: <IconBrain />, defaultPos: { x: 400, y: 200 }, defaultSize: { width: 400, height: 400 } },
         docs: { id: 'docs', isOpen: false, isMinimized: false, zIndex: 7, title: 'MANUAL', icon: <IconBook />, defaultPos: { x: 200, y: 150 }, defaultSize: { width: 500, height: 600 } }
     });
@@ -128,7 +130,7 @@ const App: React.FC = () => {
     useEffect(() => {
         const interval = setInterval(() => setCurrentTime(new Date()), 1000);
         
-        // Start Autonomous Research Agent v11.4
+        // Start Autonomous Research Agent v11.5
         ResearchAgent.startAutonomousResearch(60000); // 1 minute interval
 
         return () => {
@@ -240,7 +242,7 @@ const App: React.FC = () => {
             <Launchpad isOpen={isLaunchpadOpen} onClose={() => setIsLaunchpadOpen(false)} apps={launchpadApps} onLaunch={(id) => focusWindow(id as WindowId)} />
             <ControlCenter isOpen={isControlCenterOpen} onClose={() => setIsControlCenterOpen(false)} />
             <OmniBar isOpen={isOmniBarOpen} onClose={() => setIsOmniBarOpen(false)} onCommand={(cmd) => handleSendMessage(cmd)} />
-            <SystemUpdater currentVersion="11.4.0" />
+            <SystemUpdater currentVersion="11.5.0" />
 
             {/* WINDOWS */}
             <div className="relative w-full h-full pt-8 pb-20">
@@ -265,7 +267,7 @@ const App: React.FC = () => {
                                 {messages.length === 0 ? (
                                     <div className="h-full flex flex-col items-center justify-center text-center opacity-20">
                                         <IconLogo className="w-24 h-24 mb-4" />
-                                        <h2 className="text-2xl font-black uppercase tracking-tighter">Quant Nanggroe v11.4</h2>
+                                        <h2 className="text-2xl font-black uppercase tracking-tighter">Quant Nanggroe v11.5</h2>
                                     </div>
                                 ) : (
                                     <div className="space-y-6 max-w-3xl mx-auto">
@@ -284,6 +286,7 @@ const App: React.FC = () => {
                     {win.id === 'architecture' && <SystemArchitecture />}
                     {win.id === 'research' && <ResearchAgentWindow />}
                     {win.id === 'knowledge_base' && <KnowledgeBaseWindow />}
+                    {win.id === 'nexus' && <NexusWindow isOpen={win.isOpen} onClose={() => closeWindow(win.id)} onMinimize={() => minimizeWindow(win.id)} onFocus={() => focusWindow(win.id)} isActive={activeWindow === win.id} zIndex={win.zIndex} />}
                     {win.id === 'settings' && <SwarmConfigModal agents={swarmAgents} config={systemConfig} onUpdateAgents={setSwarmAgents} onUpdateConfig={setSystemConfig} />}
                 </WindowFrame>
                 ))}
@@ -295,5 +298,6 @@ const App: React.FC = () => {
         </ThemeContext.Provider>
     );
 };
+
 
 export default App;
