@@ -52,7 +52,7 @@ export interface SwarmAgent {
   health?: 'healthy' | 'recovering' | 'critical'; 
 }
 
-export type KnowledgeCategory = 'fact' | 'code' | 'pattern' | 'trade_signal' | 'synthesis' | 'event' | 'patch' | 'memory';
+export type KnowledgeCategory = 'fact' | 'code' | 'pattern' | 'trade_signal' | 'synthesis' | 'event' | 'patch' | 'memory' | 'research';
 
 export interface KnowledgeItem {
   id: string;
@@ -63,6 +63,25 @@ export interface KnowledgeItem {
   confidence: number;
   tags: string[];
   metadata?: any; 
+  path?: string; // e.g., "C:/Market/Crypto/BTC"
+}
+
+export interface ResearchSource {
+  id: string;
+  name: string;
+  url: string;
+  type: 'news' | 'data' | 'geo' | 'sentiment' | 'institutional' | 'ai' | 'market';
+  lastScanned?: number;
+}
+
+export interface VirtualDiskNode {
+  id: string;
+  name: string;
+  type: 'file' | 'folder';
+  path: string;
+  children?: VirtualDiskNode[];
+  contentId?: string; // Reference to KnowledgeItem
+  lastModified: number;
 }
 
 export interface AgentTask {
