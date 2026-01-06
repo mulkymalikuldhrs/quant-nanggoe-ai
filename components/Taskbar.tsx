@@ -14,14 +14,14 @@ const Taskbar: React.FC<Props> = ({ windows, onToggleWindow, onStartClick }) => 
     const dockRef = useRef<HTMLDivElement>(null);
 
     const dockItems = [
-      { id: 'terminal', icon: <IconCode className="w-5 h-5 md:w-6 md:h-6 text-[var(--accent-primary)]" />, label: 'Neural Terminal', bg: 'bg-white/5' },
-      { id: 'browser', icon: <IconBrowser className="w-5 h-5 md:w-6 md:h-6 text-[var(--accent-secondary)]" />, label: 'Neural Browser', bg: 'bg-white/5' },
-      { id: 'trading_terminal', icon: <IconTerminal className="w-5 h-5 md:w-6 md:h-6 text-zinc-400" />, label: 'MT5 Terminal', bg: 'bg-white/5' },
-      { id: 'market', icon: <IconChart className="w-5 h-5 md:w-6 md:h-6 text-[var(--accent-warning)]" />, label: 'Market Feed', bg: 'bg-white/5' },
-      { id: 'portfolio', icon: <IconBook className="w-5 h-5 md:w-6 md:h-6 text-emerald-400" />, label: 'Portfolio', bg: 'bg-white/5' },
-      { id: 'monitor', icon: <IconBot className="w-5 h-5 md:w-6 md:h-6 text-indigo-400" />, label: 'Swarm Monitor', bg: 'bg-white/5' },
-      { id: 'artifact', icon: <IconSearch className="w-5 h-5 md:w-6 md:h-6 text-purple-400" />, label: 'Research Lab', bg: 'bg-white/5' },
-      { id: 'settings', icon: <IconSettings className="w-5 h-5 md:w-6 md:h-6 text-zinc-400" />, label: 'Sys Config', bg: 'bg-white/5' },
+        { id: 'terminal', icon: <IconCode className="w-5 h-5 md:w-6 md:h-6 text-[#00D1FF]" />, label: 'Neural Terminal', bg: 'bg-black/20' },
+        { id: 'browser', icon: <IconBrowser className="w-5 h-5 md:w-6 md:h-6 text-[#FF3B30]" />, label: 'Neural Browser', bg: 'bg-black/20' },
+        { id: 'trading_terminal', icon: <IconTerminal className="w-5 h-5 md:w-6 md:h-6 text-[#FFCC00]" />, label: 'MT5 Terminal', bg: 'bg-black/20' },
+        { id: 'market', icon: <IconChart className="w-5 h-5 md:w-6 md:h-6 text-[#34C759]" />, label: 'Market Feed', bg: 'bg-black/20' },
+        { id: 'portfolio', icon: <IconBook className="w-5 h-5 md:w-6 md:h-6 text-[#5856D6]" />, label: 'Portfolio', bg: 'bg-black/20' },
+        { id: 'monitor', icon: <IconBot className="w-5 h-5 md:w-6 md:h-6 text-[#FF2D55]" />, label: 'Swarm Monitor', bg: 'bg-black/20' },
+        { id: 'artifact', icon: <IconSearch className="w-5 h-5 md:w-6 md:h-6 text-[#AF52DE]" />, label: 'Research Lab', bg: 'bg-black/20' },
+        { id: 'settings', icon: <IconSettings className="w-5 h-5 md:w-6 md:h-6 text-[#8E8E93]" />, label: 'Sys Config', bg: 'bg-black/20' },
     ];
 
     const handleMouseMove = (e: React.MouseEvent) => {

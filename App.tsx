@@ -191,43 +191,34 @@ const App: React.FC = () => {
               <div className="absolute top-[30%] left-[20%] w-[40%] h-[40%] rounded-full bg-purple-500/5 blur-[100px] animate-pulse" style={{ animationDelay: '4s' }}></div>
           </div>
           
-            {/* NEURAL TOP BAR (Glass Edition) */}
-            <div className="fixed top-0 left-0 w-full h-10 bg-white/5 backdrop-blur-2xl border-b border-white/10 flex items-center justify-between px-6 z-[9999] select-none">
-                <div className="flex items-center gap-6">
-                    <div className="flex items-center gap-3 cursor-pointer group" onClick={() => toggleWindow('about')}>
-                         <div className="relative">
-                            <IconLogo className="w-6 h-6 text-emerald-500 group-hover:scale-110 transition-transform" /> 
-                            <div className="absolute inset-0 bg-emerald-500/20 blur-md rounded-full group-hover:opacity-100 opacity-0 transition-opacity" />
-                         </div>
-                         <div className="flex flex-col">
-                            <span className="text-[10px] font-black text-white uppercase tracking-[0.3em] leading-none">Nanggroe OS</span>
-                            <span className="text-[7px] font-mono text-emerald-500/60 uppercase tracking-widest mt-0.5">Neural_Kernel_v9.1</span>
-                         </div>
+            {/* NEURAL TOP BAR (Nanggroe macOS Edition) */}
+            <div className="fixed top-0 left-0 w-full h-8 bg-black/40 backdrop-blur-2xl border-b border-white/5 flex items-center justify-between px-4 z-[9999] select-none text-[11px] font-medium text-white/90">
+                <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2 cursor-pointer group px-2 py-0.5 rounded hover:bg-white/10" onClick={() => toggleWindow('about')}>
+                        <IconLogo className="w-4 h-4 text-emerald-500" />
+                        <span className="font-bold">Nanggroe</span>
                     </div>
                     
-                    <div className="h-4 w-px bg-white/10 hidden md:block" />
-                    
-                    <nav className="hidden lg:flex items-center gap-4 text-[9px] font-black uppercase tracking-[0.2em] text-white/40">
-                        {['Agent', 'Swarm', 'Terminal', 'Intelligence', 'System'].map(item => (
-                            <span key={item} className="cursor-pointer hover:text-white transition-colors">{item}</span>
+                    <nav className="flex items-center gap-3">
+                        {['File', 'Edit', 'Agent', 'Swarm', 'Terminal', 'Intelligence', 'System'].map(item => (
+                            <span key={item} className="cursor-pointer px-2 py-0.5 rounded hover:bg-white/10 transition-colors hidden sm:block">{item}</span>
                         ))}
                     </nav>
                 </div>
                 
-                <div className="flex items-center gap-6">
-                     <div className="flex items-center gap-3 px-3 py-1 rounded-full bg-emerald-500/5 border border-emerald-500/20 text-emerald-500 text-[8px] font-black uppercase tracking-[0.2em]">
-                         <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-                         <span className="hidden sm:inline">Operational_Status: </span>Optimal
+                <div className="flex items-center gap-4">
+                     <div className="flex items-center gap-2 px-2 py-0.5 rounded hover:bg-white/10 transition-colors">
+                         <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                         <span className="text-[10px] hidden md:inline">Neural Kernel Active</span>
                      </div>
                      
-                     <div className="flex items-center gap-4">
-                        <button onClick={() => setIsOmniBarOpen(true)} className="group relative w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/5 transition-colors">
-                            <IconSearch className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />
-                            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-emerald-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                     <div className="flex items-center gap-2">
+                        <button onClick={() => setIsOmniBarOpen(true)} className="p-1 hover:bg-white/10 rounded transition-colors">
+                            <IconSearch className="w-3.5 h-3.5 opacity-60" />
                         </button>
-                        <div className="flex flex-col items-end">
-                            <span className="text-[10px] font-mono font-black text-white/90">{currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second: '2-digit'})}</span>
-                            <span className="text-[7px] font-mono text-white/30 uppercase tracking-widest">Global_Sync</span>
+                        <div className="flex items-center gap-3 ml-2 font-mono">
+                            <span>{currentTime.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' })}</span>
+                            <span>{currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
                         </div>
                      </div>
                 </div>

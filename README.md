@@ -1,19 +1,37 @@
-# Quant Nanggroe OS v9.1 (Glass Edition)
+# Quant Nanggroe AI v10.0 (Neural Swarm & macOS Edition)
 
-Advanced Multi-Agent Trading Ecosystem with macOS-Inspired UI/UX.
+The most advanced, full-featured, and aesthetically premium AI-driven quantitative trading ecosystem.
 
-## Features
-- **Adaptive Glass Interface**: High-saturation glassmorphism with responsive layouts.
-- **macOS Ecosystem**: Functional Dock, Top Menu Bar, and Window Traffic Lights.
-- **Multi-Agent Memory**: Persistent neural state across all specialized agents.
-- **System Awareness**: Integrated desktop intelligence for coordinated execution.
-- **Institutional Stack**: Bloomberg-grade analytics and risk management.
+## 🚀 Key Features
 
-## Tech Stack
-- React 19 / TypeScript
-- Tailwind CSS (Custom Glass Engine)
-- Google Gemini 2.0 Flash / Pro
-- BrowserFS & MemoryManager (Persistence)
+### 1. Nanggroe macOS Interface
+- **Floating Glass Dock**: Dynamic magnification and active status indicators.
+- **Neural Top Bar**: Global system status, OmniBar search, and atomic sync.
+- **Traffic-Light Windowing**: macOS-inspired window controls with glassmorphism effects.
+- **Adaptive Layout**: UI automatically optimizes for any screen resolution.
 
-## Author
-Mulky Malikul Dhaher
+### 2. Neural Swarm Architecture
+- **Parallel Processing**: Multiple specialized agents (Alpha Prime, Quant Scanner, Risk Guardian, etc.) work simultaneously on complex tasks.
+- **Deep Memory Manager**: Agents maintain persistent neural memory (Save/Load) for long-term strategic consistency.
+- **Desktop Awareness**: Agents "see" and manage the workspace, opening windows and tools as needed.
+
+### 3. Real Institutional Quant Logic
+- **Binance Direct Link**: 100% real-time market data without simulation.
+- **Math Engine**: High-precision deterministic technical analysis (RSI, MACD, BB, VWAP, Stochastic, ADX).
+- **Strategy Matrix**: Hundreds of logic permutations for trend, momentum, and volume analysis.
+- **Neural Consensus**: Weighted voting system from all signals to generate high-probability trade verdicts.
+
+### 4. Autonomous Terminal
+- **Integrated Browser**: Bypasses CORS to fetch real-time news and alternative data.
+- **Execution Engine**: Ready for integration with trading APIs.
+- **Research Lab**: Deep research and artifact generation.
+
+## 🛠 System Configuration
+Configure your API keys in the **Sys Config** window or via `.env.local`:
+- `GEMINI_API_KEY`: Core Intelligence.
+- `ALPHAVANTAGE_API_KEY`: Forex & Macro.
+- `FINNHUB_API_KEY`: News & Sentiment.
+- `POLYGON_API_KEY`: Institutional Stocks.
+
+---
+**Quant Nanggroe AI: The Bloomberg Killer.**

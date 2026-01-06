@@ -4,7 +4,6 @@ import { MathEngine } from "./math_engine";
 import { StrategyEngine } from "./strategy_engine";
 
 // --- API ENDPOINTS ---
-const CG_BASE_URL = "https://api.coingecko.com/api/v3";
 const AV_BASE_URL = "https://www.alphavantage.co/query";
 const FH_BASE_URL = "https://finnhub.io/api/v1";
 const POLY_BASE_URL = "https://api.polygon.io";
@@ -104,62 +103,40 @@ export const MarketService = {
         // --- QUANTITATIVE ENRICHMENT ---
         if (result) {
             try {
-                // Get history for Strategy Engine (Minimum 200 candles for best results)
                 const history = await MarketService.getMarketChart(ticker, 60); 
-                
                 if (history && history.length > 50) {
-                     // Normalize data
                      const candles: CandleData[] = history.map(h => {
                          if ('open' in h) return h as CandleData;
                          return { 
-                             timestamp: h.timestamp, open: h.price, high: h.price, low: h.price, close: h.price, volume: 100 
+                             timestamp: h.timestamp, open: (h as ChartPoint).price, high: (h as ChartPoint).price, low: (h as ChartPoint).price, close: (h as ChartPoint).price, volume: 100 
                          };
                      });
-                     
-                     // 1. Compute Indicators
                      const technicals = MathEngine.analyzeSequence(candles);
                      result.technicals = technicals;
-                     
-                     // 2. Run Algo Strategies (Hundreds of logic checks)
                      const allSignals = StrategyEngine.evaluate(candles, technicals);
                      result.activeSignals = allSignals;
-
-                     // 3. Generate Consensus Report
                      result.consensus = StrategyEngine.generateConsensus(allSignals);
                 }
             } catch (e) {
                 console.warn("Quant algo failed for", ticker, e);
             }
-
             priceCache[cacheKey] = { data: result, timestamp: Date.now() };
         }
         return result;
     },
 
-    // --- IMPLEMENTATIONS ---
-
     getDexPrice: async (query: string): Promise<MarketTicker | null> => {
         try {
-            const url = query.startsWith('0x') 
-                ? `${DEX_BASE_URL}/tokens/${query}` 
-                : `${DEX_BASE_URL}/search?q=${query}`;
+            const url = query.startsWith('0x') ? `${DEX_BASE_URL}/tokens/${query}` : `${DEX_BASE_URL}/search?q=${query}`;
             const res = await fetch(url);
             const data = await res.json();
-            
             if (data.pairs && data.pairs.length > 0) {
                 const pair = data.pairs[0];
                 return {
-                    id: pair.baseToken.address,
-                    symbol: pair.baseToken.symbol,
-                    name: `${pair.baseToken.name} (${pair.dexId})`,
-                    current_price: parseFloat(pair.priceUsd),
-                    market_cap: pair.fdv,
-                    price_change_percentage_24h: pair.priceChange.h24,
-                    high_24h: 0,
-                    low_24h: 0,
-                    volume: pair.volume.h24,
-                    type: 'dex',
-                    source: 'DexScreener'
+                    id: pair.baseToken.address, symbol: pair.baseToken.symbol, name: `${pair.baseToken.name} (${pair.dexId})`,
+                    current_price: parseFloat(pair.priceUsd), market_cap: pair.fdv,
+                    price_change_percentage_24h: pair.priceChange.h24, high_24h: 0, low_24h: 0,
+                    volume: pair.volume.h24, type: 'dex', source: 'DexScreener'
                 };
             }
         } catch (e) {}
@@ -174,15 +151,9 @@ export const MarketService = {
             const data = await res.json();
             if (data.rates && data.rates[to]) {
                  return {
-                    id: pair,
-                    symbol: pair,
-                    name: `${from}/${to} FX`,
-                    current_price: data.rates[to],
-                    market_cap: 0,
-                    price_change_percentage_24h: 0, 
-                    high_24h: 0, low_24h: 0,
-                    type: 'forex',
-                    source: 'Frankfurter (ECB)'
+                    id: pair, symbol: pair, name: `${from}/${to} FX`, current_price: data.rates[to],
+                    market_cap: 0, price_change_percentage_24h: 0, high_24h: 0, low_24h: 0,
+                    type: 'forex', source: 'Frankfurter (ECB)'
                  };
             }
         } catch (e) {}
@@ -198,15 +169,10 @@ export const MarketService = {
             const rate = data['Realtime Currency Exchange Rate'];
             if (rate) {
                 return {
-                    id: pair,
-                    symbol: pair,
-                    name: `${from}/${to} FX (Realtime)`,
-                    current_price: parseFloat(rate['5. Exchange Rate']),
-                    market_cap: 0,
-                    price_change_percentage_24h: 0,
-                    high_24h: 0, low_24h: 0,
-                    type: 'forex',
-                    source: 'AlphaVantage'
+                    id: pair, symbol: pair, name: `${from}/${to} FX (Realtime)`,
+                    current_price: parseFloat(rate['5. Exchange Rate']), market_cap: 0,
+                    price_change_percentage_24h: 0, high_24h: 0, low_24h: 0,
+                    type: 'forex', source: 'AlphaVantage'
                 };
             }
         } catch (e) {}
@@ -215,22 +181,27 @@ export const MarketService = {
 
     getCryptoPrice: async (id: string): Promise<MarketTicker | null> => {
         try {
-            const url = `https://corsproxy.io/?${encodeURIComponent(`${CG_BASE_URL}/coins/markets?vs_currency=usd&ids=${id}&order=market_cap_desc&per_page=1&page=1&sparkline=false`)}`;
-            const res = await fetch(url);
-            const data = await res.json();
-            if (data && data.length > 0) {
-                const item = data[0];
+            const BINANCE_MAP: Record<string, string> = {
+                'bitcoin': 'BTCUSDT', 'ethereum': 'ETHUSDT', 'solana': 'SOLUSDT', 'ripple': 'XRPUSDT',
+                'dogecoin': 'DOGEUSDT', 'cardano': 'ADAUSDT', 'avalanche-2': 'AVAXUSDT', 'polkadot': 'DOTUSDT',
+                'matic-network': 'MATICUSDT', 'chainlink': 'LINKUSDT', 'tether': 'USDTUSDC', 'binancecoin': 'BNBUSDT',
+                'pepe': 'PEPEUSDT', 'shiba-inu': 'SHIBUSDT', 'dogwifhat': 'WIFUSDT'
+            };
+            const symbol = BINANCE_MAP[id];
+            if (symbol) {
+                const res = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`);
+                const data = await res.json();
                 return {
-                    id: item.id, symbol: item.symbol.toUpperCase(), name: item.name,
-                    current_price: item.current_price,
-                    market_cap: item.market_cap,
-                    price_change_percentage_24h: item.price_change_percentage_24h,
-                    high_24h: item.high_24h, low_24h: item.low_24h,
-                    type: 'crypto', source: 'CoinGecko'
+                    id: id, symbol: symbol.replace('USDT', ''), name: id.charAt(0).toUpperCase() + id.slice(1),
+                    current_price: parseFloat(data.lastPrice), market_cap: 0,
+                    price_change_percentage_24h: parseFloat(data.priceChangePercent),
+                    high_24h: parseFloat(data.highPrice), low_24h: parseFloat(data.lowPrice),
+                    volume: parseFloat(data.volume), type: 'crypto', source: 'Binance'
                 };
             }
+            return await MarketService.getCoinCapPrice(id);
         } catch (e) {
-            console.error("CoinGecko Fetch Error:", e);
+            console.error("Crypto Fetch Error:", e);
         }
         return null;
     },
@@ -242,12 +213,9 @@ export const MarketService = {
             const data = json.data;
             if (data) {
                 return {
-                    id: data.id, symbol: data.symbol, name: data.name,
-                    current_price: parseFloat(data.priceUsd),
-                    market_cap: parseFloat(data.marketCapUsd),
-                    price_change_percentage_24h: parseFloat(data.changePercent24Hr),
-                    high_24h: 0, low_24h: 0,
-                    type: 'crypto', source: 'CoinCap'
+                    id: data.id, symbol: data.symbol, name: data.name, current_price: parseFloat(data.priceUsd),
+                    market_cap: parseFloat(data.marketCapUsd), price_change_percentage_24h: parseFloat(data.changePercent24Hr),
+                    high_24h: 0, low_24h: 0, type: 'crypto', source: 'CoinCap'
                 };
             }
         } catch (e) {}
@@ -261,10 +229,8 @@ export const MarketService = {
             const quote = data['Global Quote'];
             if (quote && quote['05. price']) {
                 return {
-                    id: ticker, symbol: ticker, name: ticker,
-                    current_price: parseFloat(quote['05. price']),
-                    market_cap: 0,
-                    price_change_percentage_24h: parseFloat(quote['10. change percent'].replace('%', '')),
+                    id: ticker, symbol: ticker, name: ticker, current_price: parseFloat(quote['05. price']),
+                    market_cap: 0, price_change_percentage_24h: parseFloat(quote['10. change percent'].replace('%', '')),
                     high_24h: parseFloat(quote['03. high']), low_24h: parseFloat(quote['04. low']),
                     type: 'stock', source: 'AlphaVantage'
                 };
@@ -279,12 +245,9 @@ export const MarketService = {
             const data = await res.json();
             if (data.c) {
                 return {
-                    id: ticker, symbol: ticker, name: ticker,
-                    current_price: data.c,
-                    market_cap: 0,
-                    price_change_percentage_24h: data.dp,
-                    high_24h: data.h, low_24h: data.l,
-                    type: 'stock', source: 'Finnhub'
+                    id: ticker, symbol: ticker, name: ticker, current_price: data.c,
+                    market_cap: 0, price_change_percentage_24h: data.dp,
+                    high_24h: data.h, low_24h: data.l, type: 'stock', source: 'Finnhub'
                 };
             }
         } catch(e) {}
@@ -298,24 +261,41 @@ export const MarketService = {
             if (data.results && data.results.length > 0) {
                 const r = data.results[0];
                 return {
-                    id: ticker, symbol: ticker, name: ticker,
-                    current_price: r.c, market_cap: 0,
+                    id: ticker, symbol: ticker, name: ticker, current_price: r.c, market_cap: 0,
                     price_change_percentage_24h: ((r.c - r.o) / r.o) * 100,
-                    high_24h: r.h, low_24h: r.l,
-                    type: 'stock', source: 'Polygon'
+                    high_24h: r.h, low_24h: r.l, type: 'stock', source: 'Polygon'
                 };
             }
         } catch(e) {}
         return null;
     },
 
-    // --- CHART FETCHER ---
     getMarketChart: async (ticker: string, days: number = 1): Promise<(ChartPoint | CandleData)[]> => {
         const info = MarketService.resolveId(ticker);
         const { type, id } = info;
         const keys = getKeys();
 
-        // 1. Polygon (Best if key exists)
+        if (type === 'crypto') {
+            const BINANCE_MAP: Record<string, string> = {
+                'bitcoin': 'BTCUSDT', 'ethereum': 'ETHUSDT', 'solana': 'SOLUSDT', 'ripple': 'XRPUSDT',
+                'dogecoin': 'DOGEUSDT', 'cardano': 'ADAUSDT', 'avalanche-2': 'AVAXUSDT', 'polkadot': 'DOTUSDT',
+                'matic-network': 'MATICUSDT', 'chainlink': 'LINKUSDT', 'tether': 'USDTUSDC', 'binancecoin': 'BNBUSDT',
+                'pepe': 'PEPEUSDT', 'shiba-inu': 'SHIBUSDT', 'dogwifhat': 'WIFUSDT'
+            };
+            const symbol = BINANCE_MAP[id];
+            if (symbol) {
+                try {
+                    const interval = days <= 1 ? '15m' : days <= 7 ? '1h' : '4h';
+                    const res = await fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=100`);
+                    const data = await res.json();
+                    return data.map((d: any) => ({
+                        timestamp: d[0], open: parseFloat(d[1]), high: parseFloat(d[2]),
+                        low: parseFloat(d[3]), close: parseFloat(d[4]), volume: parseFloat(d[5])
+                    }));
+                } catch (e) {}
+            }
+        }
+
         if (keys.polygon && type !== 'dex' && type !== 'forex') {
             try {
                 const toDate = new Date();
@@ -332,44 +312,15 @@ export const MarketService = {
             } catch (e) {}
         }
 
-        // 2. CoinGecko (Crypto/Commodity Proxies)
-        if (type === 'crypto' || (type === 'commodity' && (id === 'PAXG' || id === 'KAG'))) {
-            const cgId = id === 'PAXG' ? 'pax-gold' : id === 'KAG' ? 'kinesis-silver' : id;
-            try {
-                const baseUrl = `${CG_BASE_URL}/coins/${cgId}/market_chart?vs_currency=usd&days=${days}`;
-                const url = `https://corsproxy.io/?${encodeURIComponent(baseUrl)}`;
-                const response = await fetch(url);
-                const data = await response.json();
-                
-                return data.prices.map((p: any[], i: number) => ({ 
-                    timestamp: p[0], 
-                    price: p[1],
-                    // Basic Candle Approximation 
-                    open: p[1], high: p[1], low: p[1], close: p[1],
-                    volume: data.total_volumes[i] ? data.total_volumes[i][1] : 0
-                }));
-            } catch (e) { 
-                console.error("CoinGecko Chart Error:", e);
-                return []; 
-            }
-        }
-
-        // 3. Simulated Fallback
         const now = Date.now();
         const mockData = [];
         let price = 100;
-        
         for(let i=0; i<100; i++) {
             const change = (Math.random() - 0.5) * 2;
             const open = price;
             const close = price + change;
-            const high = Math.max(open, close) + Math.random();
-            const low = Math.min(open, close) - Math.random();
-            
             mockData.push({ 
-                timestamp: now - (100-i)*15*60*1000, 
-                open, high, low, close,
-                volume: Math.floor(Math.random() * 1000)
+                timestamp: now - (100-i)*15*60*1000, open, high: Math.max(open, close) + 1, low: Math.min(open, close) - 1, close, volume: 100
             });
             price = close;
         }

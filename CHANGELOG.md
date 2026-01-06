@@ -1,5 +1,17 @@
 # CHANGELOG - Quant Nanggroe OS
 
+## [v10.0.0] - 2026-01-06 (Neural Swarm Edition)
+### Added
+- **Neural Swarm Parallelism**: Agents now work simultaneously via `runSwarmParallel` logic, synthesizing multi-node intelligence into a single verdict.
+- **Binance Institutional Data**: Replaced all simulated/unreliable crypto sources with direct Binance API integration (Klines/Tickers).
+- **Institutional Math Suite**: Added Stochastic, ADX, CCI, and Volume Profile analysis to the core Math Engine.
+- **Nanggroe macOS UX**: Finalized the Macintosh-inspired ecosystem with custom Traffic-Light buttons and Floating Crystal Dock.
+- **Autonomous Execution Parser**: Agents can now trigger system actions like `OPEN_WINDOW` and `NAVIGATE_BROWSER` directly from neural output.
+
+### Fixed
+- Fixed CORS issues with CoinGecko by migrating to Binance and CoinCap.
+- Improved window management and top-bar atomic sync.
+
 ## [v9.1.0] - 2026-01-06 (Glass Edition)
 ### Added
 - **True macOS-Style UI**: Implemented a floating glassmorphism Dock with magnification effect and status indicators.

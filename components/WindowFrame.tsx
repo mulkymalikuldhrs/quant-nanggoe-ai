@@ -123,19 +123,25 @@ const WindowFrame: React.FC<WindowFrameProps> = ({
             onMouseDown={handleMouseDown}
             onDoubleClick={toggleMaximize}
         >
-            {/* Control Buttons (Futuristic Glass Style) */}
-            <div className="flex items-center gap-3">
+            {/* Control Buttons (macOS Traffic Light Style) */}
+            <div className="flex items-center gap-2 absolute left-4">
                 <button 
                     onClick={(e) => { e.stopPropagation(); onClose(); }} 
-                    className="group flex items-center justify-center w-5 h-5 rounded-md hover:bg-red-500/20 transition-all duration-200"
+                    className="group flex items-center justify-center w-3 h-3 rounded-full bg-[#FF5F56] border border-[#E0443E] hover:brightness-90 transition-all duration-200"
                 >
-                    <div className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-red-500" />
+                    <span className="text-[8px] text-black/40 opacity-0 group-hover:opacity-100 font-bold">×</span>
                 </button>
                 <button 
                     onClick={(e) => { e.stopPropagation(); onMinimize(); }} 
-                    className="group flex items-center justify-center w-5 h-5 rounded-md hover:bg-yellow-500/20 transition-all duration-200"
+                    className="group flex items-center justify-center w-3 h-3 rounded-full bg-[#FFBD2E] border border-[#DEA123] hover:brightness-90 transition-all duration-200"
                 >
-                    <div className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-yellow-500" />
+                    <span className="text-[12px] text-black/40 opacity-0 group-hover:opacity-100 font-bold leading-[0] mb-0.5">−</span>
+                </button>
+                <button 
+                    onClick={(e) => { e.stopPropagation(); toggleMaximize(); }} 
+                    className="group flex items-center justify-center w-3 h-3 rounded-full bg-[#27C93F] border border-[#1AAB29] hover:brightness-90 transition-all duration-200"
+                >
+                    <span className="text-[6px] text-black/40 opacity-0 group-hover:opacity-100 font-bold">+</span>
                 </button>
             </div>
 
