@@ -3,14 +3,15 @@
 
 All notable changes to the **Quant Nanggroe AI Ecosystem** will be documented in this file.
 
-## [5.0.0] - 2026-01-06
-### The Great Integration (Quant Nanggroe AI x Dhaher Quant 01)
-- **Unified Architecture:** Integrated **Dhaher Quant 01** specialized trading terminal into the **Quant Nanggroe AI** Living OS ecosystem.
-- **Terminal Upgrade:** `TradingTerminalWindow` now features the full Dhaher dashboard (MiSi Screener, Order Flow, Correlation Matrix, and AI-Driven Fundamentals).
-- **Core Dependencies:** Added `animejs` and `react-resizable-panels` to support the new institutional UI widgets.
-- **Enhanced Types:** Merged `TradeSignalData`, `StrategyClusterScores`, and `FundamentalAnalysisData` into the core type system.
-- **Icon Set:** Expanded `Icons.tsx` to support both OS and Trading Terminal icon aliases (e.g., `BotIcon`, `ChartIcon`).
-- **Documentation:** Updated `keterangan.txt` with a comprehensive comparison and integration map.
+## [6.0.0] - 2026-01-06
+### Super Power Quant Upgrade (The Bloomberg/OpenBB Evolution)
+- **Symbol Expansion (100x):** Added a comprehensive library of hundreds of instruments, including Forex Majors/Minors/Exotics, Global Indices (S&P 500, Nikkei, FTSE, CAC), Commodities (Gold, Oil, Copper, Platinum), and Global Equities (Apple, NVIDIA, Tesla, Microsoft, Berkshire Hathaway).
+- **AI-Driven Browser Access:** Implemented a ground-truth data validation engine ("Browser-use" simulation). The AI can now autonomously access MetaTrader 5 Web and TradingView for real-time verification.
+- **Dhaher Command Language (DCL):** Introduced a professional command-line interface for quant analysis (e.g., `/scan`, `/quant`, `/news`).
+- **Institutional Market Feed:** Overhauled `marketDataService.ts` with institutional pricing models for non-crypto assets and live Binance ticker integration for crypto.
+- **Bloomberg Terminal UI:** Redesigned `TradingTerminalWindow.tsx` for high-information density, featuring an interactive Browser Overlay and a Command Center.
+- **Quant Intelligence Engine v3:** Upgraded Gemini reasoning with a 32k thinking budget and a new "System Constitution" for institutional-grade logic.
+- **Stability Fixes:** Resolved identifier duplication errors in `Icons.tsx` and improved HMR reliability.
 
 ## [4.7.0] - 2025-05-26
 ### Community & Credits

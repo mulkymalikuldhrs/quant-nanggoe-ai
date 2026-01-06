@@ -42,15 +42,23 @@ export const getMarketPrices = async (): Promise<MarketPrice[]> => {
             // Institutional-grade price simulation for Forex/Indices/Stocks/Commodities
             // using base institutional pricing models (simulated real data)
             const basePrices: Record<string, number> = {
-                // Forex
+                // Forex Majors
                 'EURUSD': 1.0854, 'GBPUSD': 1.2632, 'USDJPY': 151.45, 'AUDUSD': 0.6540,
-                'USDCAD': 1.3560, 'USDCHF': 0.9020, 'EURJPY': 164.20, 'GBPJPY': 191.10,
+                'USDCAD': 1.3560, 'USDCHF': 0.9020, 'NZDUSD': 0.6010,
+                // Forex Minors
+                'EURJPY': 164.20, 'GBPJPY': 191.10, 'AUDJPY': 99.50, 'EURGBP': 0.8580,
+                'EURAUD': 1.6580, 'GBPAUD': 1.9320, 'EURCAD': 1.4720, 'GBPCAD': 1.7150,
+                // Forex Exotics
+                'USDMXN': 16.75, 'USDZAR': 18.90, 'USDTRY': 32.20, 'USDSGD': 1.3450,
                 // Indices
                 'US500': 5235.10, 'NAS100': 18250.40, 'DJI': 39450.00, 'GER40': 18150.20,
+                'UK100': 7950.00, 'JP225': 38950.00, 'HK50': 16850.00,
                 // Commodities
                 'XAUUSD': 2348.50, 'XAGUSD': 27.85, 'WTI': 85.30, 'BRENT': 89.20,
+                'NATGAS': 1.75, 'COPPER': 4.25,
                 // Stocks
-                'AAPL': 172.50, 'NVDA': 895.40, 'TSLA': 175.20, 'MSFT': 425.10
+                'AAPL': 172.50, 'NVDA': 895.40, 'TSLA': 175.20, 'MSFT': 425.10,
+                'GOOGL': 155.20, 'AMZN': 185.30, 'META': 510.40, 'NFLX': 620.10
             };
 
             const base = basePrices[inst.id] || 100.00;

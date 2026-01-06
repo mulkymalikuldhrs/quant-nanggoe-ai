@@ -190,11 +190,6 @@ export const IconChart = ({ className }: { className?: string }) => (
 );
 export const ChartIcon = IconChart;
 
-export const IconBot = ({ className }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className}>
-    <path fillRule="evenodd" d="M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 01.75.75c0 5.056-2.383 9.555-6.084 12.436h.001c-3.698 2.88-8.196 5.263-13.25 5.263a.75.75 0 01-.75-.75c0-5.055 2.383-9.554 6.084-12.435h.001zM12 17a5 5 0 100-10 5 5 0 000 10zm-2-5a2 2 0 114 0 2 2 0 01-4 0z" clipRule="evenodd" />
-  </svg>
-);
 export const BotIcon = IconBot;
 
 export const CommandLineIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (

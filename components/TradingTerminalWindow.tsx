@@ -58,11 +58,27 @@ const TradingTerminalWindow: React.FC = () => {
     setAgentLogs(prev => [...prev, newLog].slice(-100));
   }, []);
 
-  const handleAnalysisUpdate = (pair: string, fullResponse: string) => {
-      addLog(`Quant Decision Synthesis complete for ${pair}`, 'SUCCESS');
-      refreshSignalLog();
-      
-      const signalData = extractSignalFromJSON(fullResponse);
+    const [showBrowserOverlay, setShowBrowserOverlay] = useState(false);
+    const [browserUrl, setBrowserUrl] = useState('https://trade.mql5.com/trade');
+    const [browserLogs, setBrowserLogs] = useState<string[]>([]);
+    const [isNavigating, setIsNavigating] = useState(false);
+
+    const handleAnalysisUpdate = (pair: string, fullResponse: string) => {
+        addLog(`Quant Decision Synthesis complete for ${pair}`, 'SUCCESS');
+        refreshSignalLog();
+        
+        if (fullResponse.includes('[AGENT_BROWSER_ACTION]')) {
+            setShowBrowserOverlay(true);
+            const lines = fullResponse.split('\n');
+            const actionLine = lines.find(l => l.includes('[AGENT_BROWSER_ACTION]'));
+            if (actionLine) {
+                const action = actionLine.replace('[AGENT_BROWSER_ACTION]', '').trim();
+                setBrowserLogs(prev => [...prev, action]);
+            }
+        }
+
+        const signalData = extractSignalFromJSON(fullResponse);
+
       if (signalData) {
           if (signalData.ai_fundamental_data) {
               setAiFundamentalData(signalData.ai_fundamental_data);
@@ -142,6 +158,24 @@ const TradingTerminalWindow: React.FC = () => {
                             </div>
                             <div className="flex-grow relative">
                                 <CustomChartingWidget pair={selectedPair} theme={theme} />
+                                
+                                {showBrowserOverlay && (
+                                    <div className="absolute inset-0 z-50 p-4 bg-black/60 backdrop-blur-md animate-in fade-in zoom-in duration-300">
+                                        <div className="w-full h-full relative">
+                                            <VirtualBrowser 
+                                                currentUrl={browserUrl} 
+                                                isNavigating={isNavigating} 
+                                                logs={browserLogs} 
+                                            />
+                                            <button 
+                                                onClick={() => setShowBrowserOverlay(false)}
+                                                className="absolute top-2 right-2 bg-red-500/20 hover:bg-red-500/40 text-red-500 p-2 rounded-full border border-red-500/50 transition-all z-30"
+                                            >
+                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                         
