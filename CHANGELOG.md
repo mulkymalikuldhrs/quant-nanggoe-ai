@@ -3,6 +3,15 @@
 
 All notable changes to the **Quant Nanggroe AI Ecosystem** will be documented in this file.
 
+## [5.0.0] - 2026-01-06
+### The Great Integration (Quant Nanggroe AI x Dhaher Quant 01)
+- **Unified Architecture:** Integrated **Dhaher Quant 01** specialized trading terminal into the **Quant Nanggroe AI** Living OS ecosystem.
+- **Terminal Upgrade:** `TradingTerminalWindow` now features the full Dhaher dashboard (MiSi Screener, Order Flow, Correlation Matrix, and AI-Driven Fundamentals).
+- **Core Dependencies:** Added `animejs` and `react-resizable-panels` to support the new institutional UI widgets.
+- **Enhanced Types:** Merged `TradeSignalData`, `StrategyClusterScores`, and `FundamentalAnalysisData` into the core type system.
+- **Icon Set:** Expanded `Icons.tsx` to support both OS and Trading Terminal icon aliases (e.g., `BotIcon`, `ChartIcon`).
+- **Documentation:** Updated `keterangan.txt` with a comprehensive comparison and integration map.
+
 ## [4.7.0] - 2025-05-26
 ### Community & Credits
 - **Developer Profile:** Updated global credits to **Mulky Malikul Dhaher**.
