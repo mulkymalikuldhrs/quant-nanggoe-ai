@@ -42,10 +42,8 @@ const WindowFrame: React.FC<WindowFrameProps> = ({
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
     const windowRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        setPosition(defaultPosition);
-        setSize(defaultSize);
-    }, [defaultPosition, defaultSize]);
+    // Position and size are initialized from defaultPosition/defaultSize on mount
+    // We removed the useEffect that resets them on every prop change to allow user persistence
 
     const handleMouseDown = (e: React.MouseEvent) => {
         if (isMaximized) return;

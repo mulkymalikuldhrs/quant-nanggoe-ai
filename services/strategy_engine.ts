@@ -5,16 +5,14 @@ import { CandleData, StrategySignal, ConsensusReport, TechnicalIndicators } from
 
 export const StrategyEngine = {
     
-    // --- 0. MARKET REGIME DETECTION (The "Context") ---
-    // Determines if we are Trending, Ranging, or Volatile.
+    // --- 0. MARKET REGIME DETECTION ---
     detectRegime: (t: TechnicalIndicators): 'TRENDING_BULL' | 'TRENDING_BEAR' | 'RANGING' | 'VOLATILE' => {
-        const adx = t.adx; // Trend Strength (>25 is trending)
+        const adx = t.adx;
         const maFast = t.sma.ma20;
         const maSlow = t.sma.ma50;
         const atr = t.atr;
-        const price = t.sma.ma10; // Proxy for current price if raw not avail
+        const price = t.sma.ma10;
 
-        // High Volatility Check (ATR > 5% of price)
         if (atr > (price * 0.05)) return 'VOLATILE'; 
 
         if (adx > 25) {
@@ -25,157 +23,174 @@ export const StrategyEngine = {
         return 'RANGING';
     },
 
-    // --- 1. THE STRATEGY MATRIX (Parametric Scanning) ---
-
-    scanTrendMatrix: (closes: number[], ma: TechnicalIndicators['sma'], regime: string): StrategySignal[] => {
+    // --- 1. SMART MONEY CONCEPTS (SMC) ---
+    
+    scanSMC: (candles: CandleData[]): StrategySignal[] => {
         const signals: StrategySignal[] = [];
-        const currentPrice = closes[closes.length - 1];
+        if (candles.length < 20) return signals;
 
-        // Only look for Trend signals if we are NOT in a Ranging market
-        if (regime === 'RANGING') return signals;
-
-        // A. Moving Average Ribbon
-        let bullishCount = 0;
-        const mas = [ma.ma10, ma.ma20, ma.ma50, ma.ma100, ma.ma200];
-        mas.forEach(v => { if (currentPrice > v) bullishCount++; });
-
-        if (bullishCount === 5) {
-            const name = "Full Bullish Alignment (Price > All MAs)";
-            signals.push({ name, category: 'TREND', type: 'BUY', strength: 95, weight: MLEngine.getWeight(name), description: "Strongest possible uptrend signature." });
-        } else if (bullishCount === 0) {
-            const name = "Full Bearish Alignment (Price < All MAs)";
-            signals.push({ name, category: 'TREND', type: 'SELL', strength: 95, weight: MLEngine.getWeight(name), description: "Strongest possible downtrend signature." });
-        }
-
-        // B. Crossovers (Golden/Death)
-        if (ma.ma50 > ma.ma200) {
-            const name = "Golden Cross State (50>200)";
-            signals.push({ name, category: 'TREND', type: 'BUY', strength: 85, weight: MLEngine.getWeight(name), description: "Macro bull market active." });
-        }
-        if (ma.ma50 < ma.ma200) {
-            const name = "Death Cross State (50<200)";
-            signals.push({ name, category: 'TREND', type: 'SELL', strength: 85, weight: MLEngine.getWeight(name), description: "Macro bear market active." });
-        }
-
-        return signals;
-    },
-
-    scanOrderBlockMatrix: (candles: CandleData[]): StrategySignal[] => {
-        const signals: StrategySignal[] = [];
-        if (candles.length < 5) return signals;
-
-        const last = candles[candles.length - 1];
-        const profile = MathEngine.calculateVolumeProfile(candles.slice(-50), 10);
-        const poc = profile[0]?.price; // Point of Control (Highest Volume Price)
-
-        // If current price is near POC and we see a reversal pattern
-        const currentPrice = last.close;
-        const dist = Math.abs(currentPrice - poc) / poc;
-
-        if (dist < 0.01) {
-            const name = "POC Rejection Zone";
-            signals.push({ name, category: 'VOLUME', type: 'NEUTRAL', strength: 60, weight: 4, description: "Price is at the Point of Control. High probability of chop or reversal." });
-        }
-
-        return signals;
-    },
-
-    scanOscillatorMatrix: (t: TechnicalIndicators, regime: string): StrategySignal[] => {
-        const signals: StrategySignal[] = [];
-
-        // In Ranging markets, Oscillators are King. In Trending, they trigger false reversals.
-        // We adjust weights dynamically based on regime.
-        const weightMultiplier = regime === 'RANGING' ? 1.5 : 0.8;
-
-        // RSI Tiers
-        if (t.rsi < 25) { // Stricter logic
-            const name = "RSI Extreme Oversold (<25)";
-            signals.push({ name, category: 'MOMENTUM', type: 'BUY', strength: 90, weight: MLEngine.getWeight(name) * weightMultiplier, description: "Deep value territory." });
-        }
-        else if (t.rsi > 75) {
-            const name = "RSI Extreme Overbought (>75)";
-            signals.push({ name, category: 'MOMENTUM', type: 'SELL', strength: 90, weight: MLEngine.getWeight(name) * weightMultiplier, description: "Mania territory." });
-        }
-
-        // Stochastic
-        if (t.stoch.k < 20 && t.stoch.d < 20 && t.stoch.k > t.stoch.d) {
-            const name = "Stoch Golden Cross (Oversold)";
-            signals.push({ name, category: 'MOMENTUM', type: 'BUY', strength: 80, weight: MLEngine.getWeight(name) * weightMultiplier, description: "Momentum shifting up from bottom." });
-        }
-
-        // VWAP Deviation
-        if (t.vwap) {
-            const vwapBands = MathEngine.calculateVWAPBands([], t.vwap, 2.5); // Use actual candles if available
-            // Note: vwapBands needs candles to work properly, but we can approximate deviation
-        }
-
-        return signals;
-    },
-
-    scanPatternMatrix: (candles: CandleData[]): StrategySignal[] => {
-        const signals: StrategySignal[] = [];
-        if (candles.length < 3) return signals;
+        const latest = candles[candles.length - 1];
         
-        const cur = candles[candles.length - 1];
-        const prev = candles[candles.length - 2];
-        const isGreen = (c: CandleData) => c.close > c.open;
+        // A. Fair Value Gaps (FVG)
+        // Bullish FVG: Low of candle 3 > High of candle 1
+        for (let i = candles.length - 3; i >= candles.length - 10; i--) {
+            const c1 = candles[i-2];
+            const c2 = candles[i-1];
+            const c3 = candles[i];
+            
+            if (c3.low > c1.high && c2.close > c2.open) {
+                signals.push({
+                    name: "Bullish Fair Value Gap",
+                    category: 'SMC',
+                    type: 'BUY',
+                    strength: 85,
+                    weight: 8,
+                    description: "Price left an imbalance. Expect a return to this zone for support."
+                });
+                break;
+            }
+            if (c3.high < c1.low && c2.close < c2.open) {
+                signals.push({
+                    name: "Bearish Fair Value Gap",
+                    category: 'SMC',
+                    type: 'SELL',
+                    strength: 85,
+                    weight: 8,
+                    description: "Price left an imbalance. Expect a return to this zone for resistance."
+                });
+                break;
+            }
+        }
+
+        // B. Order Blocks (OB)
+        // Simplified: Last down candle before a strong up move
+        const last10 = candles.slice(-10);
+        const maxHigh = Math.max(...last10.map(c => c.high));
+        const minLow = Math.min(...last10.map(c => c.low));
         
-        // Bullish Engulfing
-        if (!isGreen(prev) && isGreen(cur) && cur.open < prev.close && cur.close > prev.open) {
-            const name = "Bullish Engulfing";
-            signals.push({ name, category: 'PATTERN', type: 'BUY', strength: 75, weight: MLEngine.getWeight(name), description: "Buyers totally overwhelmed sellers." });
+        if (latest.close > maxHigh * 0.98) {
+            signals.push({
+                name: "Bullish Order Block (Accumulation)",
+                category: 'SMC',
+                type: 'BUY',
+                strength: 75,
+                weight: 7,
+                description: "Institutional buy orders detected in recent consolidation."
+            });
+        } else if (latest.close < minLow * 1.02) {
+            signals.push({
+                name: "Bearish Order Block (Distribution)",
+                category: 'SMC',
+                type: 'SELL',
+                strength: 75,
+                weight: 7,
+                description: "Institutional sell orders detected in recent consolidation."
+            });
         }
 
         return signals;
     },
 
-    scanVolatilityMatrix: (closes: number[], t: TechnicalIndicators): StrategySignal[] => {
+    // --- 2. SUPPORT & RESISTANCE (S/R) ---
+    
+    scanSupportResistance: (candles: CandleData[]): StrategySignal[] => {
         const signals: StrategySignal[] = [];
-        const currentPrice = closes[closes.length - 1];
+        if (candles.length < 50) return signals;
 
-        // BB Breakout
-        if (currentPrice > t.bollinger.upper) {
-            const name = "Bollinger Breakout";
-            signals.push({ name, category: 'VOLATILITY', type: 'BUY', strength: 70, weight: MLEngine.getWeight(name), description: "Volatility expanding to upside." });
-        } else if (currentPrice < t.bollinger.lower) {
-            const name = "Bollinger Breakdown";
-            signals.push({ name, category: 'VOLATILITY', type: 'SELL', strength: 70, weight: MLEngine.getWeight(name), description: "Volatility expanding to downside." });
+        const closes = candles.map(c => c.close);
+        const currentPrice = closes[closes.length - 1];
+        
+        // Find Pivot Points
+        const pivots = [];
+        for (let i = 5; i < candles.length - 5; i++) {
+            const prev = candles.slice(i - 5, i);
+            const next = candles.slice(i + 1, i + 6);
+            const curr = candles[i];
+            
+            if (curr.high > Math.max(...prev.map(c => c.high)) && curr.high > Math.max(...next.map(c => c.high))) {
+                pivots.push({ type: 'resistance', price: curr.high });
+            }
+            if (curr.low < Math.min(...prev.map(c => c.low)) && curr.low < Math.min(...next.map(c => c.low))) {
+                pivots.push({ type: 'support', price: curr.low });
+            }
+        }
+
+        // Check proximity to pivots
+        pivots.forEach(p => {
+            const diff = Math.abs(currentPrice - p.price) / p.price;
+            if (diff < 0.005) { // Within 0.5%
+                signals.push({
+                    name: `Major ${p.type === 'support' ? 'Support' : 'Resistance'} Level`,
+                    category: 'STRUCTURE',
+                    type: p.type === 'support' ? 'BUY' : 'SELL',
+                    strength: 80,
+                    weight: 6,
+                    description: `Price is testing a historical ${p.type} zone at ${p.price.toFixed(2)}.`
+                });
+            }
+        });
+
+        return signals;
+    },
+
+    // --- 3. RETAIL TECHNICAL ANALYSIS ---
+    
+    scanRetail: (t: TechnicalIndicators, regime: string): StrategySignal[] => {
+        const signals: StrategySignal[] = [];
+        
+        // A. Trendlines / MAs
+        if (t.sma.ma50 > t.sma.ma200) {
+            signals.push({
+                name: "Golden Cross (Macro Trend)",
+                category: 'RETAIL',
+                type: 'BUY',
+                strength: 70,
+                weight: 5,
+                description: "Classic bullish trend confirmation."
+            });
+        }
+        
+        // B. RSI / Overbought-Oversold
+        if (t.rsi < 30) {
+            signals.push({
+                name: "RSI Oversold",
+                category: 'RETAIL',
+                type: 'BUY',
+                strength: 65,
+                weight: 4,
+                description: "Market may be overextended to the downside."
+            });
+        } else if (t.rsi > 70) {
+            signals.push({
+                name: "RSI Overbought",
+                category: 'RETAIL',
+                type: 'SELL',
+                strength: 65,
+                weight: 4,
+                description: "Market may be overextended to the upside."
+            });
         }
 
         return signals;
     },
 
-    // --- 2. MASTER EVALUATION ---
+    // --- MASTER EVALUATION ---
 
     evaluate: (candles: CandleData[], technicals: TechnicalIndicators): StrategySignal[] => {
-        const closes = candles.map(c => c.close);
         const regime = StrategyEngine.detectRegime(technicals);
         
         let allSignals: StrategySignal[] = [];
         
-        // Inject Regime Signal as a base context
-        allSignals.push({
-            name: `Market Regime: ${regime}`,
-            category: 'VOLATILITY',
-            type: regime.includes('BULL') ? 'BUY' : regime.includes('BEAR') ? 'SELL' : 'NEUTRAL',
-            strength: 50,
-            weight: 5.0, // High importance
-            description: `System detected ${regime} environment.`
-        });
-        
         allSignals = [
             ...allSignals,
-            ...StrategyEngine.scanTrendMatrix(closes, technicals.sma, regime),
-            ...StrategyEngine.scanOscillatorMatrix(technicals, regime),
-            ...StrategyEngine.scanPatternMatrix(candles),
-            ...StrategyEngine.scanVolatilityMatrix(closes, technicals)
+            ...StrategyEngine.scanSMC(candles),
+            ...StrategyEngine.scanSupportResistance(candles),
+            ...StrategyEngine.scanRetail(technicals, regime)
         ];
 
         return allSignals;
     },
 
-    // --- 3. CONSENSUS ENGINE (Weighted Voting) ---
-    
     generateConsensus: (signals: StrategySignal[]): ConsensusReport => {
         let bullScore = 0;
         let bearScore = 0;
@@ -187,7 +202,6 @@ export const StrategyEngine = {
             totalWeights += s.weight;
         });
 
-        // Normalize Score (-100 to +100)
         const rawScore = (bullScore - bearScore); 
         const maxPossible = totalWeights * 100 || 1; 
         const normalizedScore = (rawScore / maxPossible) * 100;

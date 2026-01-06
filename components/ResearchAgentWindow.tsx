@@ -30,11 +30,12 @@ export const ResearchAgentWindow: React.FC = () => {
                 <div className="flex items-center gap-4">
                     <div className={`w-3 h-3 rounded-full ${isRunning ? 'bg-emerald-500 animate-pulse' : 'bg-red-500'}`} />
                     <div>
-                        <h2 className="text-xl font-bold flex items-center gap-2">
-                            <IconBot className="w-5 h-5 text-blue-400" />
-                            RESEARCH_AGENT_v2.0
-                        </h2>
-                        <p className="text-[10px] opacity-50 uppercase tracking-widest">Autonomous Intelligence Gathering</p>
+                          <h2 className="text-xl font-bold flex items-center gap-2">
+                              <IconBot className="w-5 h-5 text-blue-400" />
+                              Intelligence Agent
+                          </h2>
+                          <p className="text-[10px] opacity-50 uppercase tracking-widest">Autonomous Data Collection & Analysis</p>
+
                     </div>
                 </div>
                 <button 

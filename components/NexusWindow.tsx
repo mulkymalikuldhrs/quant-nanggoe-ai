@@ -49,76 +49,77 @@ const NexusWindow: React.FC<NexusWindowProps> = ({
 
   const accentColor = 'text-cyan-400';
 
-  return (
-    <WindowFrame
-      title="NEXUS COMMAND CENTER v11.5"
-      isOpen={isOpen}
-      onClose={onClose}
-      onMinimize={onMinimize}
-      onFocus={onFocus}
-      isActive={isActive}
-      zIndex={zIndex}
-      icon={<svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>}
-      defaultSize={{ width: 900, height: 600 }}
-    >
-      <div className={`p-6 min-h-full ${theme === 'dark' ? 'text-white' : 'text-zinc-800'} font-mono text-[11px]`}>
-        <div className="grid grid-cols-12 gap-4">
-          
-          {/* Quantum Engine Metrics */}
-          <div className="col-span-4 space-y-4">
-            <div className={`p-4 rounded-xl ${glassStyle} relative overflow-hidden group`}>
-              <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-              <h3 className={`text-[10px] font-bold mb-3 opacity-50 uppercase tracking-widest ${accentColor}`}>Quantum Nexus Core</h3>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="opacity-60">COHERENCE</span>
-                  <span className="font-bold text-cyan-400">{metrics.coherence}</span>
+    return (
+      <WindowFrame
+        title="COMMAND CENTER v11.5"
+        isOpen={isOpen}
+        onClose={onClose}
+        onMinimize={onMinimize}
+        onFocus={onFocus}
+        isActive={isActive}
+        zIndex={zIndex}
+        icon={<svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>}
+        defaultSize={{ width: 900, height: 600 }}
+      >
+        <div className={`p-6 min-h-full ${theme === 'dark' ? 'text-white' : 'text-zinc-800'} font-sans text-[11px]`}>
+          <div className="grid grid-cols-12 gap-4">
+            
+            {/* System Metrics */}
+            <div className="col-span-4 space-y-4">
+              <div className={`p-4 rounded-xl ${glassStyle} relative overflow-hidden group`}>
+                <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <h3 className={`text-[10px] font-bold mb-3 opacity-50 uppercase tracking-widest ${accentColor}`}>Market Engine</h3>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="opacity-60">STABILITY</span>
+                    <span className="font-bold text-cyan-400">{metrics.coherence}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="opacity-60">ACTIVE_NODES</span>
+                    <span className="font-bold">{metrics.qubitsActive}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="opacity-60">PROCESSING_LOAD</span>
+                    <span className="font-bold text-amber-400">{metrics.synapticLoad}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="opacity-60">ENGINE_STATUS</span>
+                    <span className="font-bold text-emerald-400">{metrics.nexusStatus}</span>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="opacity-60">QUBITS_ACTIVE</span>
-                  <span className="font-bold">{metrics.qubitsActive}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="opacity-60">SYNAPTIC_LOAD</span>
-                  <span className="font-bold text-amber-400">{metrics.synapticLoad}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="opacity-60">NEXUS_STATUS</span>
-                  <span className="font-bold text-emerald-400">{metrics.nexusStatus}</span>
+              </div>
+
+              <div className={`p-4 rounded-xl ${glassStyle}`}>
+                <h3 className="text-[10px] font-bold mb-3 opacity-50 uppercase tracking-widest">Intelligence Feed</h3>
+                <div className="space-y-1 opacity-80 h-32 overflow-hidden">
+                  {researchLogs.map((log, i) => (
+                    <div key={i} className="truncate border-l border-white/10 pl-2 py-0.5">
+                      {log}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
 
-            <div className={`p-4 rounded-xl ${glassStyle}`}>
-              <h3 className="text-[10px] font-bold mb-3 opacity-50 uppercase tracking-widest">Sub-Space Intelligence</h3>
-              <div className="space-y-1 opacity-80 h-32 overflow-hidden">
-                {researchLogs.map((log, i) => (
-                  <div key={i} className="truncate border-l border-white/10 pl-2 py-0.5">
-                    {log}
+            {/* Analysis Feed */}
+            <div className="col-span-8 flex flex-col space-y-4">
+              <div className={`flex-1 p-4 rounded-xl ${glassStyle} flex flex-col`}>
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-[10px] font-bold opacity-50 uppercase tracking-widest">Market Forecasts</h3>
+                  <div className="flex gap-2">
+                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                    <span className="text-[9px] opacity-40">REAL-TIME DATA</span>
                   </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Unified Intelligence Feed */}
-          <div className="col-span-8 flex flex-col space-y-4">
-            <div className={`flex-1 p-4 rounded-xl ${glassStyle} flex flex-col`}>
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-[10px] font-bold opacity-50 uppercase tracking-widest">Quantum Probabilistic Forecasts</h3>
-                <div className="flex gap-2">
-                  <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                  <span className="text-[9px] opacity-40">REAL-TIME STREAMING</span>
+                </div>
+                <div className="flex-1 space-y-2 overflow-y-auto pr-2 custom-scrollbar">
+                  {forecasts.map((f, i) => (
+                    <div key={i} className={`p-2 rounded border border-white/5 transition-all hover:bg-white/5 ${i === 0 ? 'bg-cyan-500/10 border-cyan-500/20' : ''}`}>
+                      {f}
+                    </div>
+                  ))}
                 </div>
               </div>
-              <div className="flex-1 space-y-2 overflow-y-auto pr-2 custom-scrollbar">
-                {forecasts.map((f, i) => (
-                  <div key={i} className={`p-2 rounded border border-white/5 transition-all hover:bg-white/5 ${i === 0 ? 'bg-cyan-500/10 border-cyan-500/20' : ''}`}>
-                    {f}
-                  </div>
-                ))}
-              </div>
-            </div>
+
             
             <div className="h-40 grid grid-cols-2 gap-4">
                <div className={`p-4 rounded-xl ${glassStyle} flex flex-col justify-center items-center text-center`}>

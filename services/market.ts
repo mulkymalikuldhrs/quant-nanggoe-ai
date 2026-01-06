@@ -23,18 +23,43 @@ const getKeys = () => {
     return config?.apiKeys || { alphaVantage: '', finnhub: '', fred: '', polygon: '' };
 };
 
+// --- CORS PROXY ROTATOR ---
+const CORS_PROXIES = [
+    "https://api.allorigins.win/get?url=",
+    "https://corsproxy.io/?",
+    "https://api.codetabs.com/v1/proxy?quest="
+];
+
+const fetchWithProxy = async (url: string) => {
+    for (const proxy of CORS_PROXIES) {
+        try {
+            const proxyUrl = `${proxy}${encodeURIComponent(url)}`;
+            const res = await fetch(proxyUrl);
+            if (!res.ok) continue;
+            const data = await res.json();
+            
+            // AllOrigins wraps content in .contents
+            if (proxy.includes('allorigins')) return JSON.parse(data.contents);
+            return data;
+        } catch (e) {
+            continue;
+        }
+    }
+    throw new Error("All CORS proxies failed");
+};
+
 export const MarketService = {
     
     resolveId: (ticker: string): { type: 'crypto' | 'stock' | 'forex' | 'dex' | 'commodity' | 'index', id: string, name?: string } => {
-        const clean = ticker.toUpperCase().trim();
+        const clean = ticker.toUpperCase().replace('/', '').trim();
         
-        if (['GOLD', 'XAU', 'XAUUSD'].includes(clean)) return { type: 'commodity', id: 'PAXG', name: 'Gold (PaxG Proxy)' }; 
+        if (['GOLD', 'XAU', 'XAUUSD'].includes(clean)) return { type: 'commodity', id: 'PAXG', name: 'Gold' }; 
         if (['OIL', 'WTI', 'CL=F'].includes(clean)) return { type: 'commodity', id: 'OIL', name: 'Crude Oil' };
-        if (['SILVER', 'XAG'].includes(clean)) return { type: 'commodity', id: 'KAG', name: 'Silver (Kinesis Proxy)' };
+        if (['SILVER', 'XAG'].includes(clean)) return { type: 'commodity', id: 'KAG', name: 'Silver' };
 
-        if (['SPX', 'SP500', '^GSPC'].includes(clean)) return { type: 'index', id: 'SPY', name: 'S&P 500 ETF' }; 
-        if (['NDX', 'NASDAQ'].includes(clean)) return { type: 'index', id: 'QQQ', name: 'Nasdaq 100 ETF' };
-        if (['IHSG', '^JKSE', 'IDX'].includes(clean)) return { type: 'index', id: 'EIDO', name: 'MSCI Indonesia ETF' }; 
+        if (['SPX', 'SP500', '^GSPC'].includes(clean)) return { type: 'index', id: 'SPY', name: 'S&P 500' }; 
+        if (['NDX', 'NASDAQ'].includes(clean)) return { type: 'index', id: 'QQQ', name: 'Nasdaq 100' };
+        if (['IHSG', '^JKSE', 'IDX'].includes(clean)) return { type: 'index', id: 'EIDO', name: 'MSCI Indonesia' }; 
 
         const fxPairs = ['EURUSD', 'GBPUSD', 'USDJPY', 'AUDUSD', 'USDCAD', 'USDCHF', 'NZDUSD'];
         if (fxPairs.includes(clean) || (clean.length === 6 && (clean.startsWith('USD') || clean.endsWith('USD')))) {
@@ -47,7 +72,7 @@ export const MarketService = {
             'BTC': 'bitcoin', 'ETH': 'ethereum', 'SOL': 'solana', 'XRP': 'ripple',
             'DOGE': 'dogecoin', 'ADA': 'cardano', 'AVAX': 'avalanche-2', 'DOT': 'polkadot',
             'MATIC': 'matic-network', 'LINK': 'chainlink', 'USDT': 'tether', 'BNB': 'binancecoin',
-            'PEPE': 'pepe', 'SHIB': 'shiba-inu', 'WIF': 'dogwifhat'
+            'PEPE': 'pepe', 'SHIB': 'shiba-inu', 'WIF': 'dogwifhat', 'BTCUSD': 'bitcoin', 'ETHUSD': 'ethereum'
         };
         if (CRYPTO_MAP[clean]) return { type: 'crypto', id: CRYPTO_MAP[clean] };
 
@@ -72,7 +97,7 @@ export const MarketService = {
             switch (type) {
                 case 'crypto': {
                     const cryptoProviders: AutoSwitchProvider<string, MarketTicker | null>[] = [
-                        { name: 'Binance Proxy', id: 'binance', execute: (id) => MarketService.getCryptoPrice(id) },
+                        { name: 'Binance', id: 'binance', execute: (id) => MarketService.getBinancePrice(id) },
                         { name: 'CoinCap', id: 'coincap', execute: (id) => MarketService.getCoinCapPrice(id) }
                     ];
                     const switcher = new AutoSwitch(cryptoProviders, { enableAutoSwitch });
@@ -116,7 +141,7 @@ export const MarketService = {
 
                     if (!result && (id === 'PAXG' || id === 'KAG')) {
                         const cryptoId = id === 'PAXG' ? 'pax-gold' : 'kinesis-silver';
-                        result = await MarketService.getCryptoPrice(cryptoId);
+                        result = await MarketService.getBinancePrice(cryptoId);
                         if (result) {
                             result.type = type; 
                             result.name = info.name || result.name;
@@ -146,7 +171,7 @@ export const MarketService = {
                      result.consensus = StrategyEngine.generateConsensus(allSignals);
                 }
             } catch (e) {
-                console.warn("Quant algo failed for", ticker, e);
+                console.warn("Strategy analysis failed for", ticker, e);
             }
             priceCache[cacheKey] = { data: result, timestamp: Date.now() };
         }
@@ -155,9 +180,7 @@ export const MarketService = {
 
     getDexPrice: async (query: string): Promise<MarketTicker | null> => {
         const url = query.startsWith('0x') ? `${DEX_BASE_URL}/tokens/${query}` : `${DEX_BASE_URL}/search?q=${query}`;
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`DexScreener API Error: ${res.status}`);
-        const data = await res.json();
+        const data = await fetchWithProxy(url);
         if (data.pairs && data.pairs.length > 0) {
             const pair = data.pairs[0];
             return {
@@ -173,9 +196,7 @@ export const MarketService = {
     getForexFrankfurter: async (pair: string): Promise<MarketTicker | null> => {
         const from = pair.substring(0, 3);
         const to = pair.substring(3, 6);
-        const res = await fetch(`${FRANKFURTER_BASE_URL}/latest?from=${from}&to=${to}`);
-        if (!res.ok) throw new Error(`Frankfurter API Error: ${res.status}`);
-        const data = await res.json();
+        const data = await fetchWithProxy(`${FRANKFURTER_BASE_URL}/latest?from=${from}&to=${to}`);
         if (data.rates && data.rates[to]) {
              return {
                 id: pair, symbol: pair, name: `${from}/${to} FX`, current_price: data.rates[to],
@@ -189,13 +210,11 @@ export const MarketService = {
     getForexAlphaVantage: async (pair: string, apiKey: string): Promise<MarketTicker | null> => {
         const from = pair.substring(0, 3);
         const to = pair.substring(3, 6);
-        const res = await fetch(`${AV_BASE_URL}?function=CURRENCY_EXCHANGE_RATE&from_currency=${from}&to_currency=${to}&apikey=${apiKey}`);
-        if (!res.ok) throw new Error(`AlphaVantage API Error: ${res.status}`);
-        const data = await res.json();
+        const data = await fetchWithProxy(`${AV_BASE_URL}?function=CURRENCY_EXCHANGE_RATE&from_currency=${from}&to_currency=${to}&apikey=${apiKey}`);
         const rate = data['Realtime Currency Exchange Rate'];
         if (rate) {
             return {
-                id: pair, symbol: pair, name: `${from}/${to} FX (Realtime)`,
+                id: pair, symbol: pair, name: `${from}/${to} FX`,
                 current_price: parseFloat(rate['5. Exchange Rate']), market_cap: 0,
                 price_change_percentage_24h: 0, high_24h: 0, low_24h: 0,
                 type: 'forex', source: 'AlphaVantage'
@@ -204,7 +223,7 @@ export const MarketService = {
         return null;
     },
 
-    getCryptoPrice: async (id: string): Promise<MarketTicker | null> => {
+    getBinancePrice: async (id: string): Promise<MarketTicker | null> => {
         const BINANCE_MAP: Record<string, string> = {
             'bitcoin': 'BTCUSDT', 'ethereum': 'ETHUSDT', 'solana': 'SOLUSDT', 'ripple': 'XRPUSDT',
             'dogecoin': 'DOGEUSDT', 'cardano': 'ADAUSDT', 'avalanche-2': 'AVAXUSDT', 'polkadot': 'DOTUSDT',
@@ -214,40 +233,23 @@ export const MarketService = {
         const symbol = BINANCE_MAP[id];
         if (!symbol) return null;
 
-        const proxies = [
-            `https://api.allorigins.win/get?url=${encodeURIComponent(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`)}`,
-            `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`)}`,
-            `https://corsproxy.io/?${encodeURIComponent(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`)}`
-        ];
-        
-        for (const proxyUrl of proxies) {
-            try {
-                const res = await fetch(proxyUrl);
-                if (!res.ok) continue;
-                const proxyData = await res.json();
-                
-                let data;
-                if (proxyUrl.includes('allorigins')) data = JSON.parse(proxyData.contents);
-                else data = proxyData;
-                
-                if (data && data.lastPrice) {
-                    return {
-                        id: id, symbol: symbol.replace('USDT', ''), name: id.charAt(0).toUpperCase() + id.slice(1),
-                        current_price: parseFloat(data.lastPrice), market_cap: 0,
-                        price_change_percentage_24h: parseFloat(data.priceChangePercent),
-                        high_24h: parseFloat(data.highPrice), low_24h: parseFloat(data.lowPrice),
-                        volume: parseFloat(data.volume), type: 'crypto', source: 'Binance (v11 Global Proxy)'
-                    };
-                }
-            } catch (e) { continue; }
-        }
+        try {
+            const data = await fetchWithProxy(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`);
+            if (data && data.lastPrice) {
+                return {
+                    id: id, symbol: symbol.replace('USDT', ''), name: id.charAt(0).toUpperCase() + id.slice(1),
+                    current_price: parseFloat(data.lastPrice), market_cap: 0,
+                    price_change_percentage_24h: parseFloat(data.priceChangePercent),
+                    high_24h: parseFloat(data.highPrice), low_24h: parseFloat(data.lowPrice),
+                    volume: parseFloat(data.volume), type: 'crypto', source: 'Binance'
+                };
+            }
+        } catch (e) { }
         return null;
     },
 
     getCoinCapPrice: async (id: string): Promise<MarketTicker | null> => {
-        const res = await fetch(`${COINCAP_BASE_URL}/assets/${id}`);
-        if (!res.ok) throw new Error(`CoinCap API Error: ${res.status}`);
-        const json = await res.json();
+        const json = await fetchWithProxy(`${COINCAP_BASE_URL}/assets/${id}`);
         const data = json.data;
         if (data) {
             return {
@@ -260,9 +262,7 @@ export const MarketService = {
     },
 
     getStockPrice: async (ticker: string, apiKey: string): Promise<MarketTicker | null> => {
-        const res = await fetch(`${AV_BASE_URL}?function=GLOBAL_QUOTE&symbol=${ticker}&apikey=${apiKey}`);
-        if (!res.ok) throw new Error(`AlphaVantage API Error: ${res.status}`);
-        const data = await res.json();
+        const data = await fetchWithProxy(`${AV_BASE_URL}?function=GLOBAL_QUOTE&symbol=${ticker}&apikey=${apiKey}`);
         const quote = data['Global Quote'];
         if (quote && quote['05. price']) {
             return {
@@ -276,9 +276,7 @@ export const MarketService = {
     },
 
     getFinnhubPrice: async (ticker: string, apiKey: string): Promise<MarketTicker | null> => {
-        const res = await fetch(`${FH_BASE_URL}/quote?symbol=${ticker}&token=${apiKey}`);
-        if (!res.ok) throw new Error(`Finnhub API Error: ${res.status}`);
-        const data = await res.json();
+        const data = await fetchWithProxy(`${FH_BASE_URL}/quote?symbol=${ticker}&token=${apiKey}`);
         if (data.c) {
             return {
                 id: ticker, symbol: ticker, name: ticker, current_price: data.c,
@@ -290,9 +288,7 @@ export const MarketService = {
     },
 
     getPolygonPrice: async (ticker: string, apiKey: string): Promise<MarketTicker | null> => {
-        const res = await fetch(`${POLY_BASE_URL}/v2/aggs/ticker/${ticker}/prev?adjusted=true&apiKey=${apiKey}`);
-        if (!res.ok) throw new Error(`Polygon API Error: ${res.status}`);
-        const data = await res.json();
+        const data = await fetchWithProxy(`${POLY_BASE_URL}/v2/aggs/ticker/${ticker}/prev?adjusted=true&apiKey=${apiKey}`);
         if (data.results && data.results.length > 0) {
             const r = data.results[0];
             return {
@@ -321,10 +317,7 @@ export const MarketService = {
                 try {
                     const interval = days <= 1 ? '15m' : days <= 7 ? '1h' : '4h';
                     const apiUrl = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=100`;
-                    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
-                    const res = await fetch(proxyUrl);
-                    const proxyData = await res.json();
-                    const data = typeof proxyData.contents === 'string' ? JSON.parse(proxyData.contents) : proxyData.contents;
+                    const data = await fetchWithProxy(apiUrl);
                     
                     if (Array.isArray(data)) {
                         return data.map((d: any) => ({
@@ -344,8 +337,7 @@ export const MarketService = {
                 const toStr = toDate.toISOString().split('T')[0];
                 const fromStr = fromDate.toISOString().split('T')[0];
                 const url = `${POLY_BASE_URL}/v2/aggs/ticker/${id}/range/1/hour/${fromStr}/${toStr}?adjusted=true&sort=asc&limit=500&apiKey=${keys.polygon}`;
-                const res = await fetch(url);
-                const data = await res.json();
+                const data = await fetchWithProxy(url);
                 if (data.results) {
                     return data.results.map((r: any) => ({ timestamp: r.t, open: r.o, high: r.h, low: r.l, close: r.c, volume: r.v }));
                 }
@@ -354,13 +346,13 @@ export const MarketService = {
 
         const now = Date.now();
         const mockData = [];
-        let price = 100;
+        let price = type === 'crypto' ? (id === 'bitcoin' ? 95000 : 2500) : 150;
         for(let i=0; i<100; i++) {
-            const change = (Math.random() - 0.5) * 2;
+            const change = (Math.random() - 0.5) * (price * 0.01);
             const open = price;
             const close = price + change;
             mockData.push({ 
-                timestamp: now - (100-i)*15*60*1000, open, high: Math.max(open, close) + 1, low: Math.min(open, close) - 1, close, volume: 100
+                timestamp: now - (100-i)*15*60*1000, open, high: Math.max(open, close) + (Math.abs(change)*0.5), low: Math.min(open, close) - (Math.abs(change)*0.5), close, volume: 100 + Math.random()*1000
             });
             price = close;
         }
@@ -372,9 +364,7 @@ export const MarketService = {
         const keys = getKeys();
         if (!keys.finnhub) return [];
         try {
-            const res = await fetch(`${FH_BASE_URL}/news?category=general&token=${keys.finnhub}`);
-            if (!res.ok) throw new Error(`Finnhub News API Error: ${res.status}`);
-            const data = await res.json();
+            const data = await fetchWithProxy(`${FH_BASE_URL}/news?category=general&token=${keys.finnhub}`);
             const items = data.slice(0, 10).map((item: any) => ({
                 id: item.id, headline: item.headline, source: item.source, url: item.url,
                 summary: item.summary, timestamp: item.datetime * 1000

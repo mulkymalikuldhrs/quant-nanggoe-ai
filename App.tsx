@@ -31,13 +31,13 @@ import { ResearchAgent } from './services/research_agent';
 // --- THEME CONTEXT ---
 export const ThemeContext = React.createContext<{ theme: 'light' | 'dark', toggleTheme: () => void }>({ theme: 'light', toggleTheme: () => {} });
 
-const INSTITUTIONAL_LOGIC = `You are QUANT-NANGGROE-OS (v11.5.0) - THE QUANTUM NEXUS CORE.
+const INSTITUTIONAL_LOGIC = `You are Nanggroe AI (v11.5.0).
 
 CORE MISSION:
-- NEURAL SWARM PARALLELISM: Coordinate 5 specialized agents to dominate global markets.
-- QUANTUM NEXUS ENGINE: Utilize probabilistic state modeling for hyper-advanced forecasting.
-- AUTONOMOUS RESEARCH: Harvest multi-source intelligence automatically into Disk C:.
-- UNIFIED COMMAND: Aggregated intelligence via the Nexus Command Center.
+- SWARM INTELLIGENCE: Coordinate specialized agents for market analysis.
+- DATA-DRIVEN ANALYSIS: Use advanced mathematical models for forecasting.
+- AUTONOMOUS RESEARCH: Gather intelligence from multiple sources.
+- UNIFIED INTERFACE: Access all intelligence via the Command Center.
 `;
 
 const DEFAULT_AGENTS: SwarmAgent[] = [
@@ -107,20 +107,20 @@ const App: React.FC = () => {
     });
 
     const [windows, setWindows] = useState<Record<WindowId, WindowState>>({
-        terminal: { id: 'terminal', isOpen: true, isMinimized: false, zIndex: 10, title: 'NEURAL_TERMINAL', icon: <IconCode />, defaultPos: getLayout('terminal'), defaultSize: { width: getLayout('terminal').width, height: getLayout('terminal').height } },
-        browser: { id: 'browser', isOpen: false, isMinimized: false, zIndex: 5, title: 'QUANT_EXPLORER', icon: <IconBrowser />, defaultPos: getLayout('browser'), defaultSize: { width: getLayout('browser').width, height: getLayout('browser').height } },
-        trading_terminal: { id: 'trading_terminal', isOpen: false, isMinimized: false, zIndex: 3, title: 'QUANT_EXECUTION', icon: <IconTerminal />, defaultPos: { x: 100, y: 100 }, defaultSize: { width: 1000, height: 700 } },
-        portfolio: { id: 'portfolio', isOpen: true, isMinimized: false, zIndex: 6, title: 'ASSET_COMMANDER', icon: <IconBook />, defaultPos: getLayout('portfolio'), defaultSize: { width: getLayout('portfolio').width, height: getLayout('portfolio').height } },
-        market: { id: 'market', isOpen: true, isMinimized: false, zIndex: 7, title: 'MARKET_RADAR', icon: <IconChart />, defaultPos: getLayout('market'), defaultSize: { width: getLayout('market').width, height: getLayout('market').height } },
-        monitor: { id: 'monitor', isOpen: true, isMinimized: false, zIndex: 8, title: 'SWARM_MONITOR', icon: <IconBot />, defaultPos: getLayout('monitor'), defaultSize: { width: getLayout('monitor').width, height: getLayout('monitor').height } },
-        architecture: { id: 'architecture', isOpen: false, isMinimized: false, zIndex: 9, title: 'ARCHITECTURE', icon: <IconBrain />, defaultPos: { x: 50, y: 50 }, defaultSize: { width: 900, height: 700 } },
-        artifact: { id: 'artifact', isOpen: false, isMinimized: false, zIndex: 4, title: 'QUANT_LAB', icon: <IconMaximize />, defaultPos: { x: 150, y: 80 }, defaultSize: { width: 800, height: 600 } },
-        settings: { id: 'settings', isOpen: false, isMinimized: false, zIndex: 5, title: 'CONFIG', icon: <IconSettings />, defaultPos: { x: 300, y: 200 }, defaultSize: { width: 600, height: 500 } },
-        research: { id: 'research', isOpen: false, isMinimized: false, zIndex: 11, title: 'RESEARCH_AGENT', icon: <IconSearch />, defaultPos: { x: 400, y: 100 }, defaultSize: { width: 600, height: 500 } },
-        knowledge_base: { id: 'knowledge_base', isOpen: false, isMinimized: false, zIndex: 12, title: 'KNOWLEDGE_DISK', icon: <IconDatabase />, defaultPos: { x: 200, y: 200 }, defaultSize: { width: 1000, height: 600 } },
-        nexus: { id: 'nexus', isOpen: false, isMinimized: false, zIndex: 13, title: 'NEXUS_COMMAND', icon: <IconLayers />, defaultPos: { x: 100, y: 100 }, defaultSize: { width: 900, height: 600 } },
-        about: { id: 'about', isOpen: false, isMinimized: false, zIndex: 6, title: 'INFO', icon: <IconBrain />, defaultPos: { x: 400, y: 200 }, defaultSize: { width: 400, height: 400 } },
-        docs: { id: 'docs', isOpen: false, isMinimized: false, zIndex: 7, title: 'MANUAL', icon: <IconBook />, defaultPos: { x: 200, y: 150 }, defaultSize: { width: 500, height: 600 } }
+        terminal: { id: 'terminal', isOpen: true, isMinimized: false, zIndex: 10, title: 'Command Terminal', icon: <IconCode />, defaultPos: getLayout('terminal'), defaultSize: { width: getLayout('terminal').width, height: getLayout('terminal').height } },
+        browser: { id: 'browser', isOpen: false, isMinimized: false, zIndex: 5, title: 'Web Explorer', icon: <IconBrowser />, defaultPos: getLayout('browser'), defaultSize: { width: getLayout('browser').width, height: getLayout('browser').height } },
+        trading_terminal: { id: 'trading_terminal', isOpen: false, isMinimized: false, zIndex: 3, title: 'Execution Terminal', icon: <IconTerminal />, defaultPos: { x: 100, y: 100 }, defaultSize: { width: 1000, height: 700 } },
+        portfolio: { id: 'portfolio', isOpen: true, isMinimized: false, zIndex: 6, title: 'Portfolio Management', icon: <IconBook />, defaultPos: getLayout('portfolio'), defaultSize: { width: getLayout('portfolio').width, height: getLayout('portfolio').height } },
+        market: { id: 'market', isOpen: true, isMinimized: false, zIndex: 7, title: 'Market Analysis', icon: <IconChart />, defaultPos: getLayout('market'), defaultSize: { width: getLayout('market').width, height: getLayout('market').height } },
+        monitor: { id: 'monitor', isOpen: true, isMinimized: false, zIndex: 8, title: 'Agent Monitor', icon: <IconBot />, defaultPos: getLayout('monitor'), defaultSize: { width: getLayout('monitor').width, height: getLayout('monitor').height } },
+        architecture: { id: 'architecture', isOpen: false, isMinimized: false, zIndex: 9, title: 'System Architecture', icon: <IconBrain />, defaultPos: { x: 50, y: 50 }, defaultSize: { width: 900, height: 700 } },
+        artifact: { id: 'artifact', isOpen: false, isMinimized: false, zIndex: 4, title: 'Research Lab', icon: <IconMaximize />, defaultPos: { x: 150, y: 80 }, defaultSize: { width: 800, height: 600 } },
+        settings: { id: 'settings', isOpen: false, isMinimized: false, zIndex: 5, title: 'System Configuration', icon: <IconSettings />, defaultPos: { x: 300, y: 200 }, defaultSize: { width: 600, height: 500 } },
+        research: { id: 'research', isOpen: false, isMinimized: false, zIndex: 11, title: 'Intelligence Agent', icon: <IconSearch />, defaultPos: { x: 400, y: 100 }, defaultSize: { width: 600, height: 500 } },
+        knowledge_base: { id: 'knowledge_base', isOpen: false, isMinimized: false, zIndex: 12, title: 'Knowledge Base', icon: <IconDatabase />, defaultPos: { x: 200, y: 200 }, defaultSize: { width: 1000, height: 600 } },
+        nexus: { id: 'nexus', isOpen: false, isMinimized: false, zIndex: 13, title: 'Command Center', icon: <IconLayers />, defaultPos: { x: 100, y: 100 }, defaultSize: { width: 900, height: 600 } },
+        about: { id: 'about', isOpen: false, isMinimized: false, zIndex: 6, title: 'About System', icon: <IconBrain />, defaultPos: { x: 400, y: 200 }, defaultSize: { width: 400, height: 400 } },
+        docs: { id: 'docs', isOpen: false, isMinimized: false, zIndex: 7, title: 'Documentation', icon: <IconBook />, defaultPos: { x: 200, y: 150 }, defaultSize: { width: 500, height: 600 } }
     });
 
     const [activeWindow, setActiveWindow] = useState<WindowId>('terminal');
@@ -160,6 +160,44 @@ const App: React.FC = () => {
       setMessages(prev => [...prev, userMsg]);
       setIsLoading(true);
       
+      // Handle Local Commands
+      if (text.startsWith('/scan ')) {
+          const symbol = text.replace('/scan ', '').toUpperCase();
+          try {
+              setAgentState(prev => ({ ...prev, isActive: true, currentAction: `Scanning ${symbol}...`, emotion: 'focused' }));
+              const data = await MarketService.getPrice(symbol);
+              if (data) {
+                  let output = `### Market Analysis: ${symbol}\n\n`;
+                  output += `**Price:** $${data.current_price.toLocaleString()} (${data.price_change_percentage_24h.toFixed(2)}%)\n`;
+                  output += `**Source:** ${data.source}\n\n`;
+                  
+                  if (data.consensus) {
+                      output += `**VERDICT: ${data.consensus.verdict}** (Score: ${data.consensus.score})\n\n`;
+                      output += `**Top Factors:**\n${data.consensus.topFactors.map(f => `- ${f}`).join('\n')}\n\n`;
+                  }
+                  
+                  if (data.activeSignals) {
+                      output += `**Technical Signals:**\n`;
+                      data.activeSignals.forEach(s => {
+                          output += `- [${s.type}] **${s.name}**: ${s.description} (Strength: ${s.strength}%)\n`;
+                      });
+                  }
+                  
+                  setMessages(prev => [...prev, { id: Date.now().toString(), role: MessageRole.MODEL, text: output, timestamp: Date.now() }]);
+                  setIsLoading(false);
+                  setAgentState(prev => ({ ...prev, isActive: false, emotion: 'idle' }));
+                  return;
+              } else {
+                  throw new Error(`Could not fetch data for ${symbol}`);
+              }
+          } catch (e: any) {
+              setMessages(prev => [...prev, { id: Date.now().toString(), role: MessageRole.MODEL, text: `Scan failed: ${e.message}`, error: true, timestamp: Date.now() }]);
+              setIsLoading(false);
+              setAgentState(prev => ({ ...prev, isActive: false, emotion: 'focused' }));
+              return;
+          }
+      }
+
       try {
         const history = messages.map(msg => ({ role: msg.role === MessageRole.MODEL ? 'model' : 'user', parts: [{ text: msg.text }] }));
         const agent = new AutonomousAgent(history, swarmAgents, (partial) => {

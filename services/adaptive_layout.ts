@@ -23,38 +23,38 @@ export const useAdaptiveLayout = () => {
         switch (type) {
             case 'terminal':
                 return {
-                    x: 20,
-                    y: 60,
-                    width: isSmall ? width - 40 : 600,
-                    height: isSmall ? (height / 2) - 40 : 620
+                    x: 40,
+                    y: 80,
+                    width: isSmall ? width - 80 : 700,
+                    height: isSmall ? (height / 2) - 100 : 500
                 };
             case 'browser':
                 return {
-                    x: isSmall ? 20 : 640,
-                    y: isSmall ? (height / 2) + 40 : 60,
-                    width: isSmall ? width - 40 : width - 680,
-                    height: isSmall ? (height / 2) - 100 : height - 420
+                    x: isSmall ? 40 : 760,
+                    y: isSmall ? (height / 2) + 20 : 80,
+                    width: isSmall ? width - 80 : width - 800,
+                    height: isSmall ? (height / 2) - 140 : height - 200
                 };
             case 'monitor':
                 return {
-                    x: 20,
-                    y: height - 380,
-                    width: 600,
+                    x: 40,
+                    y: height - 420,
+                    width: 700,
                     height: 300
                 };
             case 'market':
                 return {
-                    x: 640,
-                    y: height - 340,
-                    width: 450,
-                    height: 260
+                    x: width - 500,
+                    y: 80,
+                    width: 460,
+                    height: 300
                 };
             case 'portfolio':
                 return {
-                    x: 1110,
-                    y: height - 340,
-                    width: width - 1130,
-                    height: 260
+                    x: width - 500,
+                    y: 400,
+                    width: 460,
+                    height: height - 520
                 };
             default:
                 return { x: 100, y: 100, width: 800, height: 600 };
