@@ -1,63 +1,144 @@
-# DOCUMENTATION: QUANT NANGGROE AI v12.0.0 - PROFESSIONAL TRADING EDITION
-================================================================================
+# QUANT NANGGROE AI: CONSTITUTION & TECHNICAL DOCUMENTATION
+(Powered by ORCHID AI – Deterministic Agent Executor)
 
-## OVERVIEW
-Quant Nanggroe AI v12.0.0 (Professional Trading Edition) adalah evolusi besar dari sistem OS trading otonom. Versi ini menghilangkan istilah-istilah overclaim dan fokus pada fungsionalitas trading institusional nyata, integrasi data terminal MT4/MT5, serta sistem agen yang benar-benar cerdas dan memiliki memori.
+**Status Resmi:** Multi-Agent Quant Research & Decision Intelligence OS
+**Mode:** Research & Simulation (Not for Live Trading)
+**Version:** v12.0.0 (Professional Edition)
 
-## 1. INSTITUTIONAL TRADING LOGIC (STRATEGY ENGINE)
-Sistem v12.0.0 kini mengimplementasikan logika trading profesional yang sesungguhnya:
+---
 
-*   **Smart Money Concept (SMC)**: Identifikasi Order Blocks, Fair Value Gaps (FVG), dan Market Structure Shift (MSS) secara otomatis.
-*   **Support & Resistance (S/R)**: Penentuan level psikologis dan teknis berdasarkan pivot historis dan volume profile.
-*   **Retail Technical Logic**: Integrasi indikator klasik seperti Golden/Death Cross, RSI Overbought/Oversold tiers, dan Bollinger Bands secara presisi.
+## I. POSISI SISTEM (JUJUR & SAH)
 
-## 2. PROFESSIONAL TERMINAL & PORTFOLIO
-Tampilan portfolio dan manajemen akun kini menyerupai terminal MT4/MT5 profesional:
+❌ **Bukan:** Hedge Fund, Autonomous Trading System, Bloomberg Killer.
+✅ **Adalah:** Quant Research OS, Decision Intelligence Platform, Assisted Trading Workbench.
 
-*   **Real Portfolio Data**: Data bukan lagi angka simulasi statis, melainkan representasi dari Web Terminal MT4/MT5 termasuk Equity, Balance, Margin, dan PnL real-time.
-*   **Market Analysis**: Pengganti "Neural Chart". Menampilkan grafik harga yang bersih dengan overlay indikator teknikal profesional tanpa istilah yang berlebihan.
+> *Semua klaim di bawah ini mengikuti posisi ini. Tidak ada ilusi.*
 
-## 3. AUTONOMOUS AGENT ECOSYSTEM (REAL ANALYSIS)
-Agen di v12.0.0 bukan sekadar script visual, melainkan entitas fungsional:
+---
 
-*   **Persistent Memory**: Agen kini memiliki sistem memori untuk mengingat instruksi sebelumnya dan hasil analisa terdahulu, memungkinkan kerjasama antar-agen yang lebih kohesif.
-*   **Real Research & Browser**: Fungsi Research kini melakukan penelusuran data market asli menggunakan Browser Terintegrasi yang mampu membaca dan merangkum konten web market secara otonom.
-*   **Desktop & Web Access**: Kemampuan agen untuk berinteraksi dengan elemen web dan menyediakan output analisis yang dapat ditindaklanjuti.
+## II. FILOSOFI DASAR AGENT (CORE FIX)
 
-## 4. COMMAND SYSTEM & FIXES
-*   **Command /scan**: Perintah `/scan [SYMBOL]` (contoh: `/scan BTCUSD`) kini memberikan output analisis teknikal lengkap, sinyal SMC, dan sentimen pasar secara real-time.
-*   **Data Market Expansion**: Penambahan sumber data market yang lebih luas melampaui API publik gratis standar untuk akurasi harga yang lebih baik.
+❌ **Masalah Awal:** Agent diperlakukan sebagai "LLM dengan role". Ini SALAH secara sistem.
+✅ **FIX – MODEL AGENT ORCHID AI:** Setiap agent WAJIB punya kontrak tetap (**AGENT CONTRACT**):
+- **Input Domain:** Apa yang boleh dibaca.
+- **Decision Scope:** Apa yang boleh diputuskan.
+- **Hard Constraint:** Apa yang tidak boleh dilanggar.
 
-## 5. OS INTERFACE & USER EXPERIENCE
-Penyempurnaan total pada antarmuka pengguna:
+*LLM hanya boleh reasoning DI DALAM kontrak. Risk = rule engine + FSM (finite state machine).*
 
-*   **Resizable & Draggable Windows**: Semua jendela (Market Analysis, Terminal, Browser, Research) sekarang dapat diubah ukurannya dan digeser sesuai kebutuhan pengguna.
-*   **Monitor Scaling**: Layout OS telah dioptimalkan agar pas di berbagai ukuran layar monitor PC tanpa terpotong atau terlalu besar.
-*   **Clean Documentation**: Penghapusan tanda baca "_" yang berlebihan dan penyederhanaan bahasa teknis agar lebih profesional.
+---
 
-## 6. ALUR KERJA SISTEM (SYSTEM FLOW)
-Sistem beroperasi dalam siklus otonom yang terintegrasi:
-1.  **Data Ingestion**: Market data ditarik secara real-time melalui *Institutional Proxy Pipeline* dan *Multi-Source Market API*.
-2.  **Strategy Engine**: Data mentah diproses menggunakan logika **SMC (Smart Money Concept)** dan **Retail Technicals** untuk mengidentifikasi *Order Blocks*, *FVG*, dan level *S/R*.
-3.  **Autonomous Research**: Agen penelitian menggunakan *Neural Browser (Jina AI)* untuk memanen data makro/mikro dari web, menyimpannya dalam *Persistent Memory*.
-4.  **Professional Terminal**: Data portofolio (Equity, Margin, PnL) disinkronkan langsung dengan hasil analisis *Strategy Engine* dan *MT4/MT5 Web Interface*.
-5.  **User Interaction**: Pengguna mengontrol sistem melalui *OmniBar* (perintah `/scan`) atau memanipulasi jendela *resizable/draggable* untuk analisis mendalam.
+## III. ARSITEKTUR AGENT (V12 REVISI)
 
-## 7. KETERANGAN STRUKTUR PROYEK (PROJECT STRUCTURE)
-Struktur kode diatur secara modular untuk skalabilitas profesional:
-*   `App.tsx`: Kontroler pusat OS yang mengelola state jendela, otentikasi, dan koordinasi antar-komponen.
-*   `components/`: Lapisan UI yang berisi komponen jendela (*WindowFrame*), terminal (*ProfessionalTerminal*), chart (*MarketAnalysis*), dan navigasi (*Taskbar*, *Launchpad*).
-*   `services/`: Lapisan logika bisnis, termasuk *StrategyEngine.ts* (SMC Logic), *autoswitch.ts* (Proxy Rotator), dan layanan memori agen.
-*   `types.ts`: Definisi tipe data global untuk memastikan konsistensi antara logika trading dan tampilan UI.
-*   `metadata.json`: Konfigurasi sistem dan identitas platform.
+### A. ALPHA PRIME (Coordinator)
+- **Fungsi:** Reducer & Compiler keputusan.
+- **Prinsip:** Tidak reasoning bebas. Alpha = compiler, bukan philosopher.
+- **Output:** Decision matrix berdasarkan structured agent outputs.
 
-## 8. AUDIT SISTEM (SYSTEM AUDIT SUMMARY)
-Berdasarkan audit internal terbaru (v12.0.0):
-*   **Integritas Sistem**: 100% (Sinkron dengan data realitas).
-*   **Fitur Utama**: Semua modul inti (**SMC Logic**, **MT Terminal**, **Window Resizer**, **Neural Reader**) dalam status 🟢 **ONLINE**.
-*   **Performa**: Optimalisasi scaling monitor dan perbaikan latensi pada *Proxy Pipeline* telah diverifikasi.
-*   **Dokumentasi**: Seluruh file README, CHANGELOG, dan Manifest telah diselaraskan dengan codebase v12.0.0.
+### B. QUANT-SCANNER (Technical)
+- **Output:** HARUS numerik & state-based (e.g., `trend_strength: 0.72`, `volatility_state: HIGH`).
+- **Logika:** Menggunakan SMC (Order Blocks, FVG) dan indikator retail presisi.
 
---------------------------------------------------------------------------------
-DOKUMENTASI RESMI - QUANT NANGGROE AI v12.0.0 (2026)
-"Professional precision. Real-world execution."
+### C. NEWS-SENTINEL (Macro & Sentiment)
+- **Classifier:** Macro, Scheduled, Shock, Noise.
+- **Wajib:** Time Decay & Direction uncertainty score.
+
+### D. STRATEGY-WEAVER (Algo)
+- **Lifecycle:** Metrics (Expectancy, Max DD, Sharpe).
+- **Kill-switch:** Jika expectancy < 0 dalam N trades, strategi dimatikan.
+
+### E. RISK-GUARDIAN (LAW, NOT ADVISOR)
+- **Sifat:** NO LLM, Deterministic only, Kill-switch absolut.
+- **Aturan:** Jika daily DD > 4%, blokir semua trade secara otomatis.
+
+---
+
+## IV. DATA PIPELINE (REALITY ENFORCEMENT)
+
+Setiap data WAJIB punya metadata: `source_trust_score`, `latency_estimate`, `update_frequency`. Tanpa ini, keputusan hanyalah "sampah yang terdengar pintar".
+
+---
+
+## V. CHART & VISUALISASI
+
+Chart adalah **OUTPUT**, Agent adalah **INPUT numerik**. Agent DILARANG membaca UI atau "melihat chart" secara interpretatif; mereka memproses data mentah di baliknya.
+
+---
+
+## VI. MARKET REGIME (HARUS DI ATAS SEMUA)
+
+Regime Engine berada di atas semua agent:
+- **Regimes:** Trending, Mean Reverting, Risk-Off, Panic, No-Trade.
+- **Hukum:** Jika NO_TRADE, semua agent wajib diam.
+
+---
+
+## VII. DECISION FLOW (ANTI DISKUSI)
+
+Gunakan **Decision Table**:
+`Regime | Quant | News | Risk | Action`
+Tanpa kecocokan di tabel -> **NO TRADE**.
+
+---
+
+## VIII. EXECUTION REALITY
+
+Simulasi wajib mencakup: Spread, Slippage, Partial fill, dan Reject. Tanpa ini, simulasi menipu.
+
+---
+
+## IX. LEARNING & EVOLUTION
+
+Learning HANYA dari: Metrics, Loss, dan Strategy death. Bukan dari "perasaan" AI.
+
+---
+
+## X. GOVERNANCE (TRADING CONSTITUTION)
+
+Konstitusi > Semua Agent: Max leverage, Max correlation, Max exposure, No-trade zones.
+
+---
+
+## XI. KOREKSI KLAIM DOKUMENTASI (WAJIB)
+
+- ❌ "Bloomberg Killer" -> ✅ "Institution-inspired Quant Research OS"
+- ❌ "Autonomous Hedge Fund" -> ✅ "Decision Intelligence Platform"
+- ❌ "Operational Full" -> ✅ "Operational – Research & Simulation Mode"
+
+---
+
+## XII. ALUR KERJA SISTEM (TECHNICAL FLOW)
+
+1.  **Data Ingestion:** Market data ditarik secara real-time melalui Institutional Proxy Pipeline.
+2.  **Regime Detection:** Engine menentukan kondisi pasar sebelum mengaktifkan agent.
+3.  **Agent Execution:** Quant-Scanner dan News-Sentinel bekerja dalam kontrak tetap.
+4.  **Decision Compilation:** Alpha Prime menyusun matriks keputusan sesuai Decision Table.
+5.  **Risk Verification:** Risk-Guardian memvalidasi keputusan terhadap Konstitusi.
+6.  **Simulation/Output:** Hasil ditampilkan di Professional Terminal & Market Analysis.
+
+---
+
+## XIII. STRUKTUR PROYEK (PROJECT ARCHITECTURE)
+
+- `App.tsx`: Central Controller (OS State, Window Management).
+- `components/`: UI Layer (ProfessionalTerminal, MarketAnalysis, OmniBar).
+- `services/`: Core Logic (StrategyEngine, RiskEngine, PersistentMemory).
+- `types.ts`: Global Type Definitions (Data Integrity).
+
+---
+
+## XIV. AUDIT SISTEM (SUMMARY)
+
+- **Status:** 🟢 ONLINE
+- **SMC Logic:** Terintegrasi
+- **MT Terminal:** Sinkron (Real Portfolio Data)
+- **Windowing:** Resizable & Draggable (Verified)
+- **Integritas:** 100% Deterministic (Sesuai Konstitusi v12)
+
+---
+
+## XV. VERDICT FINAL & PENUTUP
+
+Quant Nanggroe AI bukan mesin uang hari ini. Tapi ini adalah rangka mesin yang layak jadi hedge fund kalau dibangun tanpa delusi.
+
+**"Professional precision. Real-world execution."**
