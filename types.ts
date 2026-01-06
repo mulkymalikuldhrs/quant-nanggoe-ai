@@ -29,6 +29,22 @@ export interface ChatMessage {
 
 // --- Hedge Fund Ecosystem Types ---
 
+export type MarketRegime = 'TRENDING' | 'MEAN_REVERTING' | 'RISK_OFF' | 'PANIC' | 'NO_TRADE';
+
+export interface DecisionMatrix {
+    regime: MarketRegime;
+    quantScore: number; // -1 to 1
+    newsScore: number;  // -1 to 1
+    riskStatus: 'CLEAR' | 'BLOCKED';
+    action: 'BUY' | 'SELL' | 'HOLD' | 'WAIT';
+}
+
+export interface AgentContract {
+    inputDomain: string[];
+    decisionScope: string[];
+    hardConstraints: string[];
+}
+
 export type AgentCapability = 
   | 'portfolio-manager' // The Boss (Alpha Prime)
   | 'quant'             // Technical Analyst

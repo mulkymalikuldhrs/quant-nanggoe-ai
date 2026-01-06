@@ -9,7 +9,24 @@ export interface RiskProfile {
 
 export const RiskManagement = {
     
-    // --- POSITION SIZING (The Core of Survival) ---
+    // --- CONSTITUTIONAL HARD CONSTRAINTS ---
+    CONSTITUTION: {
+        MAX_LEVERAGE: 5,
+        MAX_CORRELATION: 0.7,
+        MAX_EXPOSURE_PER_ASSET: 0.2, // 20%
+        DAILY_DRAWDOWN_KILL_SWITCH: 0.04, // 4%
+    },
+
+    // --- KILL SWITCH (DETERMINISTIC) ---
+    checkKillSwitch: (dailyPnLPercent: number): boolean => {
+        if (dailyPnLPercent <= -RiskManagement.CONSTITUTION.DAILY_DRAWDOWN_KILL_SWITCH) {
+            console.error("!!! RISK GUARDIAN: KILL SWITCH TRIGGERED !!!");
+            return true; // BLOCKED
+        }
+        return false; // CLEAR
+    },
+
+    // --- POSITION SIZING (DETERMINISTIC) ---
     calculatePositionSize: (equity: number, riskPct: number, entry: number, stopLoss: number): { size: number, totalRisk: number } => {
         const amountToRisk = equity * riskPct;
         const riskPerShare = Math.abs(entry - stopLoss);

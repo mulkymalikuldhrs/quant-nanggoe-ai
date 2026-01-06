@@ -1,333 +1,160 @@
-================================================================================
-                          QUANT NANGGROE AI
-           (Powered by ORCHID AI – Deterministic Agent Executor)
-================================================================================
+QUANT NANGGROE AI
+
+(Powered by ORCHID AI – Deterministic Agent Executor)
 
 Status Resmi:
-  Multi-Agent Quant Research & Decision Intelligence OS
-  Mode: Research & Simulation (Not for Live Trading)
-
-================================================================================
-
+Multi-Agent Quant Research & Decision Intelligence OS
+Mode: Research & Simulation (Not for Live Trading)
 
 ---
 
 I. POSISI SISTEM (JUJUR & SAH)
 
 ❌ Bukan:
-  • Hedge Fund
-  • Autonomous Trading System
-  • Bloomberg Killer
+- Hedge Fund
+- Autonomous Trading System
+- Bloomberg Killer
 
 ✅ Adalah:
-  • Quant Research OS
-  • Decision Intelligence Platform
-  • Assisted Trading Workbench
+- Quant Research OS
+- Decision Intelligence Platform
+- Assisted Trading Workbench
 
 > Semua klaim di bawah ini mengikuti posisi ini. Tidak ada ilusi.
-
 
 ---
 
 II. FILOSOFI DASAR AGENT (CORE FIX)
 
-❌ Masalah Awal
+❌ Masalah Awal: Agent diperlakukan sebagai “LLM dengan role”. Ini SALAH secara sistem.
 
-Agent diperlakukan sebagai:
-> "LLM dengan role"
-
-Ini SALAH secara sistem.
-
----
-
-✅ FIX – MODEL AGENT ORCHID AI
-
+✅ FIX – MODEL AGENT ORCHID AI:
 Setiap agent WAJIB punya kontrak tetap:
-
 AGENT CONTRACT:
-- Input Domain        (apa yang boleh dibaca)
-- Decision Scope      (apa yang boleh diputuskan)
-- Hard Constraint     (apa yang tidak boleh dilanggar)
+- Input Domain: Apa yang boleh dibaca.
+- Decision Scope: Apa yang boleh diputuskan.
+- Hard Constraint: Apa yang tidak boleh dilanggar.
 
 📌 LLM hanya boleh reasoning DI DALAM kontrak.
-
-Contoh:
-  Risk-Guardian ❌ tidak boleh interpretatif
-  Risk = rule engine + FSM (finite state machine)
-
+Contoh: Risk-Guardian ❌ tidak boleh interpretatif. Risk = rule engine + FSM (finite state machine).
 
 ---
 
 III. ARSITEKTUR AGENT (SETELAH REVISI)
 
 A. ALPHA PRIME (Coordinator)
-
-❌ Kesalahan lama:
-  • Thinker
-  • Narator
-  • Arbiter opini
-
-✅ Versi benar:
-  • Reducer
-  • Compiler keputusan
-  • Tidak reasoning bebas
-
-Alpha Prime:
-- Input: structured agent outputs
-- Output: decision matrix
-- No narrative preference
-
-📌 Alpha = compiler, bukan philosopher.
-
----
+✅ Reducer & Compiler keputusan. Tidak reasoning bebas. Alpha = compiler, bukan philosopher.
 
 B. QUANT-SCANNER (Technical)
-
-❌ Kesalahan:
-  • RSI/MACD sebagai sinyal final
-  • Analisis deskriptif
-
-✅ FIX:
-
-Output HARUS numerik & state-based:
-  trend_strength: 0.72
-  volatility_state: HIGH
-  liquidity_state: THIN
-
-❌ Dilarang:
-> "RSI oversold → kemungkinan naik"
-
----
+✅ Output HARUS numerik & state-based (trend_strength, volatility_state, liquidity_state). ❌ Dilarang deskriptif "RSI oversold".
 
 C. NEWS-SENTINEL (Macro & Sentiment)
-
-❌ Kesalahan:
-  • Semua berita dianggap penting
-  • Tidak ada bobot / decay
-
-✅ FIX:
-
-Wajib:
-  Event Classifier:
-    • Macro
-    • Scheduled
-    • Shock
-    • Noise
-
-  Time Decay
-  Direction uncertainty score
-
-Tanpa ini → noise amplifier
-
----
+✅ Wajib Event Classifier (Macro, Scheduled, Shock, Noise) + Time Decay + Direction uncertainty score.
 
 D. STRATEGY-WEAVER (Algo)
-
-❌ Kesalahan fatal:
-  • Strategy hidup selamanya
-  • Tidak ada kematian
-
-✅ FIX (WAJIB):
-
-Setiap strategi punya lifecycle:
-
-metrics:
-- expectancy
-- max_dd
-- sharpe
-
-if expectancy < 0 for N trades:
-    kill(strategy)
-
-📌 Hedge fund belajar dari membunuh strategi, bukan memeliharanya.
-
----
+✅ Lifecycle strategi: if expectancy < 0 for N trades → kill(strategy).
 
 E. RISK-GUARDIAN (LAW, NOT ADVISOR)
-
-❌ Kesalahan paling berbahaya:
-  • Bisa dibujuk
-  • Bisa di-override
-
-🔥 FIX MUTLAK:
-
-  NO LLM
-  Deterministic only
-  Kill-switch absolut
-
-if daily_dd > 4%:
-    block_all_trades()
-
-📌 Risk = law, bukan opini.
-
+🔥 FIX MUTLAK: NO LLM. Deterministic only. Kill-switch absolut. Risk = law, bukan opini.
 
 ---
 
-IV. DATA PIPELINE (REALITY ENFORCEMENT)
+IV. PRINSIP UTAMA: DECISION SYNTHESIS ENGINE
 
-❌ Kesalahan:
-  • Semua data dianggap setara
+> Final decision TIDAK diambil dari agent, indikator, atau strategi.
+> Final decision hanya boleh keluar dari SATU ENTITAS: 👉 DECISION SYNTHESIS ENGINE.
 
-✅ FIX:
-
-Setiap data WAJIB punya metadata:
-  source_trust_score
-  latency_estimate
-  update_frequency
-
-Tanpa ini:
-> keputusan = sampah yang terdengar pintar
-
+Agent TIDAK PERNAH bilang: buy, sell, entry.
+Agent HANYA bilang: state, pressure, bias, constraint.
 
 ---
 
-V. CHART & VISUALISASI
+V. STRUKTUR ALUR KEPUTUSAN (TOP-DOWN)
 
-❌ Kesalahan:
-  • Agent "melihat chart"
-
-✅ FIX:
-  Chart = OUTPUT
-  Agent = INPUT numerik
-
-❌ Agent DILARANG membaca UI.
-
-
----
-
-VI. MARKET REGIME (HARUS DI ATAS SEMUA)
-
-❌ Kesalahan struktural:
-  • Entry lebih penting dari regime
-
-✅ FIX:
-
-Regime Engine berada di atas semua agent:
-
-REGIME:
-- Trending
-- Mean Reverting
-- Risk-Off
-- Panic
-- No-Trade
-
-Jika NO_TRADE → semua agent DIAM.
-
+[ MARKET REALITY ]
+        ↓
+[ REGIME ENGINE ]   ← Filter Tertinggi
+        ↓
+[ PRESSURE LAYERS ] ← Normalisasi Sinyal
+        ↓
+[ CONFLUENCE MAP ]  ← Validasi Multi-Dimensi
+        ↓
+[ ENTRY ENGINE ]    ← Eksekutor Rule-Based
+        ↓
+ENTRY / SL / TP
 
 ---
 
-VII. DECISION FLOW (ANTI DISKUSI)
+VI. PEMBAGIAN PERAN DATA (STATE & CONTEXT)
 
-❌ Kesalahan:
-  • Agent voting implisit
-
-✅ FIX:
-
-Gunakan Decision Table:
-
-| Regime | Quant | News | Risk | Action |
-|--------|-------|------|------|--------|
-|   ...  |  ...  | ...  | ...  |  ...   |
-
-No table → NO TRADE
-
+Data hanya untuk konteks, BUKAN untuk entry langsung:
+- Fundamental: Bias jangka menengah
+- Geo-politik: Risk-on / risk-off
+- Eco Calendar: Time danger zone
+- News: Volatility expectation
+- COT: Positioning pressure
+- Whale / Flow: Liquidity imbalance
+- Broker summary: Retail trap detection
 
 ---
 
-VIII. EXECUTION REALITY
+VII. STRATEGI SEBAGAI SENSOR (SMC, SNR, PRICE ACTION)
 
-❌ Kesalahan:
-  • Trade = instant
-  • PnL palsu
+SEMUA strategi diperlakukan sebagai SENSOR yang mengeluarkan output numerik/status:
+- SMC: { liquidity_sweep: true, displacement: 0.81 }
+- SNR: { rejection_strength: 0.67 }
+- Price Action: { structure_shift: CONFIRMED }
+- Indicators: { momentum_exhaustion: HIGH }
 
-✅ FIX (MINIMAL MODEL):
-  • Spread
-  • Slippage
-  • Partial fill
-  • Reject
-
-Tanpa ini → simulasi menipu
-
+📌 Tidak ada satu pun sensor yang boleh bilang "BUY".
 
 ---
 
-IX. LEARNING & EVOLUTION
+VIII. PRESSURE LAYER & CONFLUENCE MAP
 
-❌ Kesalahan:
-  • Self-evolution = prompt mutation
+1. Pressure Layer: Mengonversi semua output sensor ke skala 0.0 – 1.0 (BUY_PRESSURE / SELL_PRESSURE).
+2. Confluence Map: 
+   if BUY_PRESSURE > 0.7 AND SELL_PRESSURE < 0.3 AND VOLATILITY_RISK != HIGH AND REGIME != NO_TRADE:
+   → ALLOW SETUP.
 
-✅ FIX:
-
-Learning HANYA dari:
-  • Metrics
-  • Loss
-  • Strategy death
-
-❌ Bukan dari:
-> "AI merasa strategi ini bagus"
-
+📌 Tidak ada kompromi. Satu layer gagal = TIDAK ADA ENTRY.
 
 ---
 
-X. GOVERNANCE (TRADING CONSTITUTION)
+IX. ENTRY ENGINE, SL & TP (DETERMINISTIK)
 
-❌ Kesalahan:
-  • Tidak ada hukum tertinggi
-
-✅ FIX:
-
-Buat Trading Constitution:
-  • Max leverage
-  • Max correlation
-  • Max exposure
-  • No-trade zones
-
-📌 Konstitusi > semua agent.
-
+- Entry Engine: Berbasis rule + market geometry (e.g., location: discount zone, trigger: sweep + BOS).
+- SL: Berdasarkan market invalidation (structural), bukan RR cantik.
+- TP: Berdasarkan liquidity objective (opposing liquidity, HTF imbalance).
 
 ---
 
-XI. KOREKSI KLAIM DOKUMENTASI (WAJIB)
+X. EXECUTION & RISK REALITY
 
-❌ Klaim Berlebihan:
-  • "Bloomberg Killer"
-  • "Autonomous Hedge Fund"
-  • "Operational Full"
-
-✅ Revisi Sah:
-  • "Institution-inspired Quant Research OS"
-  • "Decision Intelligence Platform"
-  • "Operational – Research & Simulation Mode"
-
+- Execution: Wajib simulasi Spread, Slippage, Partial fill, dan Reject.
+- Risk Guardian: Walaupun setup sempurna, Risk Guardian tetap bisa membunuh semuanya jika melanggar daily_dd atau threshold korelasi.
 
 ---
 
-XII. VERDICT FINAL (TANPA DIPLOMASI)
+XI. LEARNING & GOVERNANCE
 
-❌ Saat ini:
-  • BUKAN hedge fund
-  • BUKAN autonomous trading
-  • BUKAN institutional execution system
+- Learning: HANYA dari Metrics, Loss, dan Strategy death. Bukan dari "feeling" AI.
+- Governance: Trading Constitution (Max leverage, Max exposure, No-trade zones) > Semua Agent.
 
-✅ Tapi:
-  • Fondasi OS kuantitatif sangat kuat
-  • Agent orchestration valid
-  • UI/UX kelas atas
-  • Bisa berevolusi → hedge fund jika dan hanya jika:
-      - Data real
-      - Risk sebagai hukum
-      - Execution engine nyata
+---
 
+XII. KOREKSI KLAIM & VERDICT FINAL
+
+❌ Klaim Berlebihan: "Bloomberg Killer", "Autonomous Hedge Fund".
+✅ Revisi Sah: "Institution-inspired Quant Research OS", "Decision Intelligence Platform".
+
+VERDICT:
+Quant Nanggroe AI adalah Decision Compression Engine.
+Sistem ini mengompresi ratusan metode dan ribuan sinyal menjadi 1 keputusan yang bisa dieksekusi. 
+Hanya mungkin jika: Agent tidak sok pintar, Data tidak langsung jadi sinyal, dan Entry tidak demokratis.
 
 ---
 
 XIII. SATU KALIMAT PENUTUP (JUJUR)
 
-> Quant Nanggroe AI bukan mesin uang hari ini.
-> Tapi ini adalah rangka mesin yang layak jadi hedge fund kalau dibangun tanpa delusi.
-
-
-================================================================================
-         VERSI TERPADU (A–Z) — KONSTITUSI TEKNIS + KOREKSI KLAIM
-                    QUANT NANGGROE AI v12.0.0 (2026)
-================================================================================
+> Quant Nanggroe AI bukan mesin uang hari ini. Tapi ini adalah rangka mesin yang layak jadi hedge fund kalau dibangun tanpa delusi.
