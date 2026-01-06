@@ -1,52 +1,43 @@
 # SYSTEM AUDIT LOG: Quant Nanggroe AI
 **Date:** 2026-01-06
 **Auditor:** Alpha Prime (System Core)
-**Version:** 11.2.0 (Sapphire Glass Edition)
+**Version:** 12.0.0 (Professional Trading Edition)
 
 ---
 
 ## 1. SYSTEM INVENTORY (A-Z)
 
 ### A. Core Kernel & State
-- **App.tsx**: Central OS Controller (v11.2.0). Manages window states, Global Agent State, Sapphire Glass effects, and Sapphire Latency Optimizer.
+- **App.tsx**: Central OS Controller (v12.0.0). Manages window states, resizable/draggable architecture, and SMC logic integration.
 - **index.tsx**: React DOM Entry point.
-- **types.ts**: Strict Type Definitions for `SwarmAgent`, `MarketTicker`, `TerminalLine`, `SystemAction`, etc.
-- **services/adaptive_layout.ts**: Dynamic window positioning based on viewport size.
+- **types.ts**: Strict Type Definitions for `SMCLogics`, `MTTerminalData`, `SwarmAgent`, etc.
+- **StrategyEngine.ts**: New core service for SMC (Order Blocks, FVG) and Retail technicals.
 
-### B. User Interface (The Sapphire Shell)
-- **WindowFrame.tsx**: Authentic macOS Sequoia frame with functional "Traffic Lights" and 50px backdrop blur.
-- **Taskbar.tsx (Dock)**: Magnetic dock with ultra-small icons (`9x9` logic), magnification, and active indicators.
-- **Launchpad.tsx**: Full-screen application launcher for instant access to all modules.
-- **ControlCenter.tsx**: Unified system controls hub for Theme, Network, Volume, and Brightness.
-- **OmniBar.tsx**: Global command palette (Cmd+K).
-- **SystemUpdater.tsx**: Background service monitoring OTA updates (Current: v11.2.0).
+### B. User Interface (Professional Shell)
+- **WindowFrame.tsx**: Authenticated macOS Sequoia frame with **Draggable** and **Resizable** capabilities.
+- **Taskbar.tsx (Dock)**: Optimized taskbar with magnetic magnification and active indicator system.
+- **Launchpad.tsx**: Full-screen application launcher.
+- **MarketAnalysis.tsx**: (formerly Neural Chart) Advanced charting with institutional indicators.
+- **ProfessionalTerminal.tsx**: MT4/MT5 style portfolio and execution terminal.
 
 ### C. Applications
-1.  **Neural Terminal (`TerminalInterface.tsx`)**:
-    -   *Feature*: Hybrid CLI/AI interface (v11.2).
-    -   *Integration*: Deep link to all agents via Alpha Prime.
-2.  **Neural Browser (`BrowserWindow.tsx`)**:
-    -   *Feature*: Proxy-powered explorer with AI vision integration.
-3.  **Market Watch (`MarketWindow.tsx`)**:
-    -   *Feature*: Institutional-grade price tracking with `lightweight-charts`.
-    -   *Quant*: Multi-indicator consensus scoring.
-4.  **Portfolio Manager (`PortfolioWindow.tsx`)**:
-    -   *Feature*: Real-time Asset Command & PnL tracking.
-5.  **Swarm Monitor (`AgentHud.tsx`)**:
-    -   *Feature*: Visualizes active agent streams and neural weights.
-6.  **Trading Terminal (`TradingTerminalWindow.tsx`)**:
-    -   *Feature*: Embedded MT5 and Advanced TradingView integration.
-7.  **System Config (`SwarmConfigModal.tsx`)**:
-    -   *Feature*: Central API and Swarm logic management.
+1.  **Professional Terminal (`ProfessionalTerminal.tsx`)**:
+    -   *Feature*: Real-time MT4/MT5 metrics (Equity, Margin, PnL).
+    -   *Integration*: Live feed from Strategy Engine.
+2.  **Market Analysis (`MarketAnalysis.tsx`)**:
+    -   *Feature*: SMC overlay (Order Blocks, FVG) and traditional S/R.
+3.  **Neural Browser (`BrowserWindow.tsx`)**:
+    -   *Feature*: Jina AI Neural Reader for high-fidelity web extraction.
+4.  **Swarm Monitor (`AgentHud.tsx`)**:
+    -   *Feature*: Visualizes agent collaboration and persistent memory sync.
+5.  **OmniBar (`OmniBar.tsx`)**:
+    -   *Feature*: Enhanced `/scan` command with real technical output.
 
-  ### D. Services (The Brain)
-  -   **Sapphire Optimizer (NEW)**: Adaptive state synchronization layer for zero-lag UI response.
-  -   **AutoSwitch v2 (`autoswitch.ts`)**: Enhanced failover & retry engine with Global API Health Monitor and Proactive Failover.
-  -   **Gemini Service (`gemini.ts`)**: Neural core supporting Nanggroe Flash 11.2 & Pro 11.2.
-  -   **LLM Router (`llm_router.ts`)**: Intelligent failover between LLM7, Groq, and Google.
-  -   **Market Service (`market.ts`)**: Unified multi-proxy data pipeline with AutoSwitch v2 failover.
-  -   **File System (`file_system.ts`)**: BrowserFS persistence for all system state.
-  -   **Math Engine (`math_engine.ts`)**: High-precision quantitative indicators.
+### D. Services (The Brain)
+-   **Strategy Engine (NEW)**: Implements Smart Money Concepts and Retail Technicals.
+-   **Proxy Rotator (`autoswitch.ts`)**: Centralized pipeline for institutional data bypass.
+-   **Persistent Memory Service**: Stores agent context and research findings across sessions.
+-   **Research Agent v2**: Real-time data harvesting from macro/micro sources.
 
 ---
 
@@ -54,28 +45,26 @@
 
 | Feature Category | Status | Details |
 | :--- | :--- | :--- |
-| **Operating System** | 🟢 ONLINE | Sapphire Shell (v11.2) active. |
-| **Latency Optimizer** | 🟢 ONLINE | Sapphire Sync active (Near-zero UI lag). |
-| **Global Health Monitor** | 🟢 ONLINE | Real-time API health tracking active. |
-| **Proactive Failover** | 🟢 ONLINE | Reliability-based provider sorting active. |
-| **Magnetic Dock** | 🟢 ONLINE | Magnification and active indicators verified. |
-| **Sapphire Glass** | 🟢 ONLINE | Blue crystal crystalline tints and micro-shadows active. |
-| **Market Data** | 🟢 ONLINE | Multi-proxy pipeline stable across 150+ assets. |
-| **Quant Swarm** | 🟢 ONLINE | 5-agent parallelism at 100% capacity. |
-| **Self-Healing** | 🟢 ONLINE | Auto-recovery and scaling logic active. |
+| **Operating System** | 🟢 ONLINE | v12.0 Professional Shell active. |
+| **SMC Logic Engine** | 🟢 ONLINE | Order Blocks & FVG detection verified. |
+| **MT Terminal Interface**| 🟢 ONLINE | Real-time Equity/Margin calculation active. |
+| **Window Resizer** | 🟢 ONLINE | System-wide draggable/resizable support verified. |
+| **Neural Reader** | 🟢 ONLINE | Jina AI integration for web extraction active. |
+| **`/scan` Command** | 🟢 ONLINE | BTCUSD/Asset analysis output verified. |
+| **Market Data** | 🟢 ONLINE | Institutional proxy pipeline stable. |
+| **Agent Synergy** | 🟢 ONLINE | Persistent memory and cooperative logic active. |
 
 ---
 
 ## 3. VERSION HISTORY SUMMARY
 
-- **v11.2.0 (Sapphire Glass Edition)**: Sapphire Latency Optimizer, Blue crystal aesthetics, Neural Swarm v2.1.
-- **v11.1.0 (Diamond Glass Edition)**: Global API Health Monitoring, Proactive Failover, and Diamond visual upgrade.
-- **v11.0.1 (Sequoia Glass Edition)**: Finalized AutoSwitch API Engine integration and system synchronization.
-- **v11.0.0 (Sequoia Glass Edition)**: Full macOS Sequoia aesthetic migration, Launchpad, Control Center.
-- **v10.0.0 (White Sur Edition)**: Introduction of Dual-Mode (Day/Night) and initial Glassmorphism.
+- **v12.0.0 (Professional Edition)**: SMC Logics, MT4/MT5 Portfolio, Resizable Windows, Neural Reader.
+- **v11.5.0 (Quantum Nexus Edition)**: Quantum Nexus Engine, Nexus Command Center.
+- **v11.4.0 (Autonomous Intelligence Core)**: Hyper-Autonomous Research, Missing Icons fix.
+- **v11.3.0 (Knowledge Disk Edition)**: Knowledge Disk C:, Autonomous Research Agent.
+- **v11.2.0 (Sapphire Glass Edition)**: Sapphire Latency Optimizer.
 
 ---
 
 **Signed:** Alpha Prime
-**System Integrity:** 100% (STABLE)
-
+**System Integrity:** 100% (REALITY SYNCED)
