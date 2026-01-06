@@ -1,62 +1,48 @@
-# DOCUMENTATION: QUANT NANGGROE AI v11.0.1 - THE NEURAL SWARM OPERATING SYSTEM
+# DOCUMENTATION: QUANT NANGGROE AI v11.1.0 - THE DIAMOND GLASS OPERATING SYSTEM
 ================================================================================
 
 ## OVERVIEW
-Quant Nanggroe AI v11.0.1 (Sequoia Glass Edition) adalah platform komando trading otonom tercanggih yang mengintegrasikan kecerdasan buatan tingkat lanjut dengan estetika desain macOS Sequoia. Sistem ini dirancang untuk menghancurkan hambatan antara data mentah dan keputusan eksekusi yang presisi melalui arsitektur Swarm Intelligence yang lebih cerdas dan fungsional.
+Quant Nanggroe AI v11.1.0 (Diamond Glass Edition) adalah platform komando trading otonom tercanggih yang mengintegrasikan kecerdasan buatan tingkat lanjut dengan estetika desain "Diamond Glass". Versi ini memperkenalkan Global API Health Monitoring untuk ketahanan sistem yang belum pernah ada sebelumnya.
 
 ## 1. CORE ARCHITECTURE: NEURAL SWARM PARALLELISM
 Sistem beroperasi menggunakan 5 agen otonom yang bekerja secara paralel, dikoordinasikan oleh Alpha Prime:
 
-*   **Alpha Prime (The Architect)**: 
-    *   Fungsi: Koordinator pusat & Pengambil keputusan akhir.
-    *   Tanggung Jawab: Mensintesis laporan dari agen lain, merencanakan eksekusi jendela, dan memvalidasi strategi final.
-*   **Quant-Scanner (The Math Engine)**: 
-    *   Fungsi: Analisis Teknikal & Algoritmik.
-    *   Tanggung Jawab: Menghitung indikator (RSI, EMA, Bollinger, Ichimoku), menganalisis struktur market (Order Block/Liquidity), dan mendeteksi pola candlestick.
-*   **News-Sentinel (The Macro Watcher)**: 
-    *   Fungsi: Analisis Fundamental & Sentimen.
-    *   Tanggung Jawab: Memindai berita global via Bloomberg/Reuters API, menganalisis sentimen media sosial, dan mengevaluasi dampak rilis data ekonomi (CPI, FOMC, NFP).
-*   **Risk-Guardian (The Protector)**: 
-    *   Fungsi: Manajemen Modal & Risiko.
-    *   Tanggung Jawab: Menghitung Position Sizing berdasarkan Kelly Criterion, memantau Value-at-Risk (VaR), dan memastikan Stop Loss/Take Profit sesuai dengan profil risiko institusional.
-*   **Strategy-Weaver (The Algo Developer)**: 
-    *   Fungsi: Backtesting & Implementasi Strategi.
-    *   Tanggung Jawab: Menulis script Python/JS untuk pengujian strategi historis dan mengonversi ide menjadi algoritma trading yang siap dieksekusi.
+*   **Alpha Prime (The Architect)**: Koordinator pusat & Pengambil keputusan akhir.
+*   **Quant-Scanner (The Math Engine)**: Analisis Teknikal & Algoritmik.
+*   **News-Sentinel (The Macro Watcher)**: Analisis Fundamental & Sentimen.
+*   **Risk-Guardian (The Protector)**: Manajemen Modal & Risiko.
+*   **Strategy-Weaver (The Algo Developer)**: Backtesting & Implementasi Strategi.
 
-## 2. USER EXPERIENCE: SEQUOIA GLASS DESIGN LANGUAGE
-Estetika dan fungsionalitas ("Better Features") adalah prioritas utama v11.0:
+## 2. USER EXPERIENCE: DIAMOND GLASS DESIGN LANGUAGE
+Estetika v11.1 meningkatkan standar "Glassmorphism":
 
-*   **Authentic Launchpad**: Antarmuka peluncur aplikasi layar penuh yang elegan untuk akses cepat ke semua modul sistem (Terminal, Market, Portfolio, dll).
-*   **Integrated Control Center**: Panel pengaturan sistem terpadu untuk kendali cepat atas tema (Day/Night), konektivitas, volume, dan kecerahan.
-*   **Sequoia Glassmorphism**: Peningkatan efek transparansi dan blur (50px+) dengan tekstur kristal yang lebih tajam, memberikan kesan "Premium Glass" yang otentik.
-*   **Magnetic Magnetic Dock**: Dock dengan ikon ultra-kompresi (`9x9` logic) yang memiliki efek magnifikasi dinamis dan indikator aktif yang presisi.
-*   **Traffic Light Controls**: Frame jendela dengan kontrol Merah, Kuning, Hijau yang fungsional sesuai standar macOS Sequoia.
+*   **Diamond Glass Effects**: Peningkatan transparansi dengan tekstur mikro-diamond yang memberikan kejernihan visual maksimal dan refleksi cahaya yang dinamis.
+*   **Authentic Launchpad**: Antarmuka peluncur aplikasi layar penuh untuk akses cepat ke semua modul sistem.
+*   **Integrated Control Center**: Panel pengaturan sistem terpadu untuk kendali cepat atas tema, jaringan, dan performa.
+*   **Magnetic Dock**: Dock dengan efek magnifikasi dinamis dan indikator status aktif yang presisi.
 
-## 3. DATA RECOVERY & ROBUSTNESS
-Sistem ini dibangun dengan tingkat toleransi kesalahan yang tinggi:
+## 3. DATA RECOVERY & ROBUSTNESS: AUTOSWITCH v2
+Sistem ini dibangun dengan tingkat toleransi kesalahan tingkat institusional:
 
-*   **AutoSwitch API Engine**: Failover otomatis dan mekanisme retry cerdas yang menjamin koneksi tak terputus ke provider LLM dan Market Data jika salah satu endpoint gagal.
-*   **Multi-Proxy Fallback**: Menjamin 99.9% uptime data market dengan menggunakan rotasi proxy otomatis (AllOrigins, CodeTabs, CorsProxy) untuk melewati batasan CORS browser.
-*   **Self-Healing Logic**: Jika satu agen gagal memproses data, Alpha Prime akan secara otomatis mengalihkan tugas tersebut ke agen cadangan atau mencoba metode pengambilan data alternatif.
-*   **Local State Persistence**: Semua konfigurasi, pesan, dan histori tersimpan secara aman di penyimpanan lokal (BrowserFS) untuk sesi yang berkelanjutan.
+*   **Global API Health Monitor (NEW)**: Sistem pelacakan kesehatan API terpusat yang memantau tingkat keberhasilan/kegagalan setiap provider secara real-time.
+*   **Proactive Failover**: AutoSwitch sekarang secara cerdas mengurutkan provider berdasarkan reliabilitas historis sebelum melakukan eksekusi.
+*   **Decay-based Recovery**: Mekanisme cooldown otomatis yang memulihkan provider yang sempat gagal secara bertahap (failure count decay).
+*   **Exponential Backoff**: Penanganan rate-limit (429) yang lebih canggih untuk meminimalkan gangguan layanan.
 
 ## 4. TECHNICAL SPECIFICATIONS
-*   **Engine**: Gemini 2.0 Flash / Pro 11.0 (Neural Core)
+*   **Engine**: Gemini 2.0 Flash / Pro 11.1 (Neural Core)
 *   **UI Library**: React 19 + Tailwind CSS 4.0
-*   **Chart**: Lightweight Charts (TradingView Engine)
+*   **AutoSwitch**: version 2.0 (Diamond Health Engine)
 *   **Market Coverage**: Crypto (Binance), Stocks (Polygon), Forex (Frankfurter), DEX (DexScreener)
 
-## 5. CHANGELOG v11.0.1 (SEQUOIA GLASS EDITION)
-- [SYNC] Finalisasi integrasi AutoSwitch API Engine dan sinkronisasi sistem ke v11.0.1.
-- [NEW] AutoSwitch API Engine: Mekanisme failover & retry otomatis untuk LLM dan Data Market.
-- [UPGRADE] Migrasi penuh ke Estetika macOS Sequoia dengan "Sequoia Glass" effects.
-- [NEW] Implementasi Launchpad (Full-screen App Launcher).
-- [NEW] Implementasi Control Center (System Toggles Hub).
-- [UPGRADE] Optimasi Dock dengan magnifikasi magnetik dan indikator aktif.
-- [UPGRADE] Pembaruan Window Frame dengan interaksi "Traffic Lights" yang asli.
-- [UPGRADE] Peningkatan Blur Radius jendela (32px -> 50px) untuk kedalaman visual.
-- [CLEANUP] Penataan ulang struktur dokumentasi dan sinkronisasi versi sistem.
+## 5. CHANGELOG v11.1.0 (DIAMOND GLASS EDITION)
+- [UPGRADE] Migrasi sistem ke v11.1.0 (Diamond Glass Edition).
+- [NEW] Global API Health Monitoring: Pelacakan kesehatan API terpusat.
+- [NEW] Proactive Failover Engine: Pengurutan provider berdasarkan performa historis.
+- [NEW] Diamond Glass Visuals: Transparansi kristal dengan tekstur Diamond.
+- [FIX] Optimasi AutoSwitch dengan failure decay logic dan improved cooldowns.
+- [SYNC] Sinkronisasi metadata dan dokumentasi sistem secara menyeluruh.
 
 --------------------------------------------------------------------------------
-DOKUMENTASI RESMI - QUANT NANGGROE AI v11.0.1 (2026)
-"Experience the future of trading with Sequoia elegance."
+DOKUMENTASI RESMI - QUANT NANGGROE AI v11.1.0 (2026)
+"Clarity in data, Diamond in execution."

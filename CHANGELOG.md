@@ -1,5 +1,16 @@
 # CHANGELOG - QUANT NANGGROE AI
 
+## [v11.1.0] - 2026-01-06 (DIAMOND GLASS EDITION)
+### Added
+- **Global API Health Monitor**: Enhanced `AutoSwitch` engine with a centralized health tracking system (success/failure rates, proactive cooldowns).
+- **Diamond Glass Aesthetic**: Upgraded visual elements to "Diamond Glass" for superior transparency and refined textures.
+- **Proactive Failover**: System now sorts API providers by historical reliability before execution.
+- **AutoSwitch v2**: Improved rate-limit handling with exponential backoff and decay-based error recovery.
+
+### Changed
+- **Version Upgrade**: Migrated system to v11.1.0 across all core components and metadata.
+- **Model Evolution**: Updated internal model references to "Nanggroe Flash 11.1" and "Nanggroe Pro 11.1".
+
 ## [v11.0.1] - 2026-01-06 (SEQUOIA GLASS EDITION)
 ### Fixed
 - **System Sync**: Finalized AutoSwitch API Engine integration and synchronized versioning across all core files (App.tsx, package.json, metadata.json).

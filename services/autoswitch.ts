@@ -1,7 +1,7 @@
 
 /**
- * Quant Nanggroe AI v11.0 - AutoSwitch API System
- * Handles automatic failover, retries, and provider switching for critical services.
+ * Quant Nanggroe AI v11.1 - AutoSwitch API System (Diamond Glass Edition)
+ * Handles automatic failover, retries, and proactive health monitoring.
  */
 
 export interface AutoSwitchProvider<T, R> {
@@ -18,7 +18,15 @@ export interface AutoSwitchOptions {
     onProviderChange?: (oldProvider: string, newProvider: string) => void;
 }
 
+export interface HealthStatus {
+    lastSuccess: number;
+    lastFailure: number;
+    failureCount: number;
+    successCount: number;
+}
+
 export class AutoSwitch<T, R> {
+    private static globalHealth: Record<string, HealthStatus> = {};
     private providers: AutoSwitchProvider<T, R>[];
     private options: AutoSwitchOptions;
     private cooldowns: Record<string, number> = {};
@@ -33,18 +41,44 @@ export class AutoSwitch<T, R> {
         };
     }
 
+    private updateHealth(id: string, success: boolean) {
+        if (!AutoSwitch.globalHealth[id]) {
+            AutoSwitch.globalHealth[id] = { lastSuccess: 0, lastFailure: 0, failureCount: 0, successCount: 0 };
+        }
+        const health = AutoSwitch.globalHealth[id];
+        if (success) {
+            health.lastSuccess = Date.now();
+            health.successCount++;
+            health.failureCount = Math.max(0, health.failureCount - 1); // Decay failure count
+        } else {
+            health.lastFailure = Date.now();
+            health.failureCount++;
+        }
+    }
+
+    public static getHealthReport() {
+        return AutoSwitch.globalHealth;
+    }
+
     private sleep(ms: number) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     private isCoolingDown(id: string): boolean {
+        // Check local cooldown
         const cooldownUntil = this.cooldowns[id];
-        if (!cooldownUntil) return false;
-        if (Date.now() > cooldownUntil) {
-            delete this.cooldowns[id];
-            return false;
+        if (cooldownUntil && Date.now() < cooldownUntil) return true;
+
+        // Check global health-based cooldown (proactive)
+        const health = AutoSwitch.globalHealth[id];
+        if (health && health.failureCount > 5) {
+            // If more than 5 failures, cool down for 5 minutes unless last success was very recent
+            if (Date.now() - health.lastFailure < 300000 && Date.now() - health.lastSuccess > 60000) {
+                return true;
+            }
         }
-        return true;
+        
+        return false;
     }
 
     private setCooldown(id: string, ms: number = 60000) {
@@ -54,15 +88,23 @@ export class AutoSwitch<T, R> {
     async execute(params: T): Promise<{ data: R; providerId: string }> {
         let lastError: any = null;
         
-        // Filter available providers
-        const availableProviders = this.providers.filter(p => {
-            if (p.isAvailable && !p.isAvailable()) return false;
-            if (this.isCoolingDown(p.id)) return false;
-            return true;
-        });
+        // Filter and sort providers by health
+        const availableProviders = this.providers
+            .filter(p => {
+                if (p.isAvailable && !p.isAvailable()) return false;
+                if (this.isCoolingDown(p.id)) return false;
+                return true;
+            })
+            .sort((a, b) => {
+                const healthA = AutoSwitch.globalHealth[a.id] || { failureCount: 0, successCount: 0 };
+                const healthB = AutoSwitch.globalHealth[b.id] || { failureCount: 0, successCount: 0 };
+                // Prefer lower failure count, then higher success count
+                if (healthA.failureCount !== healthB.failureCount) return healthA.failureCount - healthB.failureCount;
+                return healthB.successCount - healthA.successCount;
+            });
 
         if (availableProviders.length === 0) {
-            throw new Error("No available API providers found or all are in cooldown.");
+            throw new Error("No available API providers found or all are in healthy cooldown.");
         }
 
         for (let i = 0; i < availableProviders.length; i++) {
@@ -73,8 +115,10 @@ export class AutoSwitch<T, R> {
                 try {
                     console.log(`[AutoSwitch] Attempting with ${provider.name} (${provider.id})...`);
                     const data = await provider.execute(params);
+                    this.updateHealth(provider.id, true);
                     return { data, providerId: provider.id };
                 } catch (error: any) {
+                    this.updateHealth(provider.id, false);
                     const status = error?.status || error?.response?.status;
                     const message = error?.message || "";
 

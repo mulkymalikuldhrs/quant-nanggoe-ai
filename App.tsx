@@ -27,7 +27,7 @@ import { useAdaptiveLayout } from './services/adaptive_layout';
 // --- THEME CONTEXT ---
 export const ThemeContext = React.createContext<{ theme: 'light' | 'dark', toggleTheme: () => void }>({ theme: 'light', toggleTheme: () => {} });
 
-const INSTITUTIONAL_LOGIC = `You are QUANT-NANGGROE-OS (v11.0.1) - THE BLOOMBERG KILLER (SEQUOIA GLASS EDITION).
+const INSTITUTIONAL_LOGIC = `You are QUANT-NANGGROE-OS (v11.1.0) - THE BLOOMBERG KILLER (DIAMOND GLASS EDITION).
 
 CORE MISSION:
 - NEURAL SWARM PARALLELISM: Coordinate 5 specialized agents (Alpha Prime, Quant-Scanner, News-Sentinel, Risk-Guardian, Strategy-Weaver) to dominate global markets.
@@ -45,8 +45,8 @@ const DEFAULT_AGENTS: SwarmAgent[] = [
 ];
 
 const AVAILABLE_MODELS: ModelOption[] = [
-  { id: 'gemini-2.0-flash-exp', name: 'Nanggroe Flash 11.0', provider: 'google' },
-  { id: 'gemini-1.5-pro', name: 'Nanggroe Pro 11.0', provider: 'google' },
+    { id: 'gemini-2.0-flash-exp', name: 'Nanggroe Flash 11.1', provider: 'google' },
+    { id: 'gemini-1.5-pro', name: 'Nanggroe Pro 11.1', provider: 'google' },
 ];
 
 const DEFAULT_CONFIG: SystemConfiguration = {
@@ -228,7 +228,7 @@ const App: React.FC = () => {
             <Launchpad isOpen={isLaunchpadOpen} onClose={() => setIsLaunchpadOpen(false)} apps={launchpadApps} onLaunch={(id) => focusWindow(id as WindowId)} />
             <ControlCenter isOpen={isControlCenterOpen} onClose={() => setIsControlCenterOpen(false)} />
             <OmniBar isOpen={isOmniBarOpen} onClose={() => setIsOmniBarOpen(false)} onCommand={(cmd) => handleSendMessage(cmd)} />
-            <SystemUpdater currentVersion="11.0.1" />
+            <SystemUpdater currentVersion="11.1.0" />
 
             {/* WINDOWS */}
             <div className="relative w-full h-full pt-8 pb-20">
