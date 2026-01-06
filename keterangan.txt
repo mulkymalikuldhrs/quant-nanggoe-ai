@@ -1,0 +1,145 @@
+# Dokumentasi Proyek: Quant Nanggroe AI
+
+**Pengembang Utama:** Mulky Malikul Dhaher <mulkymalikuldhr@mail.com>
+**Organisasi:** Dhaher & Kontributor
+**Versi:** 5.0.1 (Living OS Edition)
+**Status Proyek:** 100% Realitas / Ekosistem Bio-Digital Otonom
+
+---
+
+## 1. Gambaran Umum Proyek
+
+Quant Nanggroe AI adalah **Sistem Operasi Hidup (Living Operating System)** yang dirancang untuk analisis kuantitatif frekuensi tinggi dan penelitian otonom. Ini melampaui chatbot tradisional dengan menawarkan lingkungan desktop yang berfungsi penuh (`Nanggroe OS`) di mana Agen AI bertindak sebagai operator, bukan hanya sebagai penanggap. Proyek ini berfokus pada "Realitas" dengan menggunakan panggilan API nyata, manajemen status nyata, dan integrasi dunia nyata.
+
+### Visi & Tujuan
+
+*   Menciptakan platform yang sepenuhnya otonom untuk analisis pasar keuangan.
+*   Menggabungkan kecerdasan buatan dengan alat perdagangan profesional.
+*   Menyediakan lingkungan yang dapat berevolusi dan beradaptasi secara mandiri.
+
+---
+
+## 2. Arsitektur Sistem
+
+Arsitektur Quant Nanggroe AI didasarkan pada konsep **Swarm Intelligence Multi-Agen** yang beroperasi dalam lingkungan Sistem Operasi berbasis web.
+
+### Komponen Inti
+
+*   **Alpha Prime (Orkestrator):** Agen utama yang menggunakan `gemini-3-pro` atau `llm7` untuk mengorkestrasi seluruh sistem.
+*   **Quant OS (Analis Teknis):** Agen yang berfokus pada analisis teknis menggunakan perhitungan matematis deterministik (RSI, MACD, Bollinger Bands, dll.).
+*   **Neural Shell (CLI):** Terminal mirip Debian yang berfungsi penuh (`root@nanggroe:~$`) untuk manipulasi sistem file virtual (`ls`, `cat`, `mkdir`, dll.) dan jembatan antara perintah bahasa alami dan Swarm AI.
+*   **Neural Browser (Agent Vision):** Memungkinkan Agen untuk menavigasi URL dan "membaca" konten web melalui mesin Neural Proxy, melewati batasan iframe. Mendukung "Reader Mode" untuk ekstraksi teks dan "Direct Mode" untuk aplikasi seperti TradingView dan MetaTrader 5.
+*   **LLM Router:** Mekanisme fallback untuk model bahasa besar (LLM7 -> Groq -> Google Gemini) untuk memastikan ketahanan dan ketersediaan.
+*   **BrowserFS:** Sistem file virtual persisten yang menyimpan data di `localStorage` browser, memungkinkan persistensi data antar sesi.
+*   **ML Engine:** Modul Pembelajaran Penguatan (Reinforcement Learning) yang secara otomatis menyesuaikan bobot strategi berdasarkan riwayat perdagangan.
+*   **Self-Healing Protocols:** Mekanisme untuk menangani kegagalan API secara otomatis.
+
+### Peran Agen dalam Swarm
+
+*   **The Architect:** Bertanggung jawab untuk orkestrasi dan perencanaan.
+*   **Code Weaver:** Bertanggung jawab untuk pengembangan dan implementasi kode.
+*   **Researcher:** Bertanggung jawab untuk pengumpulan dan validasi data.
+
+---
+
+## 3. Struktur Kode (Inventaris Sistem)
+
+Struktur proyek diatur untuk mendukung lingkungan OS berbasis web dengan komponen yang jelas dan layanan yang terpisah.
+
+### Direktori Utama
+
+*   `components/`: Berisi komponen UI React untuk Nanggroe OS (misalnya, WindowFrame, Taskbar, OmniBar, TerminalInterface, BrowserWindow, MarketWindow, dll.).
+*   `services/`: Berisi logika bisnis dan integrasi API (misalnya, Gemini Service, LLM Router, File System, Market Service, Math Engine, Strategy Engine, ML Engine).
+*   `Dhaher Quant 01/`: Direktori spesifik yang mungkin berisi modul atau konfigurasi terkait dengan Mulky Malikul Dhaher.
+
+### File Inti
+
+*   **`App.tsx`**: Pengontrol OS pusat. Mengelola status jendela (`zIndex`, `isOpen`), Global Agent State, dan Notifikasi Sistem.
+*   **`index.tsx`**: Titik masuk React DOM.
+*   **`types.ts`**: Definisi Tipe yang ketat untuk `SwarmAgent`, `MarketTicker`, `TerminalLine`, `SystemAction`, dll.
+*   **`.env.local`**: Variabel lingkungan lokal.
+*   **`.gitignore`**: File yang diabaikan oleh Git.
+*   **`package.json`**: Metadata proyek dan daftar dependensi.
+*   **`README.md`**: Gambaran umum proyek dan instruksi penggunaan.
+*   **`SYSTEM_AUDIT_LOG.md`**: Log audit sistem yang tidak dapat diubah untuk semua peristiwa sistem.
+*   **`EVOLUTION_MANIFEST.md`**: Dokumen yang mencatat evolusi proyek dan pergeseran arsitektur.
+*   **`vite.config.ts`**: Konfigurasi untuk Vite, alat build.
+
+---
+
+## 4. Detail Implementasi
+
+### Antarmuka Pengguna (Nanggroe Shell)
+
+*   **WindowFrame.tsx**: Kontainer jendela yang dapat diseret, diubah ukurannya, diminimalkan dengan efek glassmorphism.
+*   **Taskbar.tsx**: Dock bergaya MacOS untuk beralih aplikasi.
+*   **OmniBar.tsx**: Palet perintah global (Cmd+K) untuk tindakan cepat dan pencarian.
+*   **Neural Terminal (`TerminalInterface.tsx` + `ShellEngine.ts`)**: Emulasi CLI sejati dengan perintah Linux (`ls`, `cat`, `touch`, `mkdir`, `rm`, `neofetch`, `top`). Input yang tidak dikenali sebagai perintah dikirim ke Alpha Prime.
+*   **Neural Browser (`BrowserWindow.tsx` + `BrowserCore.ts`)**: Browser mesin ganda (Iframe untuk Aplikasi, Proxy Reader untuk Konten). AI Vision mengambil HTML mentah melalui proxy CORS, membersihkannya menjadi Teks, dan memberikannya ke Agen. Pintasan: `mt5`, `tv` (TradingView).
+
+### Layanan (The Brain)
+
+*   **Gemini Service (`gemini.ts`)**: Pembungkus Agen. Menangani jendela konteks, prompt, dan eksekusi alat.
+*   **LLM Router (`llm_router.ts`)**: Mekanisme fallback (LLM7 -> Groq -> Google).
+*   **File System (`file_system.ts`)**: `BrowserFS`. Mempertahankan data ke `localStorage`.
+*   **Market Service (`market.ts`)**: Pengambil API terpadu (CoinGecko, Finnhub, AlphaVantage).
+*   **Math Engine (`math_engine.ts`)**: Menghitung RSI, MACD, Bollinger Bands, ATR (Matematika Murni).
+*   **Strategy Engine (`strategy_engine.ts`)**: Mengevaluasi kondisi pasar dan menghasilkan sinyal Beli/Jual.
+*   **ML Engine (`ml_engine.ts`)**: Modul Pembelajaran Penguatan yang menyesuaikan bobot strategi berdasarkan riwayat perdagangan.
+
+### Integrasi Dunia Nyata
+
+*   **Data Pasar:** Data pasar real-time diambil dari CoinGecko, DexScreener, dan AlphaVantage.
+*   **Alat Profesional:** Terminal Web MT5 dan TradingView Advanced Charts terintegrasi.
+*   **Tidak Ada Simulasi:** Semua data dan interaksi adalah nyata, bukan simulasi.
+
+---
+
+## 5. Teknologi Utama
+
+*   **Frontend:** React, Vite, TypeScript
+*   **UI/UX:** Konsep Desktop OS, Glassmorphism
+*   **LLM:** Google GenAI (Gemini), LLM7, Groq
+*   **Grafik:** `lightweight-charts`
+*   **Persistensi Data:** `BrowserFS` (menggunakan `localStorage`)
+*   **Manajemen Paket:** npm
+
+---
+
+## 6. Sejarah Pengembangan & Peta Jalan
+
+### Sejarah Pengembangan (Ringkasan)
+
+1.  **Fase 1 (Genesis):** Konsep awal antarmuka berbasis React menggunakan Google GenAI, fokus pada "Realitas".
+2.  **Fase 2 (Swarm Intelligence):** Transisi ke Swarm Multi-Agen dengan peran yang ditentukan (Architect, Code Weaver, Researcher). Implementasi `SwarmGraph`.
+3.  **Fase 3 (Hybrid Core & Router):** Implementasi `LLMRouter` dengan integrasi model (LLM7, Gemini, Groq) dan protokol Self-Healing.
+4.  **Fase 4 (Self-Evolution):** Agen diberi kemampuan untuk menulis patch kode, dengan alat `codeExecution` dan `systemUpgrade` yang disimulasikan.
+5.  **Fase 5 (Sistem Operasi):** Pergeseran ke lingkungan Desktop OS dengan manajemen jendela, bilah tugas, Terminal Neural, dan Monitor Swarm. Implementasi audit logging yang tidak dapat diubah.
+
+### Peta Jalan Masa Depan
+
+1.  **Persistensi Sistem File:** Mengintegrasikan BrowserFS yang sebenarnya untuk menyimpan file antar sesi.
+2.  **Sintesis Suara:** Menambahkan WebSpeech API agar Avatar dapat berbicara melalui audio.
+3.  **Peningkatan Visi:** Memungkinkan Swarm untuk "melihat" layar pengguna (Screen Share API).
+
+---
+
+## 7. Instalasi & Penggunaan
+
+1.  **Instal Dependensi:**
+    ```bash
+    npm install
+    ```
+2.  **Jalankan Sistem:**
+    ```bash
+    npm start
+    ```
+3.  **Urutan Boot:**
+    *   Buka **Neural Terminal**.
+    *   Ketik `help` untuk melihat perintah Linux.
+    *   Ketik `Analyze BTC` untuk memicu Swarm.
+    *   Ketik `browse https://bloomberg.com` agar Agen dapat membaca berita.
+
+---
+**Sistem Propietari**
+Hak Cipta © 2025 Mulky Malikul Dhaher.

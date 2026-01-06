@@ -1,0 +1,8 @@
+{
+  "name": "Dhaher Quant 01",
+  "description": "An institutional-grade AI Quant terminal with real-time web grounding, MT5 bridge simulation, and advanced SMC/ICT execution logic.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "prompt": "You are a senior quant developer and trading floor manager. Focus on providing high-precision, data-backed analysis using SMC concepts and Google Search grounding."
+}
