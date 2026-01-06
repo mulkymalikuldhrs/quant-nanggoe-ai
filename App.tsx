@@ -19,11 +19,14 @@ import WindowFrame from './components/WindowFrame';
 import Taskbar from './components/Taskbar';
 import OmniBar from './components/OmniBar'; 
 import SystemUpdater from './components/SystemUpdater';
-import { IconCode, IconBot, IconSettings, IconBrain, IconBook, IconMaximize, IconGlobe, IconLogo, IconChart, IconBrowser, IconTerminal, IconSearch } from './components/Icons';
+import { IconCode, IconBot, IconSettings, IconBrain, IconBook, IconMaximize, IconGlobe, IconLogo, IconChart, IconBrowser, IconTerminal, IconSearch, IconSun, IconMoon } from './components/Icons';
 import { useAdaptiveLayout } from './services/adaptive_layout';
 
-// INSTITUTIONAL LOGIC INJECTION
+// --- THEME CONTEXT ---
+export const ThemeContext = React.createContext<{ theme: 'light' | 'dark', toggleTheme: () => void }>({ theme: 'dark', toggleTheme: () => {} });
+
 const INSTITUTIONAL_LOGIC = `You are QUANT-NANGGROE-OS (v9.1) - THE BLOOMBERG KILLER.
+
 OPERATIONAL PARAMETERS:
 - PARALLEL SWARM ARCHITECTURE: Coordinate specialized agents.
 - TRUTH OVER HALLUCINATION: Use the browser tool for ANY data.
@@ -65,6 +68,18 @@ interface WindowState {
 const App: React.FC = () => {
     const { screenSize, getLayout } = useAdaptiveLayout();
     
+    // --- THEME STATE ---
+    const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+        const saved = localStorage.getItem('system-theme');
+        return (saved as 'light' | 'dark') || 'dark';
+    });
+
+    const toggleTheme = () => {
+        const next = theme === 'dark' ? 'light' : 'dark';
+        setTheme(next);
+        localStorage.setItem('system-theme', next);
+    };
+
     // --- STATE ---
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -184,47 +199,61 @@ const App: React.FC = () => {
     };
 
     return (
-        <div className="h-screen w-screen relative overflow-hidden bg-[#020205]">
-          
-          {/* MESH GRADIENT BACKGROUND */}
-          <div className="absolute inset-0 z-0">
-              <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-emerald-500/10 blur-[120px] animate-pulse"></div>
-              <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-blue-500/10 blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
-              <div className="absolute top-[30%] left-[20%] w-[40%] h-[40%] rounded-full bg-purple-500/5 blur-[100px] animate-pulse" style={{ animationDelay: '4s' }}></div>
-          </div>
-          
-            {/* NEURAL TOP BAR (Nanggroe macOS Edition) */}
-            <div className="fixed top-0 left-0 w-full h-8 bg-black/40 backdrop-blur-2xl border-b border-white/5 flex items-center justify-between px-4 z-[9999] select-none text-[11px] font-medium text-white/90">
-                <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2 cursor-pointer group px-2 py-0.5 rounded hover:bg-white/10" onClick={() => toggleWindow('about')}>
-                        <IconLogo className="w-4 h-4 text-emerald-500" />
-                        <span className="font-bold">Nanggroe</span>
-                    </div>
-                    
-                    <nav className="flex items-center gap-3">
-                        {['File', 'Edit', 'Agent', 'Swarm', 'Terminal', 'Intelligence', 'System'].map(item => (
-                            <span key={item} className="cursor-pointer px-2 py-0.5 rounded hover:bg-white/10 transition-colors hidden sm:block">{item}</span>
-                        ))}
-                    </nav>
-                </div>
-                
-                <div className="flex items-center gap-4">
-                     <div className="flex items-center gap-2 px-2 py-0.5 rounded hover:bg-white/10 transition-colors">
-                         <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-                         <span className="text-[10px] hidden md:inline">Neural Kernel Active</span>
-                     </div>
-                     
-                     <div className="flex items-center gap-2">
-                        <button onClick={() => setIsOmniBarOpen(true)} className="p-1 hover:bg-white/10 rounded transition-colors">
-                            <IconSearch className="w-3.5 h-3.5 opacity-60" />
-                        </button>
-                        <div className="flex items-center gap-3 ml-2 font-mono">
-                            <span>{currentTime.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' })}</span>
-                            <span>{currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
-                        </div>
-                     </div>
-                </div>
+        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+            <div className={`h-screen w-screen relative overflow-hidden transition-colors duration-500 ${theme === 'dark' ? 'bg-[#020205] text-white' : 'bg-[#f5f5f7] text-zinc-900'}`}>
+            
+            {/* MESH GRADIENT BACKGROUND */}
+            <div className="absolute inset-0 z-0 opacity-40">
+                {theme === 'dark' ? (
+                    <>
+                        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-emerald-500/10 blur-[120px] animate-pulse"></div>
+                        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-blue-500/10 blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
+                        <div className="absolute top-[30%] left-[20%] w-[40%] h-[40%] rounded-full bg-purple-500/5 blur-[100px] animate-pulse" style={{ animationDelay: '4s' }}></div>
+                    </>
+                ) : (
+                    <>
+                        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-blue-400/20 blur-[120px]"></div>
+                        <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full bg-pink-400/20 blur-[120px]"></div>
+                        <div className="absolute top-[30%] left-[20%] w-[50%] h-[50%] rounded-full bg-yellow-400/10 blur-[100px]"></div>
+                    </>
+                )}
             </div>
+            
+              {/* NEURAL TOP BAR (Nanggroe macOS Edition) */}
+              <div className={`fixed top-0 left-0 w-full h-8 backdrop-blur-2xl border-b flex items-center justify-between px-4 z-[9999] select-none text-[11px] font-medium transition-colors duration-500 ${theme === 'dark' ? 'bg-black/40 border-white/5 text-white/90' : 'bg-white/60 border-black/5 text-zinc-800'}`}>
+                  <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-2 cursor-pointer group px-2 py-0.5 rounded hover:bg-white/10" onClick={() => toggleWindow('about')}>
+                          <IconLogo className="w-4 h-4" />
+                          <span className="font-bold">Nanggroe</span>
+                      </div>
+                      
+                      <nav className="flex items-center gap-3">
+                          {['File', 'Edit', 'Agent', 'Swarm', 'Terminal', 'Intelligence', 'System'].map(item => (
+                              <span key={item} className="cursor-pointer px-2 py-0.5 rounded hover:bg-white/10 transition-colors hidden sm:block">{item}</span>
+                          ))}
+                      </nav>
+                  </div>
+                  
+                  <div className="flex items-center gap-4">
+                       <div className="flex items-center gap-2 px-2 py-0.5 rounded transition-colors">
+                           <div className={`w-2 h-2 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.5)] ${theme === 'dark' ? 'bg-emerald-500' : 'bg-emerald-600'}`} />
+                           <span className="text-[10px] hidden md:inline">Neural Kernel Active</span>
+                       </div>
+                       
+                       <div className="flex items-center gap-2">
+                          <button onClick={toggleTheme} className="p-1 hover:bg-black/5 dark:hover:bg-white/10 rounded transition-all">
+                              {theme === 'dark' ? <IconSun className="w-4 h-4 text-amber-400" /> : <IconMoon className="w-4 h-4 text-indigo-600" />}
+                          </button>
+                          <button onClick={() => setIsOmniBarOpen(true)} className="p-1 hover:bg-white/10 rounded transition-colors">
+                              <IconSearch className="w-3.5 h-3.5 opacity-60" />
+                          </button>
+                          <div className="flex items-center gap-3 ml-2 font-mono">
+                              <span>{currentTime.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' })}</span>
+                              <span>{currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                          </div>
+                       </div>
+                  </div>
+              </div>
 
           <SystemUpdater currentVersion="9.1.0" />
           <OmniBar isOpen={isOmniBarOpen} onClose={() => setIsOmniBarOpen(false)} onCommand={(cmd) => handleSendMessage(cmd)} />
@@ -297,6 +326,7 @@ const App: React.FC = () => {
           {/* DOCK */}
           <Taskbar windows={windows} onToggleWindow={toggleWindow} onStartClick={() => toggleWindow('about')} />
         </div>
+      </ThemeContext.Provider>
     );
 };
 

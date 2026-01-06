@@ -189,23 +189,29 @@ export const MarketService = {
             };
             const symbol = BINANCE_MAP[id];
             if (symbol) {
-                // Using a CORS proxy to avoid "Failed to fetch" in browser
-                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`)}`;
-                const res = await fetch(proxyUrl);
-                const proxyData = await res.json();
-                const data = JSON.parse(proxyData.contents);
-                
-                return {
-                    id: id, symbol: symbol.replace('USDT', ''), name: id.charAt(0).toUpperCase() + id.slice(1),
-                    current_price: parseFloat(data.lastPrice), market_cap: 0,
-                    price_change_percentage_24h: parseFloat(data.priceChangePercent),
-                    high_24h: parseFloat(data.highPrice), low_24h: parseFloat(data.lowPrice),
-                    volume: parseFloat(data.volume), type: 'crypto', source: 'Binance'
-                };
+                try {
+                    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`)}`;
+                    const res = await fetch(proxyUrl);
+                    if (!res.ok) throw new Error("Proxy failed");
+                    const proxyData = await res.json();
+                    if (!proxyData || !proxyData.contents) throw new Error("No contents");
+                    
+                    const data = JSON.parse(proxyData.contents);
+                    if (data && data.lastPrice) {
+                        return {
+                            id: id, symbol: symbol.replace('USDT', ''), name: id.charAt(0).toUpperCase() + id.slice(1),
+                            current_price: parseFloat(data.lastPrice), market_cap: 0,
+                            price_change_percentage_24h: parseFloat(data.priceChangePercent),
+                            high_24h: parseFloat(data.highPrice), low_24h: parseFloat(data.lowPrice),
+                            volume: parseFloat(data.volume), type: 'crypto', source: 'Binance'
+                        };
+                    }
+                } catch (e) {
+                    console.warn(`Binance fetch via proxy failed for ${symbol}, trying direct/coincap`, e);
+                }
             }
             return await MarketService.getCoinCapPrice(id);
         } catch (e) {
-            console.error("Crypto Fetch Error (Binance), falling back to CoinCap:", e);
             return await MarketService.getCoinCapPrice(id);
         }
     },
@@ -293,15 +299,19 @@ export const MarketService = {
                     const apiUrl = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=100`;
                     const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
                     const res = await fetch(proxyUrl);
+                    if (!res.ok) throw new Error("Proxy failed");
                     const proxyData = await res.json();
-                    const data = JSON.parse(proxyData.contents);
+                    if (!proxyData || !proxyData.contents) throw new Error("No contents");
                     
-                    return data.map((d: any) => ({
-                        timestamp: d[0], open: parseFloat(d[1]), high: parseFloat(d[2]),
-                        low: parseFloat(d[3]), close: parseFloat(d[4]), volume: parseFloat(d[5])
-                    }));
+                    const data = JSON.parse(proxyData.contents);
+                    if (Array.isArray(data)) {
+                        return data.map((d: any) => ({
+                            timestamp: d[0], open: parseFloat(d[1]), high: parseFloat(d[2]),
+                            low: parseFloat(d[3]), close: parseFloat(d[4]), volume: parseFloat(d[5])
+                        }));
+                    }
                 } catch (e) {
-                    console.error("Market Chart Fetch Error (Binance):", e);
+                    console.error("Market Chart Fetch Error (Binance via proxy):", e);
                 }
             }
         }

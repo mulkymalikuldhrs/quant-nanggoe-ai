@@ -1,6 +1,7 @@
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { IconSettings, IconBot, IconCode, IconBook, IconSearch, IconLogo, IconChart, IconBrowser, IconTerminal, IconBrain } from './Icons';
+import { ThemeContext } from '../App';
 
 interface Props {
   windows: Record<string, { isOpen: boolean; isMinimized: boolean; isActive: boolean }>;
@@ -9,20 +10,21 @@ interface Props {
 }
 
 const Taskbar: React.FC<Props> = ({ windows, onToggleWindow, onStartClick }) => {
+    const { theme } = useContext(ThemeContext);
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const [mousePos, setMousePos] = useState<number | null>(null);
     const dockRef = useRef<HTMLDivElement>(null);
 
     const dockItems = [
-        { id: 'terminal', icon: <IconCode className="w-5 h-5 md:w-6 md:h-6 text-[#00D1FF]" />, label: 'Neural Terminal', bg: 'bg-black/20' },
-        { id: 'browser', icon: <IconBrowser className="w-5 h-5 md:w-6 md:h-6 text-[#FF3B30]" />, label: 'Neural Browser', bg: 'bg-black/20' },
-        { id: 'trading_terminal', icon: <IconTerminal className="w-5 h-5 md:w-6 md:h-6 text-[#FFCC00]" />, label: 'MT5 Terminal', bg: 'bg-black/20' },
-        { id: 'market', icon: <IconChart className="w-5 h-5 md:w-6 md:h-6 text-[#34C759]" />, label: 'Market Feed', bg: 'bg-black/20' },
-        { id: 'portfolio', icon: <IconBook className="w-5 h-5 md:w-6 md:h-6 text-[#5856D6]" />, label: 'Portfolio', bg: 'bg-black/20' },
-        { id: 'monitor', icon: <IconBot className="w-5 h-5 md:w-6 md:h-6 text-[#FF2D55]" />, label: 'Swarm Monitor', bg: 'bg-black/20' },
-        { id: 'architecture', icon: <IconBrain className="w-5 h-5 md:w-6 md:h-6 text-[#10b981]" />, label: 'Visual Guide', bg: 'bg-black/20' },
-        { id: 'artifact', icon: <IconSearch className="w-5 h-5 md:w-6 md:h-6 text-[#AF52DE]" />, label: 'Research Lab', bg: 'bg-black/20' },
-        { id: 'settings', icon: <IconSettings className="w-5 h-5 md:w-6 md:h-6 text-[#8E8E93]" />, label: 'Sys Config', bg: 'bg-black/20' },
+        { id: 'terminal', icon: <IconCode className="w-5 h-5 md:w-6 md:h-6 text-[#00D1FF]" />, label: 'Neural Terminal' },
+        { id: 'browser', icon: <IconBrowser className="w-5 h-5 md:w-6 md:h-6 text-[#FF3B30]" />, label: 'Neural Browser' },
+        { id: 'trading_terminal', icon: <IconTerminal className="w-5 h-5 md:w-6 md:h-6 text-[#FFCC00]" />, label: 'MT5 Terminal' },
+        { id: 'market', icon: <IconChart className="w-5 h-5 md:w-6 md:h-6 text-[#34C759]" />, label: 'Market Feed' },
+        { id: 'portfolio', icon: <IconBook className="w-5 h-5 md:w-6 md:h-6 text-[#5856D6]" />, label: 'Portfolio' },
+        { id: 'monitor', icon: <IconBot className="w-5 h-5 md:w-6 md:h-6 text-[#FF2D55]" />, label: 'Swarm Monitor' },
+        { id: 'architecture', icon: <IconBrain className="w-5 h-5 md:w-6 md:h-6 text-[#10b981]" />, label: 'Visual Guide' },
+        { id: 'artifact', icon: <IconSearch className="w-5 h-5 md:w-6 md:h-6 text-[#AF52DE]" />, label: 'Research Lab' },
+        { id: 'settings', icon: <IconSettings className="w-5 h-5 md:w-6 md:h-6 text-[#8E8E93]" />, label: 'Sys Config' },
     ];
 
     const handleMouseMove = (e: React.MouseEvent) => {
@@ -53,7 +55,7 @@ const Taskbar: React.FC<Props> = ({ windows, onToggleWindow, onStartClick }) => 
             onMouseLeave={() => { setMousePos(null); setHoveredIndex(null); }}
             ref={dockRef}
           >
-              <div className="dock-glass px-4 py-2 rounded-[24px] flex items-end gap-2 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] min-w-min shadow-2xl border border-white/10 hover:py-3">
+              <div className={`px-4 py-2 rounded-[24px] flex items-end gap-2 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] min-w-min shadow-2xl border backdrop-blur-3xl hover:py-3 ${theme === 'dark' ? 'bg-black/20 border-white/10' : 'bg-white/40 border-black/10'}`}>
                   
                   {/* Start / About (The Logo) */}
                   <div 
@@ -62,15 +64,15 @@ const Taskbar: React.FC<Props> = ({ windows, onToggleWindow, onStartClick }) => 
                   >
                       <button 
                           onClick={onStartClick}
-                          className="w-12 h-12 md:w-14 md:h-14 rounded-2xl shadow-xl flex items-center justify-center transition-all bg-gradient-to-br from-[#121214] to-[#09090b] border border-white/10 hover:border-[var(--accent-primary)]/50 active:scale-90"
+                          className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl shadow-xl flex items-center justify-center transition-all border active:scale-90 ${theme === 'dark' ? 'bg-gradient-to-br from-[#121214] to-[#09090b] border-white/10 hover:border-emerald-500/50' : 'bg-gradient-to-br from-white to-[#f0f0f0] border-black/10 hover:border-emerald-500/50 shadow-md'}`}
                       >
-                      <IconLogo className="w-8 h-8 md:w-10 md:h-10 group-hover:brightness-125 transition-all" />
+                        <IconLogo className="w-8 h-8 md:w-10 md:h-10 transition-all" />
                       </button>
                       <div className="w-1.5 h-1.5 rounded-full bg-transparent"></div>
                   </div>
-
-                  <div className="w-[1px] h-10 md:h-12 bg-white/10 mx-1 mb-2 shrink-0"></div>
-
+  
+                  <div className={`w-[1px] h-10 md:h-12 mx-1 mb-2 shrink-0 ${theme === 'dark' ? 'bg-white/10' : 'bg-black/10'}`}></div>
+  
                   {/* App Icons */}
                   {dockItems.map((app, index) => {
                       const state = windows[app.id];
@@ -90,18 +92,18 @@ const Taskbar: React.FC<Props> = ({ windows, onToggleWindow, onStartClick }) => 
                           >
                               <button 
                                   onClick={() => onToggleWindow(app.id)}
-                                  className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center shadow-lg transition-all border border-white/5 hover:border-white/20 active:scale-90 ${app.bg} ${isActive ? 'ring-2 ring-[var(--accent-primary)]/30' : ''}`}
+                                  className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center shadow-lg transition-all border active:scale-90 ${theme === 'dark' ? 'bg-black/20 border-white/5 hover:border-white/20' : 'bg-white/60 border-black/5 hover:border-black/20 shadow-md'} ${isActive ? 'ring-2 ring-emerald-500/30' : ''}`}
                               >
                                   {app.icon}
                               </button>
                               
                               {/* Status Indicator (macOS style dot) */}
                               <div className="h-1 flex items-center justify-center">
-                                <div className={`w-1 h-1 rounded-full transition-all duration-500 ${isOpen ? 'bg-zinc-100 shadow-[0_0_8px_rgba(255,255,255,0.8)]' : 'bg-transparent'}`}></div>
+                                <div className={`w-1 h-1 rounded-full transition-all duration-500 ${isOpen ? (theme === 'dark' ? 'bg-zinc-100 shadow-[0_0_8px_rgba(255,255,255,0.8)]' : 'bg-zinc-800 shadow-[0_0_8px_rgba(0,0,0,0.3)]') : 'bg-transparent'}`}></div>
                               </div>
                               
                               {/* Tooltip (macOS style) */}
-                              <div className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-zinc-900/90 backdrop-blur-2xl border border-white/10 rounded-lg text-[9px] font-black tracking-[0.2em] text-zinc-100 opacity-0 group-hover:opacity-100 transition-all scale-75 group-hover:scale-100 whitespace-nowrap pointer-events-none shadow-2xl z-[10000]">
+                              <div className={`absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 backdrop-blur-2xl border rounded-lg text-[9px] font-black tracking-[0.2em] opacity-0 group-hover:opacity-100 transition-all scale-75 group-hover:scale-100 whitespace-nowrap pointer-events-none shadow-2xl z-[10000] ${theme === 'dark' ? 'bg-zinc-900/90 border-white/10 text-zinc-100' : 'bg-white/90 border-black/10 text-zinc-800'}`}>
                                   {app.label.toUpperCase()}
                               </div>
                           </div>

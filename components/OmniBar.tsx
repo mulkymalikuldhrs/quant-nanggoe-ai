@@ -1,6 +1,7 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { IconSearch, IconTerminal, IconChart, IconBook, IconGlobe } from './Icons';
+import { ThemeContext } from '../App';
 
 interface Props {
     isOpen: boolean;
@@ -9,6 +10,7 @@ interface Props {
 }
 
 const OmniBar: React.FC<Props> = ({ isOpen, onClose, onCommand }) => {
+    const { theme } = useContext(ThemeContext);
     const [input, setInput] = useState('');
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -30,10 +32,10 @@ const OmniBar: React.FC<Props> = ({ isOpen, onClose, onCommand }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-[#020205]/60 backdrop-blur-2xl z-[99999] flex items-start justify-center pt-[15vh] animate-in fade-in zoom-in-95 duration-200 p-4">
-            <div className="w-[700px] max-w-full glass-panel rounded-[32px] overflow-hidden flex flex-col scale-100 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.8)]">
-                <div className="flex items-center px-8 py-6 border-b border-white/5 bg-white/5 backdrop-blur-md">
-                    <IconSearch className="w-6 h-6 text-zinc-400 mr-4" />
+        <div className={`fixed inset-0 backdrop-blur-2xl z-[99999] flex items-start justify-center pt-[15vh] animate-in fade-in zoom-in-95 duration-200 p-4 ${theme === 'dark' ? 'bg-[#020205]/60' : 'bg-white/40'}`}>
+            <div className={`w-[700px] max-w-full rounded-[32px] overflow-hidden flex flex-col scale-100 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.4)] border transition-all duration-500 ${theme === 'dark' ? 'bg-[#121214]/80 border-white/10 shadow-black' : 'bg-white/90 border-black/5 shadow-zinc-400'}`}>
+                <div className={`flex items-center px-8 py-6 border-b transition-colors duration-500 ${theme === 'dark' ? 'bg-white/5 border-white/5' : 'bg-black/5 border-black/5'}`}>
+                    <IconSearch className={`w-6 h-6 mr-4 ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'}`} />
                     <input 
                         ref={inputRef}
                         type="text" 
@@ -41,16 +43,16 @@ const OmniBar: React.FC<Props> = ({ isOpen, onClose, onCommand }) => {
                         onChange={(e) => setInput(e.target.value)}
                         onKeyDown={handleKeyDown}
                         placeholder="SEARCH_COMMAND..."
-                        className="flex-1 text-2xl font-black text-zinc-100 focus:outline-none placeholder-zinc-700 bg-transparent uppercase tracking-tighter"
+                        className={`flex-1 text-2xl font-black focus:outline-none uppercase tracking-tighter bg-transparent ${theme === 'dark' ? 'text-zinc-100 placeholder-zinc-800' : 'text-zinc-800 placeholder-zinc-300'}`}
                     />
                     <div className="flex items-center gap-2">
-                        <span className="text-[9px] bg-white/10 text-zinc-400 px-2 py-1 rounded font-black tracking-widest border border-white/5">CTRL+K</span>
-                        <span className="text-[9px] bg-emerald-500/10 text-emerald-500 px-2 py-1 rounded font-black tracking-widest border border-emerald-500/20">READY</span>
+                        <span className={`text-[9px] px-2 py-1 rounded font-black tracking-widest border ${theme === 'dark' ? 'bg-white/10 text-zinc-400 border-white/5' : 'bg-black/5 text-zinc-500 border-black/5'}`}>CTRL+K</span>
+                        <span className={`text-[9px] px-2 py-1 rounded font-black tracking-widest border ${theme === 'dark' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 'bg-emerald-500 text-white border-emerald-600'}`}>READY</span>
                     </div>
                 </div>
                 
                 <div className="p-6 bg-transparent">
-                    <div className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] px-4 mb-4 opacity-50">Neural_Intelligence_Suggestions</div>
+                    <div className={`text-[9px] font-black uppercase tracking-[0.3em] px-4 mb-4 opacity-50 ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>Neural_Intelligence_Suggestions</div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {[
                             { cmd: "/scan BTCUSD", label: "Market_Structure_Pulse", icon: <IconChart className="text-emerald-500" /> },
@@ -61,22 +63,22 @@ const OmniBar: React.FC<Props> = ({ isOpen, onClose, onCommand }) => {
                             <button 
                                 key={i}
                                 onClick={() => { onCommand(item.cmd); onClose(); }} 
-                                className="group flex items-center gap-4 px-5 py-4 rounded-2xl hover:bg-white/5 transition-all text-left border border-transparent hover:border-white/10 glass-card"
+                                className={`group flex items-center gap-4 px-5 py-4 rounded-2xl transition-all text-left border ${theme === 'dark' ? 'hover:bg-white/5 border-transparent hover:border-white/10' : 'hover:bg-black/5 border-transparent hover:border-black/10'}`}
                             >
-                                <div className="bg-white/5 p-3 rounded-xl group-hover:scale-110 transition-transform border border-white/5">
+                                <div className={`p-3 rounded-xl group-hover:scale-110 transition-transform border ${theme === 'dark' ? 'bg-white/5 border-white/5' : 'bg-black/5 border-black/5'}`}>
                                     {React.cloneElement(item.icon as React.ReactElement, { className: 'w-4 h-4 ' + (item.icon as any).props.className })}
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-[11px] font-black text-zinc-100 tracking-widest uppercase">{item.label}</span>
-                                    <span className="text-[9px] text-zinc-500 font-mono">{item.cmd}</span>
+                                    <span className={`text-[11px] font-black tracking-widest uppercase ${theme === 'dark' ? 'text-zinc-100' : 'text-zinc-800'}`}>{item.label}</span>
+                                    <span className={`text-[9px] font-mono ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>{item.cmd}</span>
                                 </div>
                             </button>
                         ))}
                     </div>
                 </div>
 
-                <div className="bg-white/5 px-8 py-4 border-t border-white/5 flex justify-between items-center text-[9px] font-black text-zinc-600 tracking-widest uppercase">
-                    <span>NANGGROE_QUANT_OS_9.0</span>
+                <div className={`px-8 py-4 border-t flex justify-between items-center text-[9px] font-black tracking-widest uppercase transition-colors duration-500 ${theme === 'dark' ? 'bg-white/5 border-white/5 text-zinc-600' : 'bg-black/5 border-black/5 text-zinc-400'}`}>
+                    <span>NANGGROE_QUANT_OS_9.1</span>
                     <span className="text-emerald-500/50">SECURE_CHANNEL_ENCRYPTED</span>
                 </div>
             </div>
