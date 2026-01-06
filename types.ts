@@ -31,6 +31,46 @@ export interface ChatMessage {
 
 export type MarketRegime = 'TRENDING' | 'MEAN_REVERTING' | 'RISK_OFF' | 'PANIC' | 'NO_TRADE';
 
+export interface PressureState {
+    buyPressure: number;  // 0.0 - 1.0
+    sellPressure: number; // 0.0 - 1.0
+    volatilityRisk: 'LOW' | 'MID' | 'HIGH';
+    liquidityCondition: 'THIN' | 'NORMAL' | 'DEEP';
+}
+
+export interface ConfluenceStatus {
+    isAllowed: boolean;
+    reason?: string;
+    score: number;
+}
+
+export interface StrategyLifecycle {
+    id: string;
+    name: string;
+    status: 'ACTIVE' | 'HIBERNATING' | 'KILLED';
+    metrics: {
+        expectancy: number;
+        maxDrawdown: number;
+        sharpeRatio: number;
+        winRate: number;
+    };
+    tradesCount: number;
+    deathThreshold: number; // N trades with expectancy < 0
+}
+
+export interface DecisionSynthesis {
+    regime: MarketRegime;
+    pressures: PressureState;
+    confluence: ConfluenceStatus;
+    entryParameters?: {
+        location: string;
+        trigger: string;
+        execution: 'LIMIT' | 'MARKET';
+    };
+    riskClearance: 'CLEAR' | 'BLOCKED';
+    action: 'BUY' | 'SELL' | 'HOLD' | 'WAIT';
+}
+
 export interface DecisionMatrix {
     regime: MarketRegime;
     quantScore: number; // -1 to 1
@@ -40,6 +80,7 @@ export interface DecisionMatrix {
 }
 
 export interface AgentContract {
+    agentId: string;
     inputDomain: string[];
     decisionScope: string[];
     hardConstraints: string[];
