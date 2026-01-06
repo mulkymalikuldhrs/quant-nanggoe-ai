@@ -1,5 +1,6 @@
 
-import { CandleData, PortfolioPosition, TechnicalIndicators } from "../types";
+import { CandleData, PortfolioPosition, TechnicalIndicators, MarketTicker } from "../types";
+import { CorrelationMonitor } from "./correlation_monitor";
 
 export interface RiskProfile {
     accountEquity: number;
@@ -21,6 +22,7 @@ export const RiskManagement = {
     checkKillSwitch: (dailyPnLPercent: number): boolean => {
         if (dailyPnLPercent <= -RiskManagement.CONSTITUTION.DAILY_DRAWDOWN_KILL_SWITCH) {
             console.error("!!! RISK GUARDIAN: KILL SWITCH TRIGGERED !!!");
+            // In a real OS-level implementation, this would trigger a process exit or API block
             return true; // BLOCKED
         }
         return false; // CLEAR
@@ -29,22 +31,31 @@ export const RiskManagement = {
     // --- BLUEPRINT FINAL: RISK GUARDIAN DETERMINISTIC RULES ---
     validateTrade: (
         dailyPnL: number, 
-        correlation: number, 
+        currentSymbol: string,
+        tickers: MarketTicker[],
+        priceHistory: { [symbol: string]: number[] },
         isMacroEventImminent: boolean
     ): 'CLEAR' | 'BLOCKED' | 'PAUSE' => {
-        // 1. Daily Drawdown Kill-Switch (Rule: if daily_dd > 4% -> BLOCK_ALL)
-        if (dailyPnL <= -RiskManagement.CONSTITUTION.DAILY_DRAWDOWN_KILL_SWITCH) {
-            console.error("!!! RISK GUARDIAN: DAILY DRAWDOWN KILL-SWITCH !!!");
+        // 1. Daily Drawdown Kill-Switch
+        if (RiskManagement.checkKillSwitch(dailyPnL)) {
             return 'BLOCKED';
         }
         
-        // 2. Correlation Filter (Rule: Max correlation 0.7)
-        if (correlation > RiskManagement.CONSTITUTION.MAX_CORRELATION) {
-            console.warn("!!! RISK GUARDIAN: CORRELATION LIMIT EXCEEDED !!!");
+        // 2. Correlation Filter
+        const matrix = CorrelationMonitor.calculateMatrix(tickers, priceHistory);
+        let maxCorr = 0;
+        for (const otherSym in matrix[currentSymbol]) {
+            if (otherSym !== currentSymbol) {
+                maxCorr = Math.max(maxCorr, Math.abs(matrix[currentSymbol][otherSym]));
+            }
+        }
+
+        if (maxCorr > RiskManagement.CONSTITUTION.MAX_CORRELATION) {
+            console.warn(`!!! RISK GUARDIAN: CORRELATION LIMIT EXCEEDED (${maxCorr.toFixed(2)}) !!!`);
             return 'BLOCKED';
         }
         
-        // 3. Macro Event Pause (Rule: if macro_event_imminent -> PAUSE)
+        // 3. Macro Event Pause
         if (isMacroEventImminent) {
             console.info("!!! RISK GUARDIAN: MACRO EVENT IMMINENT - PAUSED !!!");
             return 'PAUSE';

@@ -3,6 +3,7 @@ import { CandleData, ExecutionReality, DecisionSynthesis, MarketState, PressureS
 import { MathEngine } from "./math_engine";
 import { MarketService } from "./market";
 import { PressureNormalizationEngine, DecisionSynthesisEngine } from "./quantum_engine";
+import { StrategyLifecycleManager } from "./strategy_lifecycle";
 
 export interface BacktestResult {
     totalTrades: number;
@@ -16,17 +17,22 @@ export interface BacktestResult {
 export const BacktestEngine = {
     
     // --- BLUEPRINT FINAL: EXECUTION REALITY ENGINE ---
-    getExecutionReality: (): ExecutionReality => {
+    getExecutionReality: (volatility: 'LOW' | 'NORMAL' | 'HIGH'): ExecutionReality => {
+        const baseSpread = 0.0002;
+        const volMultiplier = volatility === 'HIGH' ? 3 : volatility === 'NORMAL' ? 1 : 0.5;
+        
         return {
-            spread: 0.0002, // 2 pips
-            slippage: 0.0001,
-            partialFill: Math.random() < 0.05,
+            spread: baseSpread * volMultiplier,
+            slippage: (baseSpread / 2) * volMultiplier * Math.random(),
+            partialFill: Math.random() < (volatility === 'HIGH' ? 0.15 : 0.02),
             orderReject: Math.random() < 0.01,
-            latency: 50 + Math.random() * 200 // ms
+            latency: (volatility === 'HIGH' ? 300 : 100) + Math.random() * 200 // ms
         };
     },
 
-    runSimple: async (candles: CandleData[], initialCapital: number = 10000): Promise<BacktestResult> => {
+    runSimple: async (candles: CandleData[], initialCapital: number = 10000, strategyId: string = "DEFAULT_MVP"): Promise<BacktestResult> => {
+        StrategyLifecycleManager.registerStrategy(strategyId, "Quant Nanggoe MVP v1", -0.05);
+        
         let capital = initialCapital;
         let position = 0; // 0 = flat, 1 = long, -1 = short
         let entryPrice = 0;
@@ -38,20 +44,25 @@ export const BacktestEngine = {
         let maxDrawdown = 0;
         const equityCurve = [initialCapital];
 
-        const reality = BacktestEngine.getExecutionReality();
-
         for (let i = 50; i < candles.length; i++) {
+            // Check if strategy is still allowed to run
+            if (StrategyLifecycleManager.getStatus(strategyId) === 'KILLED') {
+                console.error("Backtest stopped: Strategy KILLED by Lifecycle Manager.");
+                break;
+            }
+
             const window = candles.slice(0, i);
             const currentCandle = candles[i];
             const price = currentCandle.close;
 
             // 1. Get Market State
             const state = MarketService.getMarketState(window);
-            
-            // 2. Get Agent Outputs (Simplified for backtest speed)
+            const reality = BacktestEngine.getExecutionReality(state.volatility);
+
+            // 2. Get Agent Outputs
             const quant = MarketService.getQuantScannerOutput(window);
             const smc = MarketService.getSMCOutput(window);
-            const news = await MarketService.getNewsSentinelOutput([]); // Empty news for backtest
+            const news = await MarketService.getNewsSentinelOutput([]); 
             const flow = MarketService.getFlowWhaleOutput();
 
             // 3. Normalize Pressure
@@ -72,7 +83,6 @@ export const BacktestEngine = {
                     entryPrice = price - reality.spread - reality.slippage;
                 }
             } else if (position === 1) {
-                // Exit Long (Structural Invalidation or Opposing Pressure)
                 const isSL = synthesis.entryParameters && price <= synthesis.entryParameters.sl;
                 const isTP = synthesis.entryParameters && price >= synthesis.entryParameters.tp[0];
                 
@@ -81,12 +91,14 @@ export const BacktestEngine = {
                     const profit = (exitPrice - entryPrice) / entryPrice * capital;
                     capital += profit;
                     trades++;
-                    if (profit > 0) { wins++; totalProfit += profit; }
+                    const isWin = profit > 0;
+                    if (isWin) { wins++; totalProfit += profit; }
                     else totalLoss += Math.abs(profit);
+                    
+                    StrategyLifecycleManager.updatePerformance(strategyId, profit / capital, isWin);
                     position = 0;
                 }
             } else if (position === -1) {
-                // Exit Short
                 const isSL = synthesis.entryParameters && price >= synthesis.entryParameters.sl;
                 const isTP = synthesis.entryParameters && price <= synthesis.entryParameters.tp[0];
 
@@ -95,8 +107,11 @@ export const BacktestEngine = {
                     const profit = (entryPrice - exitPrice) / entryPrice * capital;
                     capital += profit;
                     trades++;
-                    if (profit > 0) { wins++; totalProfit += profit; }
+                    const isWin = profit > 0;
+                    if (isWin) { wins++; totalProfit += profit; }
                     else totalLoss += Math.abs(profit);
+
+                    StrategyLifecycleManager.updatePerformance(strategyId, profit / capital, isWin);
                     position = 0;
                 }
             }

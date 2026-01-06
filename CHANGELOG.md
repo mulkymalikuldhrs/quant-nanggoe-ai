@@ -1,5 +1,20 @@
 # CHANGELOG - QUANT NANGGROE AI
 
+## [v15.0.0] - 2026-01-06 (FINAL MVP: OPERATIONAL READINESS)
+### Added
+- **Risk Guardian (Constitutional Law)**: Implemented a deterministic risk enforcement layer with a daily drawdown Kill-switch and multi-asset Correlation Monitor.
+- **Execution Reality Engine**: Integrated realistic trading simulation in `BacktestEngine` including dynamic spreads, slippage, partial fills, and network latency.
+- **Strategy Lifecycle Manager**: Added Darwinian strategy management that automatically kills non-performing strategies based on expectancy and drawdown thresholds.
+- **Evolution Monitor**: Implemented a reporting service to track and analyze the performance evolution of all active strategy variants.
+- **Audit Traceability**: Full integration of `AuditLogger` across all layers (Market, Sensor, Pressure, Decision, Risk, Execution).
+
+### Changed
+- **Backtest Fidelity**: Upgraded the backtesting engine to use the `ExecutionReality` model, ensuring performance results are grounded in real-market conditions.
+- **Risk Refactoring**: Migrated `RiskManagement` from a simple heuristic model to a "Constitutional" hard-coded enforcement model.
+
+### Completed
+- **Full MVP Lifecycle**: Successfully completed all 6 weeks of the build order as specified in the `BUILD_PLAN.md` and `BLUEPRINT.md`.
+
 ## [v12.0.0] - 2026-01-06 (PROFESSIONAL TRADING EDITION)
 ### Added
 - **Institutional Logic (SMC)**: Implemented Smart Money Concepts including Order Blocks, Fair Value Gaps (FVG), and Market Structure Breaks.
