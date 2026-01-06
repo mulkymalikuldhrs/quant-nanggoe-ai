@@ -191,18 +191,25 @@ export const MarketService = {
             const symbol = BINANCE_MAP[id];
             if (symbol) {
                 try {
-                    // v10.0: Enhanced multi-proxy fallback
+                    // v10.0: Robust Multi-Proxy Fallback System
                     const proxies = [
                         `https://api.allorigins.win/get?url=${encodeURIComponent(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`)}`,
-                        `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`)}`
+                        `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`)}`,
+                        `https://corsproxy.io/?${encodeURIComponent(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`)}`
                     ];
                     
                     for (const proxyUrl of proxies) {
                         try {
                             const res = await fetch(proxyUrl);
+                            if (!res.ok) continue;
                             const proxyData = await res.json();
-                            const content = proxyData.contents || proxyData;
-                            const data = typeof content === 'string' ? JSON.parse(content) : content;
+                            
+                            // Handle different proxy response formats
+                            let data;
+                            if (proxyUrl.includes('allorigins')) data = JSON.parse(proxyData.contents);
+                            else if (proxyUrl.includes('codetabs')) data = proxyData;
+                            else if (proxyUrl.includes('corsproxy.io')) data = proxyData;
+                            else data = proxyData;
                             
                             if (data && data.lastPrice) {
                                 return {
@@ -210,7 +217,7 @@ export const MarketService = {
                                     current_price: parseFloat(data.lastPrice), market_cap: 0,
                                     price_change_percentage_24h: parseFloat(data.priceChangePercent),
                                     high_24h: parseFloat(data.highPrice), low_24h: parseFloat(data.lowPrice),
-                                    volume: parseFloat(data.volume), type: 'crypto', source: 'Binance (v10 Proxy)'
+                                    volume: parseFloat(data.volume), type: 'crypto', source: 'Binance (v10 Global Proxy)'
                                 };
                             }
                         } catch (e) { continue; }

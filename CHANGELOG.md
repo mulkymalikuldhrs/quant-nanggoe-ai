@@ -1,24 +1,27 @@
-# CHANGELOG - Quant Nanggroe OS
+# CHANGELOG - QUANT NANGGROE AI
 
-## [v10.0.0] - 2026-01-06 (White Sur & Neural Swarm Edition)
+## [v10.0.0] - 2026-01-06 (WHITE SUR EDITION)
 ### Added
-- **macOS White Sur UI**: Estetika premium dengan mode Cerah (Day) dan Gelap (Night) yang dapat dipindah secara instan melalui switch di Top Bar.
-- **Neural Swarm Parallelism**: Koordinasi simultan 5 agen spesialis (Alpha Prime, Quant-Scanner, News-Sentinel, Risk-Guardian, Strategy-Weaver).
-- **Day/Night Switch**: Tombol Matahari/Bulan di Top Bar untuk transisi visual instan dengan efek glassmorphism yang dioptimalkan.
-- **Robust Market Proxy (v10)**: Sistem pengambilan data pasar yang lebih tangguh dengan multi-proxy fallback untuk mengatasi limitasi CORS pada data Binance.
-- **Institutional Quant Suite**: Analisis teknikal canggih (RSI, EMA, Bollinger Bands, dll) yang langsung terintegrasi ke dalam feed harga.
-- **Dynamic Backdrop Blur**: Efek blur 32px pada Top Bar dan Window Frame untuk kedalaman visual yang nyata.
+- **macOS White Sur Aesthetic**: Completely overhauled the UI with a brighter, cleaner "White Sur" look in Day Mode.
+- **Dual Night and Day Mode**: Added a professional toggle switch in the Top Bar for instant theme switching.
+- **Dynamic Glassmorphism**: High-intensity backdrop blur and grain effects for a premium "Apple-like" feel.
+- **Robust Multi-Proxy Fallback**: New system in `MarketService` to handle Binance API data via multiple proxies (AllOrigins, CodeTabs, CorsProxy.io) to ensure zero downtime and fix CORS issues.
+- **Neural Swarm Parallelism**: Integrated coordination of 5 specialized AI agents for market analysis.
 
-### Removed
-- Menghapus direktori legacy: "Dhaher Quant 01" dan "Quant Nanggroe Back Up".
-- Menghapus file `keterangan.txt` (konten digabungkan ke `penjelasan.txt`).
+### Changed
+- **Smaller Icons**: Reduced icon sizes in the Dock (Taskbar) for a more elegant and professional appearance.
+- **Enhanced Top Bar**: Redesigned the Top Bar with improved layout, system notifications, and active swarm status.
+- **Optimized Backgrounds**: New dynamic gradients and grain textures for both Light and Dark modes.
+- **Dock Refinement**: Improved magnification logic and button containers for the smaller icon set.
 
 ### Fixed
-- Memperbaiki `SyntaxError` pada export `IconMoon` di `components/Icons.tsx`.
-- Optimasi performa rendering jendela pada layar resolusi tinggi.
+- **CORS Bug**: Fixed issues with fetching Binance data by implementing a robust fallback mechanism.
+- **Icon Rendering**: Fixed minor bug in `IconMoon` and ensured all icons scale correctly in the Dock.
+- **Window Scaling**: Improved window frame responsiveness for different screen sizes.
 
-## [v9.1.0] - 2026-01-06 (Glass Edition)
-### Added
-- **True macOS-Style UI**: Implemented a floating glassmorphism Dock with magnification effect.
-- **Top Menu Bar**: Added a global system bar with an Apple-like menu.
-- **macOS Window Management**: Redesigned Window Frame with traffic-light buttons.
+### Removed
+- **Legacy Files**: Cleaned up outdated "Dhaher Quant" and backup directories to optimize project structure.
+- **keterangan.txt**: Consolidated documentation into `penjelasan.txt` and `README.md`.
+
+---
+*Developed by Orchids for Quant Nanggroe Ecosystem.*

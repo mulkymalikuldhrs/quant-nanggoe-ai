@@ -1,38 +1,32 @@
 # QUANT NANGGROE AI v10.0 - NEURAL SWARM EDITION (WHITE SUR)
 
-Sistem komando trading kuantitatif otonom yang menggabungkan estetika macOS Big Sur dengan kecerdasan buatan tingkat institusional.
+Sistem komando trading kuantitatif otonom yang menggabungkan estetika macOS White Sur dengan kecerdasan buatan tingkat institusional.
 
 ## 1. ARSITEKTUR SISTEM (NEURAL SWARM)
 Sistem beroperasi menggunakan model "Neural Swarm Parallelism" di mana setiap permintaan dianalisis oleh 5 agen spesialis secara simultan:
 - **Alpha Prime**: Koordinator pusat yang melakukan sintesis data akhir dan pengambilan keputusan strategis.
 - **Quant-Scanner**: Agen teknikal yang memproses data candlestick, indikator (RSI, EMA, MACD), dan struktur pasar.
-- **News-Sentinel**: Agen fundamental yang memantau berita global, sentimen media sosial, dan kalender ekonomi (via Finnhub).
+- **News-Sentinel**: Agen fundamental yang memantau berita global, sentimen media sosial, dan kalender ekonomi.
 - **Risk-Guardian**: Pengelola keamanan modal yang menghitung ukuran posisi, rasio risk/reward, dan level drawdown.
 - **Strategy-Weaver**: Pengembang algoritma yang mengoptimalkan strategi berdasarkan data historis dan kondisi pasar real-time.
 
 ## 2. ANTARMUKA PENGGUNA (macOS WHITE SUR v10.0)
-- **Dual Mode (Day/Night)**: Fitur switch di Top Bar yang memungkinkan transisi mulus antara tema "White Sur" (cerah/glassy) dan "Space Dark" (profesional).
-- **Dynamic Glassmorphism**: Seluruh jendela menggunakan efek backdrop-blur tingkat tinggi dengan refleksi dinamis.
-- **Magnetic Dock**: Taskbar bawah dengan efek magnifikasi (perbesaran) macOS saat kursor melintas, memberikan navigasi yang intuitif.
+- **Dual Mode (Day/Night)**: Fitur switch profesional di Top Bar yang memungkinkan transisi mulus antara tema "White Sur" (cerah/glassy) dan "Space Dark" (profesional).
+- **Icon Refinement**: Ikon di Dock telah diperkecil untuk estetika yang lebih elegan dan profesional, namun tetap mempertahankan fungsionalitas magnifikasi macOS.
+- **Dynamic Glassmorphism**: Seluruh jendela menggunakan efek backdrop-blur tingkat tinggi dengan refleksi dinamis dan noise texture premium.
+- **Magnetic Dock**: Taskbar bawah dengan efek magnifikasi (perbesaran) yang dioptimalkan untuk presisi kursor yang lebih tinggi.
 - **OmniBar (Ctrl+K)**: Pusat kendali universal untuk pencarian data, eksekusi perintah, dan navigasi aplikasi secara cepat.
 
 ## 3. PIPA DATA & ANALITIK (REAL-TIME)
-- **Binance Institutional Data**: Mengambil data Klines dan Ticker langsung dari Binance via proxy robust untuk menghindari masalah CORS.
+- **Robust Proxy System**: Menggunakan sistem multi-proxy (AllOrigins, CodeTabs, CorsProxy.io) untuk menjamin ketersediaan data Binance tanpa hambatan CORS.
 - **Multi-Source Support**: Integrasi data dari Polygon.io (Saham), DexScreener (On-chain), dan Frankfurter (Forex).
-- **Neural Consensus**: Algoritma internal yang menggabungkan sinyal dari berbagai agen untuk memberikan vonis (BULLISH/BEARISH/NEUTRAL) dengan skor kepercayaan.
-- **Interactive Charts**: Visualisasi data menggunakan Lightweight Charts yang responsif terhadap perubahan harga dalam milidetik.
+- **Neural Consensus**: Algoritma internal yang menggabungkan sinyal dari berbagai agen untuk memberikan vonis (BULLISH/BEARISH/NEUTRAL).
 
 ## 4. PANDUAN OPERASIONAL
-- **Navigasi Jendela**: Klik ikon di Dock untuk membuka/meminimalkan jendela. Double-click Title Bar untuk maximize.
-- **Komunikasi Agen**: Gunakan Neural Terminal untuk berbicara dengan Alpha Prime. Anda bisa melampirkan file atau gambar untuk dianalisis.
-- **Quick Commands**: Gunakan OmniBar untuk perintah cepat seperti "/scan BTCUSDT" atau "Check global news".
-- **Switch Theme**: Klik ikon Matahari/Bulan di pojok kanan atas untuk mengubah suasana kerja secara instan.
-
-## 5. STACK TEKNOLOGI
-- **Frontend**: React 19, TypeScript, Vite.
-- **Styling**: Tailwind CSS (Custom Glassmorphism).
-- **AI Engine**: Google Gemini 1.5 Pro & 2.0 Flash (Multimodal).
-- **Charts**: TradingView Lightweight Charts.
+- **Switch Theme**: Gunakan switch toggle di Top Bar (ikon Matahari/Bulan) untuk mengubah suasana kerja.
+- **Navigasi Jendela**: Klik ikon di Dock untuk membuka/meminimalkan jendela.
+- **Komunikasi Agen**: Gunakan Neural Terminal untuk berinteraksi dengan swarm agen.
+- **Quick Commands**: Gunakan OmniBar untuk perintah cepat.
 
 Sistem ini dirancang untuk kecepatan, keindahan, dan akurasi data tanpa kompromi.
 --------------------------------------------------------------------------------

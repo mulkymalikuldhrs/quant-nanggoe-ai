@@ -210,20 +210,22 @@ const App: React.FC = () => {
         <ThemeContext.Provider value={{ theme, toggleTheme }}>
             <div className={`h-screen w-screen relative overflow-hidden transition-all duration-700 ${theme === 'dark' ? 'bg-[#020205] text-white' : 'bg-[#f5f5f7] text-zinc-900'}`}>
             
-            {/* V10.0 DYNAMIC BACKGROUND */}
+            {/* V10.0 DYNAMIC BACKGROUND (WHITE SUR EDITION) */}
             <div className="absolute inset-0 z-0 overflow-hidden">
                 {theme === 'dark' ? (
                     <>
-                        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-600/10 blur-[150px] animate-pulse"></div>
-                        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-emerald-600/10 blur-[150px] animate-pulse" style={{ animationDelay: '3s' }}></div>
-                        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none"></div>
+                        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-blue-900/20 blur-[150px] animate-pulse"></div>
+                        <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full bg-emerald-900/20 blur-[150px] animate-pulse" style={{ animationDelay: '3s' }}></div>
+                        <div className="absolute top-[30%] left-[40%] w-[40%] h-[40%] rounded-full bg-purple-900/10 blur-[120px]"></div>
+                        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.15] pointer-events-none mix-blend-overlay"></div>
                     </>
                 ) : (
                     <>
-                        <div className="absolute top-[-15%] left-[-15%] w-[60%] h-[60%] rounded-full bg-blue-200/40 blur-[180px]"></div>
-                        <div className="absolute bottom-[-15%] right-[-15%] w-[60%] h-[60%] rounded-full bg-pink-100/30 blur-[180px]"></div>
-                        <div className="absolute top-[20%] left-[20%] w-[50%] h-[50%] rounded-full bg-yellow-50/20 blur-[150px]"></div>
-                        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none"></div>
+                        <div className="absolute top-[-15%] left-[-15%] w-[70%] h-[70%] rounded-full bg-blue-400/30 blur-[180px]"></div>
+                        <div className="absolute bottom-[-15%] right-[-15%] w-[70%] h-[70%] rounded-full bg-rose-300/20 blur-[180px]"></div>
+                        <div className="absolute top-[20%] left-[30%] w-[50%] h-[50%] rounded-full bg-amber-200/20 blur-[150px]"></div>
+                        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05] pointer-events-none"></div>
+                        <div className="absolute inset-0 bg-gradient-to-tr from-blue-50/50 via-white to-rose-50/50 opacity-40"></div>
                     </>
                 )}
             </div>
@@ -249,13 +251,22 @@ const App: React.FC = () => {
                            <span className="text-[10px] font-bold tracking-wider opacity-80 uppercase">Autonomous Swarm Active</span>
                        </div>
                        
-                       <div className="flex items-center gap-3">
-                          <button onClick={toggleTheme} className="p-1.5 hover:bg-black/5 dark:hover:bg-white/10 rounded-lg transition-all active:scale-90" title="Switch Day/Night Mode">
-                              {theme === 'dark' ? <IconSun className="w-4 h-4 text-amber-400" /> : <IconMoon className="w-4 h-4 text-indigo-500" />}
-                          </button>
-                          <button onClick={() => setIsOmniBarOpen(true)} className="p-1.5 hover:bg-black/5 dark:hover:bg-white/10 rounded-lg transition-all active:scale-90">
-                              <IconSearch className="w-4 h-4 opacity-60" />
-                          </button>
+                         <div className="flex items-center gap-3">
+                            {/* MAC-STYLE THEME SWITCH */}
+                            <button 
+                                onClick={toggleTheme} 
+                                className={`relative w-10 h-5 rounded-full p-0.5 transition-all duration-500 ease-spring ${theme === 'dark' ? 'bg-zinc-800 border border-white/10' : 'bg-zinc-200 border border-black/5 shadow-inner'}`}
+                                title="Switch Day/Night Mode"
+                            >
+                                <div className={`absolute top-0.5 w-4 h-4 rounded-full flex items-center justify-center transition-all duration-500 ease-spring ${theme === 'dark' ? 'left-[22px] bg-zinc-100 shadow-[0_0_10px_rgba(255,255,255,0.4)]' : 'left-0.5 bg-white shadow-md'}`}>
+                                    {theme === 'dark' ? <IconMoon className="w-2.5 h-2.5 text-zinc-900" /> : <IconSun className="w-2.5 h-2.5 text-amber-500" />}
+                                </div>
+                            </button>
+                            
+                            <button onClick={() => setIsOmniBarOpen(true)} className="p-1.5 hover:bg-black/5 dark:hover:bg-white/10 rounded-lg transition-all active:scale-90">
+                                <IconSearch className="w-4 h-4 opacity-60" />
+                            </button>
+
                           <div className="flex items-center gap-3 ml-2 font-mono text-[11px] tracking-tight">
                               <span className="hidden lg:inline opacity-60">{currentTime.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' })}</span>
                               <span className="font-bold">{currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>

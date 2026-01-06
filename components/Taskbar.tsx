@@ -16,15 +16,15 @@ const Taskbar: React.FC<Props> = ({ windows, onToggleWindow, onStartClick }) => 
     const dockRef = useRef<HTMLDivElement>(null);
 
     const dockItems = [
-        { id: 'terminal', icon: <IconCode className="w-5 h-5 md:w-6 md:h-6 text-[#00D1FF]" />, label: 'Neural Terminal' },
-        { id: 'browser', icon: <IconBrowser className="w-5 h-5 md:w-6 md:h-6 text-[#FF3B30]" />, label: 'Neural Browser' },
-        { id: 'trading_terminal', icon: <IconTerminal className="w-5 h-5 md:w-6 md:h-6 text-[#FFCC00]" />, label: 'MT5 Terminal' },
-        { id: 'market', icon: <IconChart className="w-5 h-5 md:w-6 md:h-6 text-[#34C759]" />, label: 'Market Feed' },
-        { id: 'portfolio', icon: <IconBook className="w-5 h-5 md:w-6 md:h-6 text-[#5856D6]" />, label: 'Portfolio' },
-        { id: 'monitor', icon: <IconBot className="w-5 h-5 md:w-6 md:h-6 text-[#FF2D55]" />, label: 'Swarm Monitor' },
-        { id: 'architecture', icon: <IconBrain className="w-5 h-5 md:w-6 md:h-6 text-[#10b981]" />, label: 'Visual Guide' },
-        { id: 'artifact', icon: <IconSearch className="w-5 h-5 md:w-6 md:h-6 text-[#AF52DE]" />, label: 'Research Lab' },
-        { id: 'settings', icon: <IconSettings className="w-5 h-5 md:w-6 md:h-6 text-[#8E8E93]" />, label: 'Sys Config' },
+        { id: 'terminal', icon: <IconCode className="w-4 h-4 md:w-5 md:h-5 text-[#00D1FF]" />, label: 'Neural Terminal' },
+        { id: 'browser', icon: <IconBrowser className="w-4 h-4 md:w-5 md:h-5 text-[#FF3B30]" />, label: 'Neural Browser' },
+        { id: 'trading_terminal', icon: <IconTerminal className="w-4 h-4 md:w-5 md:h-5 text-[#FFCC00]" />, label: 'MT5 Terminal' },
+        { id: 'market', icon: <IconChart className="w-4 h-4 md:w-5 md:h-5 text-[#34C759]" />, label: 'Market Feed' },
+        { id: 'portfolio', icon: <IconBook className="w-4 h-4 md:w-5 md:h-5 text-[#5856D6]" />, label: 'Portfolio' },
+        { id: 'monitor', icon: <IconBot className="w-4 h-4 md:w-5 md:h-5 text-[#FF2D55]" />, label: 'Swarm Monitor' },
+        { id: 'architecture', icon: <IconBrain className="w-4 h-4 md:w-5 md:h-5 text-[#10b981]" />, label: 'Visual Guide' },
+        { id: 'artifact', icon: <IconSearch className="w-4 h-4 md:w-5 md:h-5 text-[#AF52DE]" />, label: 'Research Lab' },
+        { id: 'settings', icon: <IconSettings className="w-4 h-4 md:w-5 md:h-5 text-[#8E8E93]" />, label: 'Sys Config' },
     ];
 
     const handleMouseMove = (e: React.MouseEvent) => {
@@ -62,12 +62,13 @@ const Taskbar: React.FC<Props> = ({ windows, onToggleWindow, onStartClick }) => 
                     className="group relative flex flex-col items-center gap-1 app-icon shrink-0"
                     style={{ transform: `scale(${getScale(-1)})`, transition: 'transform 0.2s ease-out' }}
                   >
-                      <button 
-                          onClick={onStartClick}
-                          className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl shadow-xl flex items-center justify-center transition-all border active:scale-90 ${theme === 'dark' ? 'bg-gradient-to-br from-[#121214] to-[#09090b] border-white/10 hover:border-emerald-500/50' : 'bg-gradient-to-br from-white to-[#f0f0f0] border-black/10 hover:border-emerald-500/50 shadow-md'}`}
-                      >
-                        <IconLogo className="w-8 h-8 md:w-10 md:h-10 transition-all" />
-                      </button>
+                        <button 
+                            onClick={onStartClick}
+                            className={`w-10 h-10 md:w-12 md:h-12 rounded-2xl shadow-xl flex items-center justify-center transition-all border active:scale-90 ${theme === 'dark' ? 'bg-gradient-to-br from-[#121214] to-[#09090b] border-white/10 hover:border-emerald-500/50' : 'bg-gradient-to-br from-white to-[#f0f0f0] border-black/10 hover:border-emerald-500/50 shadow-md'}`}
+                        >
+                          <IconLogo className="w-6 h-6 md:w-8 md:h-8 transition-all" />
+                        </button>
+
                       <div className="w-1.5 h-1.5 rounded-full bg-transparent"></div>
                   </div>
   
@@ -90,10 +91,11 @@ const Taskbar: React.FC<Props> = ({ windows, onToggleWindow, onStartClick }) => 
                             }}
                             onMouseEnter={() => setHoveredIndex(index)}
                           >
-                              <button 
-                                  onClick={() => onToggleWindow(app.id)}
-                                  className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center shadow-lg transition-all border active:scale-90 ${theme === 'dark' ? 'bg-black/20 border-white/5 hover:border-white/20' : 'bg-white/60 border-black/5 hover:border-black/20 shadow-md'} ${isActive ? 'ring-2 ring-emerald-500/30' : ''}`}
-                              >
+                                <button 
+                                    onClick={() => onToggleWindow(app.id)}
+                                    className={`w-10 h-10 md:w-12 md:h-12 rounded-2xl flex items-center justify-center shadow-lg transition-all border active:scale-90 ${theme === 'dark' ? 'bg-black/20 border-white/5 hover:border-white/20' : 'bg-white/60 border-black/5 hover:border-black/20 shadow-md'} ${isActive ? 'ring-2 ring-emerald-500/30' : ''}`}
+                                >
+
                                   {app.icon}
                               </button>
                               
